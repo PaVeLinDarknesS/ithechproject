@@ -14,11 +14,4 @@ public interface UserRepository {
     User addUser(User user);
 
     List<User> findOne(User user);
-
-
-    //Optional<User> getUserByEmail(String email);
-    //Optional<User> getUserById(Long id);
-    //User addUser(User user);
-    //Optional<User> findOne(User user);
-    //List<User> getUsersByRole(Role role);
 }
