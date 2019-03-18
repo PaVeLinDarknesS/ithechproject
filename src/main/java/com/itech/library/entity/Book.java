@@ -1,17 +1,23 @@
 package com.itech.library.entity;
 
-public class Library {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "books")
+public class Book {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String title;
     private Integer year;
     private Integer count;
 
-    public Library() {
+    public Book() {
     }
 
-    public Library(Integer id, String title, Integer year, Integer count) {
-        this.id = id;
+    public Book(String title, Integer year, Integer count) {
         this.title = title;
         this.year = year;
         this.count = count;
@@ -19,10 +25,6 @@ public class Library {
 
     public Integer getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getTitle() {
