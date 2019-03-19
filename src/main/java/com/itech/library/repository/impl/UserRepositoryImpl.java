@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findOne(User user) {
+    public Optional<User> findOne(User user) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from User as u " +
                 "where u.login = :login " +
@@ -50,10 +50,10 @@ public class UserRepositoryImpl implements UserRepository {
         query.setParameter("login", user.getLogin());
         query.setParameter("pass", user.getPassword());
         List<User> foundUsers = query.list();
-        Optional<User> userOptional = Optional.empty();
+        Optional<User> findUserOptional = Optional.empty();
         if (foundUsers.size() == 1) {
-            userOptional = Optional.of(foundUsers.get(0));
+            findUserOptional = Optional.of(foundUsers.get(0));
         }
-        return foundUsers;
+        return findUserOptional;
     }
 }
