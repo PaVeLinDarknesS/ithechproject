@@ -3,7 +3,7 @@ package com.itech.library.entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "autors")
+@Table(name = "authors")
 public class Author {
 
     @Id

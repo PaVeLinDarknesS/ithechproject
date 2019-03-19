@@ -11,7 +11,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.itech.library")
-class WebConfig {
+public class WebConfig {
 
     @Bean
     ViewResolver viewResolver() {
