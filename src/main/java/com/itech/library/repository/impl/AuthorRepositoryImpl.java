@@ -4,10 +4,12 @@ import com.itech.library.entity.Author;
 import com.itech.library.repository.AuthorRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -44,6 +46,29 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         Session session = sessionFactory.getCurrentSession();
         session.delete(author);
         return author;
+    }
+
+    @Override
+    public List<Author> getAllAuthors() {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Author> query = session.createQuery("from Author", Author.class);
+        return query.list();
+    }
+
+    @Override
+    public Optional<Author> findOne(Author author) {
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("from Author as a " +
+                "where a.first_name = :first " +
+                "and u.last_name = :last", Author.class);
+        query.setParameter("first", author.getFirstName());
+        query.setParameter("last", author.getLastName());
+        List<Author> foundAuthor = query.list();
+        Optional<Author> findAuthorOptional = Optional.empty();
+        if (foundAuthor.size() == 1) {
+            findAuthorOptional = Optional.of(foundAuthor.get(0));
+        }
+        return findAuthorOptional;
     }
 
 

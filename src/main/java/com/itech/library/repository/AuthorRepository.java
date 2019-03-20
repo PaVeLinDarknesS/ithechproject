@@ -2,6 +2,7 @@ package com.itech.library.repository;
 
 import com.itech.library.entity.Author;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AuthorRepository {
@@ -14,7 +15,7 @@ public interface AuthorRepository {
 
     Author deleteAuthor(Author author);
 
-//    List<Author> getAllAuthors();
+    List<Author> getAllAuthors();
 
-//    Optional<Author> findOne(Author author);
+    Optional<Author> findOne(Author author);
 }
