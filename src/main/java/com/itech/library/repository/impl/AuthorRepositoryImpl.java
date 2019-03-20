@@ -59,8 +59,8 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     public Optional<Author> findOne(Author author) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Author as a " +
-                "where a.first_name = :first " +
-                "and u.last_name = :last", Author.class);
+                "where a.firstName = :first " +
+                "and a.lastName = :last", Author.class);
         query.setParameter("first", author.getFirstName());
         query.setParameter("last", author.getLastName());
         List<Author> foundAuthor = query.list();
