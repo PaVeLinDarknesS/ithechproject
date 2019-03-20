@@ -14,13 +14,19 @@ public class Book {
     private Integer year;
     private Integer count;
 
+
+    @ManyToOne
+    @JoinColumn(name = "author")
+    private Author author;
+
     public Book() {
     }
 
-    public Book(String title, Integer year, Integer count) {
+    public Book(String title, Integer year, Integer count, Author author) {
         this.title = title;
         this.year = year;
         this.count = count;
+        this.author = author;
     }
 
     public Integer getId() {
@@ -49,5 +55,14 @@ public class Book {
 
     public void setCount(Integer count) {
         this.count = count;
+    }
+
+    /***/
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
     }
 }

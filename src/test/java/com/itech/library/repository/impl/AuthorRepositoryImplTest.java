@@ -66,12 +66,12 @@ public class AuthorRepositoryImplTest {
     }
 
     @Test
-    public void updateAuthorNegative_UpdateNonexistentAuthor() {
+    public void updateAuthorPositive_UpdateNonexistentAuthor() {
         Author addAuthor = new Author("UpdateNotExistAuthor", "UpdateAuthor");
         List<Author> authors = authorRepository.getAllAuthors();
         Author author = authorRepository.updateAuthor(addAuthor);
         List<Author> newAuthors = authorRepository.getAllAuthors();
-        Assert.assertNotEquals(authors.size(),newAuthors.size());
+        Assert.assertEquals(authors.size()+1,newAuthors.size());
     }
 
     @Test
@@ -94,8 +94,8 @@ public class AuthorRepositoryImplTest {
 
     @Test
     public void getAllAuthorsPositive() {
-        /*List<Author> authors = authorRepository.getAllAuthors();
-        Assert.assertEquals(authors.size(), authors.get(authors.size() - 1).getId().intValue());*/
+        List<Author> authors = authorRepository.getAllAuthors();
+//        Assert.assertEquals(authors.size(), authors.get(authors.size() - 1).getId().intValue());
     }
 
     @Test

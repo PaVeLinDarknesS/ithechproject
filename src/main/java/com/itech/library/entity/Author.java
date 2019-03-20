@@ -2,11 +2,13 @@ package com.itech.library.entity;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "authors",
         uniqueConstraints = {@UniqueConstraint(columnNames = {"first_name", "last_name"})})
 public class Author {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,6 +19,11 @@ public class Author {
 
     @Column(name = "last_name")
     private String lastName;
+
+    @OneToMany(cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY,
+            mappedBy = "author")
+    private Set<Book> books;
 
     public Author() {
     }
@@ -59,5 +66,14 @@ public class Author {
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
+    }
+
+    /***/
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }
