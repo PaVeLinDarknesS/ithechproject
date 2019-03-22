@@ -14,7 +14,7 @@
         <!-- External libraries versions -->
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <thymeleaf.version>3.0.9.RELEASE</thymeleaf.version>
-        <hibernate.version>5.3.7.Final</hibernate.version>
+        <hibernate.version>5.4.1.Final</hibernate.version>
         <h2.version>1.4.196</h2.version>
         <json.version>20160810</json.version>
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>

@@ -1,8 +1,10 @@
 package com.itech.library.entity;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Table(name = "authors",
@@ -23,7 +25,7 @@ public class Author {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "author")
-    private Set<Book> books;
+    private List<Book> books;
 
     public Author() {
     }
@@ -31,6 +33,7 @@ public class Author {
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.books = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -69,11 +72,12 @@ public class Author {
     }
 
     /***/
-    public Set<Book> getBooks() {
+    @Transactional
+    public List<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(Set<Book> books) {
+    public void setBooks(List<Book> books) {
         this.books = books;
     }
 }

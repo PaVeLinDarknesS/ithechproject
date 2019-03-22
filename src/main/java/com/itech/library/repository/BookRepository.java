@@ -18,5 +18,5 @@ public interface BookRepository {
 
     Optional<Book> getBookById(int id);
 
-    List<Book> getBookByAuthor(Author author);
+    List<Book> getBookByAuthorId(int author);
 }

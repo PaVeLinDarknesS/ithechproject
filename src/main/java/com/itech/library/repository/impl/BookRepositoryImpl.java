@@ -56,7 +56,10 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookByAuthor(Author author) {
-        return null;
+    public List<Book> getBookByAuthorId(int author) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Book> query = session.createQuery("from Book as b where b.author = :author", Book.class);
+        query.setParameter("author",author);
+        return query.list();
     }
 }
