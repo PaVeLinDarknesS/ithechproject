@@ -22,11 +22,10 @@ public class Book {
     public Book() {
     }
 
-    public Book(String title, Integer year, Integer count, Author author) {
+    public Book(String title, Integer year, Integer count) {
         this.title = title;
         this.year = year;
         this.count = count;
-        this.author = author;
     }
 
     public Integer getId() {
@@ -57,7 +56,7 @@ public class Book {
         this.count = count;
     }
 
-    /***/
+
     public Author getAuthor() {
         return author;
     }
