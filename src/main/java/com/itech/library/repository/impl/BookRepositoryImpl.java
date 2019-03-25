@@ -68,7 +68,7 @@ public class BookRepositoryImpl implements BookRepository {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Book as b " +
                 "where b.title = :title " +
-                "and b.year = :year" +
+                "and b.year = :year " +
                 "and b.count = :count", Book.class);
         query.setParameter("title", book.getTitle());
         query.setParameter("year", book.getYear());
