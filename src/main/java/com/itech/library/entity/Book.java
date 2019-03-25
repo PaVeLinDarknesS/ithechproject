@@ -22,7 +22,7 @@ public class Book {
     private Author author;
 
     @ManyToMany(mappedBy = "books")
-    private Set<User> users = new HashSet<User>(0);
+    private Set<User> users = new HashSet<>(0);
 
     public Book() {
     }
@@ -32,6 +32,17 @@ public class Book {
         this.year = year;
         this.count = count;
     }
+
+    public void addUser(User user) {
+        this.getUsers().add(user);
+        user.getBooks().add(this);
+    }
+
+    public void removeUser(User user) {
+        this.getUsers().remove(user);
+        user.getBooks().remove(this);
+    }
+
 
     public Integer getId() {
         return id;
@@ -70,10 +81,14 @@ public class Book {
         this.author = author;
     }
 
+    /**
+     * For adding and remove User, use special method.
+     */
     public Set<User> getUsers() {
         return users;
     }
 
+    @Deprecated
     public void setUsers(Set<User> users) {
         this.users = users;
     }

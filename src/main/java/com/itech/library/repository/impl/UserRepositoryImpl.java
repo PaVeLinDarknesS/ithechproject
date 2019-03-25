@@ -56,4 +56,11 @@ public class UserRepositoryImpl implements UserRepository {
         }
         return findUserOptional;
     }
+
+    @Override
+    public User updateUser(User updateUser) {
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(updateUser);
+        return updateUser;
+    }
 }
