@@ -1,7 +1,9 @@
 package com.itech.library.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -15,10 +17,12 @@ public class Book {
     private Integer year;
     private Integer count;
 
-
     @ManyToOne
     @JoinColumn(name = "author")
     private Author author;
+
+    @ManyToMany(mappedBy = "books")
+    private Set<User> users = new HashSet<User>(0);
 
     public Book() {
     }
@@ -64,6 +68,14 @@ public class Book {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(Set<User> users) {
+        this.users = users;
     }
 
     @Override

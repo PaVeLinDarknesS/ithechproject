@@ -1,7 +1,9 @@
 package com.itech.library.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -13,6 +15,14 @@ public class User {
     @Column(unique = true)
     private String login;
     private String password;
+
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "users_books",
+            joinColumns = {@JoinColumn(name = "user_id", updatable = false, nullable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "books_id", nullable = false, updatable = false)}
+    )
+    private Set<Book> books = new HashSet<Book>(0);
 
     public User() {
     }
@@ -40,6 +50,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 
     @Override
