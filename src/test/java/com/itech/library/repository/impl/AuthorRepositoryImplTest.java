@@ -2,13 +2,8 @@ package com.itech.library.repository.impl;
 
 import com.itech.library.config.WebConfig;
 import com.itech.library.entity.Author;
-import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
-import com.itech.library.repository.BookRepository;
-import org.hibernate.Hibernate;
-import org.junit.After;
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +12,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
@@ -28,8 +21,6 @@ import java.util.Set;
 @Transactional
 public class AuthorRepositoryImplTest {
 
-    @Autowired
-    private BookRepository bookRepository;
     @Autowired
     private AuthorRepository authorRepository;
 
@@ -80,7 +71,7 @@ public class AuthorRepositoryImplTest {
         List<Author> authors = authorRepository.getAllAuthors();
         Author author = authorRepository.updateAuthor(addAuthor);
         List<Author> newAuthors = authorRepository.getAllAuthors();
-        Assert.assertEquals(authors.size()+1,newAuthors.size());
+        Assert.assertEquals(authors.size() + 1, newAuthors.size());
     }
 
     @Test
@@ -104,13 +95,7 @@ public class AuthorRepositoryImplTest {
     @Test
     public void getAllAuthorsPositive() {
         List<Author> authors = authorRepository.getAllAuthors();
-        authors.get(0).getBooks();
-       // Hibernate.initialize(authors.get(0).getBooks());
-      // int id = authors.get(0).getId();
-//        authors.get(0).setBooks(new ArrayList<>());
-
-//      authors.get(1).getBooks().size();
-//      Assert.assertEquals(authors.size(), authors.get(authors.size() - 1).getId().intValue());
+        Assert.assertNotEquals(0, authors.size());
     }
 
     @Test

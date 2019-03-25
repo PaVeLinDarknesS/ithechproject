@@ -58,15 +58,6 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         return query.list();
     }
 
-//    @Override
-//    public List<Book> getBooks(int author) {
-//        Session session = sessionFactory.getCurrentSession();
-//        Query<Book> query = session.createQuery("from Book as b " +
-//                "where b.author = :author", Book.class);
-//        query.setParameter("author",author);
-//        return query.list();
-//    }
-
     @Override
     public Optional<Author> findOne(Author author) {
         Session session = sessionFactory.getCurrentSession();

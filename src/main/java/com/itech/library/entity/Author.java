@@ -1,7 +1,6 @@
 package com.itech.library.entity;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -71,8 +70,6 @@ public class Author {
         return Objects.hash(id, firstName, lastName);
     }
 
-    /***/
-    @Transactional
     public List<Book> getBooks() {
         return books;
     }
