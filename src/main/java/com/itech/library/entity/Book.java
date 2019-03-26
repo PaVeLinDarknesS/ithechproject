@@ -12,7 +12,7 @@ public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
+    @Column(unique = true)
     private String title;
     private Integer year;
     private Integer count;

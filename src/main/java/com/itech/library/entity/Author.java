@@ -1,9 +1,7 @@
 package com.itech.library.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "authors",
@@ -24,7 +22,7 @@ public class Author {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "author")
-    private List<Book> books;
+    private Set<Book> books = new HashSet<>(0);
 
     public Author() {
     }
@@ -32,7 +30,6 @@ public class Author {
     public Author(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.books = new ArrayList<>();
     }
 
     public Integer getId() {
@@ -70,11 +67,11 @@ public class Author {
         return Objects.hash(id, firstName, lastName);
     }
 
-    public List<Book> getBooks() {
+    public Set<Book> getBooks() {
         return books;
     }
 
-    public void setBooks(List<Book> books) {
+    public void setBooks(Set<Book> books) {
         this.books = books;
     }
 }

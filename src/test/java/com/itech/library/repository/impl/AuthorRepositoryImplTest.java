@@ -66,7 +66,7 @@ public class AuthorRepositoryImplTest {
     }
 
     @Test
-    public void updateAuthorPositive_UpdateNonexistentAuthor() {
+    public void updateAuthorNegative_UpdateNonexistentAuthor() {
         Author addAuthor = new Author("UpdateNotExistAuthor", "UpdateAuthor");
         List<Author> authors = authorRepository.getAllAuthors();
         Author author = authorRepository.updateAuthor(addAuthor);

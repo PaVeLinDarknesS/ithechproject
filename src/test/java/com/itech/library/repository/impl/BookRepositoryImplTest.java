@@ -13,12 +13,14 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class})
+@Transactional
 public class BookRepositoryImplTest {
 
     @Autowired
@@ -71,7 +73,7 @@ public class BookRepositoryImplTest {
     }
 
     @Test
-    public void updateBookPositive_UpdateNonexistentBook() {
+    public void updateBookNegative_UpdateNonexistentBook() {
         Book addBook = new Book("UpdateNotExistBook", 2019, 2);
         List<Book> books = bookRepository.getAllBooks();
         Book book = bookRepository.updateBook(addBook);
