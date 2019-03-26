@@ -1,7 +1,6 @@
 package com.itech.library.repository.impl;
 
 import com.itech.library.entity.Author;
-import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

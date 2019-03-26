@@ -144,8 +144,8 @@ public class BookRepositoryImplTest {
 
     @Test
     public void getBookByAuthorNegative_NonExistentAuthor() {
-        Author author = new Author("_","_");
-  //      List<Book> books = bookRepository.getBookByAuthorId(author);
-    //    Assert.assertEquals(0, books.size());
+        Author author = new Author("_", "_");
+        //      List<Book> books = bookRepository.getBookByAuthorId(author);
+        //    Assert.assertEquals(0, books.size());
     }
 }
