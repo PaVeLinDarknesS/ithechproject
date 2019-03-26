@@ -2,6 +2,7 @@ package com.itech.library.repository.impl;
 
 import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
+import com.itech.library.entity.User;
 import com.itech.library.repository.BookRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -82,10 +83,20 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookByAuthorId(Author author) {
+    public List<Book> getBookByAuthorId(int author) {
         Session session = sessionFactory.getCurrentSession();
-        Query<Book> query = session.createQuery("from Book as b where b.author = :author");
+        Query<Book> query = session.createQuery("from Book as b where b.author.id = :author");
         query.setParameter("author", author);
+        return query.list();
+    }
+
+    @Override
+    public List<Book> getBookByAuthorFio(String firstName, String lastName) {
+        Session session = sessionFactory.getCurrentSession();
+        Query<Book> query = session.createQuery("from Book as b where b.author.firstName = :first " +
+                "and b.author.lastName = :last");
+        query.setParameter("first", firstName);
+        query.setParameter("last", lastName);
         return query.list();
     }
 }

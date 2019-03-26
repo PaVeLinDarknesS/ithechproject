@@ -22,5 +22,7 @@ public interface BookRepository {
 
     Optional<Book> findOne(Book book);
 
-    List<Book> getBookByAuthorId(Author author);
+    List<Book> getBookByAuthorId(int author);
+
+    List<Book> getBookByAuthorFio(String firstName, String lastName);
 }

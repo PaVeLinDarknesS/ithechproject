@@ -76,4 +76,9 @@ public class Author {
     public void setBooks(Set<Book> books) {
         this.books = books;
     }
+
+    public void addBook(Book book) {
+        this.books.add(book);
+        book.setAuthor(this);
+    }
 }
