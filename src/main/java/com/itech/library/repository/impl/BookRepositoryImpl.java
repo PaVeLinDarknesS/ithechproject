@@ -12,8 +12,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Transactional
 @Repository
+@Transactional
 public class BookRepositoryImpl implements BookRepository {
 
     @Autowired

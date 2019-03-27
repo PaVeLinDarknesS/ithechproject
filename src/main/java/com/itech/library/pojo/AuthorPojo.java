@@ -9,10 +9,10 @@ public class AuthorPojo {
     public AuthorPojo() {
     }
 
-    public AuthorPojo(Integer id, String firstName, String lastName) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public AuthorPojo(Builder builder) {
+        this.id = builder.id;
+        this.firstName = builder.firstName;
+        this.lastName = builder.lastName;
     }
 
     public Integer getId() {
@@ -37,5 +37,30 @@ public class AuthorPojo {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public static class Builder {
+        private Integer id;
+        private String firstName;
+        private String lastName;
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setFirstName(String firstName) {
+            this.firstName = firstName;
+            return this;
+        }
+
+        public Builder setLastName(String lastName) {
+            this.lastName = lastName;
+            return this;
+        }
+
+        public AuthorPojo build() {
+            return new AuthorPojo(this);
+        }
     }
 }

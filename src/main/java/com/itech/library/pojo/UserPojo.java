@@ -9,10 +9,10 @@ public class UserPojo {
     public UserPojo() {
     }
 
-    public UserPojo(Integer id, String login, String password) {
-        this.id = id;
-        this.login = login;
-        this.password = password;
+    public UserPojo(Builder builder) {
+        this.id = builder.id;
+        this.login = builder.login;
+        this.password = builder.password;
     }
 
     public Integer getId() {
@@ -37,5 +37,32 @@ public class UserPojo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+
+    public static class Builder {
+        private Integer id;
+        private String login;
+        private String password;
+
+
+        public Builder setId(Integer id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder setLogin(String login) {
+            this.login = login;
+            return this;
+        }
+
+        public Builder setPassword(String password) {
+            this.password = password;
+            return this;
+        }
+
+        public UserPojo build() {
+            return new UserPojo(this);
+        }
     }
 }
