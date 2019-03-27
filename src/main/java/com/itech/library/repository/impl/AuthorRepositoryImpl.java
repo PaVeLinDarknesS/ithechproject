@@ -1,6 +1,7 @@
 package com.itech.library.repository.impl;
 
 import com.itech.library.entity.Author;
+import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -53,7 +54,6 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         Session session = sessionFactory.getCurrentSession();
         Query<Author> query = session.createQuery("from Author", Author.class);
         List<Author> authors = query.list();
-        //authors.stream().forEach(author -> author.getBooks());
         return query.list();
     }
 
@@ -73,5 +73,15 @@ public class AuthorRepositoryImpl implements AuthorRepository {
         return findAuthorOptional;
     }
 
+    @Override
+    public void addBookInAuthor(Book book, Author author) {
+        author.getBooks().add(book);
+        book.setAuthor(author);
+    }
 
+    @Override
+    public void removeBookInAuthor(Book book, Author author) {
+        author.getBooks().remove(book);
+        book.setAuthor(null);
+    }
 }

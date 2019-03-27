@@ -1,5 +1,6 @@
 package com.itech.library.repository.impl;
 
+import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
 import com.itech.library.repository.UserRepository;
 import org.hibernate.Session;
@@ -62,5 +63,19 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(updateUser);
         return updateUser;
+    }
+
+    @Override
+    public void addBookInUser(Book book, User user) {
+        user.getBooks().add(book);
+        book.getUsers().add(user);
+        book.setCount(book.getCount() - 1);
+    }
+
+    @Override
+    public void removeBookInUser(Book book, User user) {
+        user.getBooks().remove(book);
+        book.getUsers().remove(user);
+        book.setCount(book.getCount() + 1);
     }
 }

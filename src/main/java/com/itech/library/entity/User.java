@@ -33,16 +33,6 @@ public class User {
         this.password = password;
     }
 
-    public void addBook(Book book) {
-        this.getBooks().add(book);
-        book.getUsers().add(this);
-    }
-
-    public void removeBook(Book book) {
-        this.getBooks().remove(book);
-        book.getUsers().remove(this);
-    }
-
     public Integer getId() {
         return id;
     }
@@ -63,15 +53,10 @@ public class User {
         this.password = password;
     }
 
-
-    /**
-     * For adding and remove Books - use special method
-     */
     public Set<Book> getBooks() {
         return books;
     }
 
-    @Deprecated
     public void setBooks(Set<Book> books) {
         this.books = books;
     }

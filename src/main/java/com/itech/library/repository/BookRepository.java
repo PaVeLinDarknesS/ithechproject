@@ -1,6 +1,5 @@
 package com.itech.library.repository;
 
-import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
 
 import java.util.List;

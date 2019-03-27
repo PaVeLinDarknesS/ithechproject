@@ -1,7 +1,9 @@
 package com.itech.library.repository.impl;
 
 import com.itech.library.config.WebConfig;
+import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
+import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +24,10 @@ public class UserRepositoryImplTest {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BookRepository bookRepository;
+
 
     @Test
     public void getUserByIdPositive() {
@@ -82,5 +88,29 @@ public class UserRepositoryImplTest {
         User oneUser = new User("T", "T");
         Optional<User> user = userRepository.findOne(oneUser);
         Assert.assertFalse(user.isPresent());
+    }
+
+    @Test
+    public void addBookInUser() {
+        Book book = bookRepository.getBookById(2).get();
+        int count = book.getCount();
+        User user = userRepository.getUserById(2).get();
+        int countBookInUser = user.getBooks().size();
+        userRepository.addBookInUser(book, user);
+
+        Assert.assertEquals(count - 1, book.getCount().intValue());
+        Assert.assertEquals(countBookInUser + 1, user.getBooks().size());
+    }
+
+    @Test
+    public void removeBookInUser() {
+        Book book = bookRepository.getBookById(2).get();
+        int count = book.getCount();
+        User user = userRepository.getUserById(1).get();
+        int countBookInUser = user.getBooks().size();
+        userRepository.removeBookInUser(book, user);
+
+        Assert.assertEquals(count + 1, book.getCount().intValue());
+        Assert.assertEquals(countBookInUser - 1, user.getBooks().size());
     }
 }

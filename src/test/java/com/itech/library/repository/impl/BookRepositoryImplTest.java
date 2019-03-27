@@ -1,7 +1,6 @@
 package com.itech.library.repository.impl;
 
 import com.itech.library.config.WebConfig;
-import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.repository.BookRepository;
@@ -149,7 +148,7 @@ public class BookRepositoryImplTest {
 
     @Test
     public void getBookByAuthorFioPositive() {
-        List<Book> books = bookRepository.getBookByAuthorFio("First1","Last1");
+        List<Book> books = bookRepository.getBookByAuthorFio("First1", "Last1");
         Assert.assertNotEquals(0, books.size());
     }
 }
