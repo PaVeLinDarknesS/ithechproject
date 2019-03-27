@@ -92,8 +92,8 @@ public class BookPojo {
             return this;
         }
 
-        public BookPojo build(Builder builder) {
-            return new BookPojo(builder);
+        public BookPojo build() {
+            return new BookPojo(this);
         }
     }
 }
