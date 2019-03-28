@@ -20,9 +20,10 @@
         <slf4j-log4j12.version>1.7.25</slf4j-log4j12.version>
         <junit.version>4.12</junit.version>
         <mockito-all.version>1.10.19</mockito-all.version>
+        <postgresql.version>42.2.5</postgresql.version>
 
         <!-- Plugins versions -->
-        <jetty-maven-plugin.version>9.2.11.v20150529</jetty-maven-plugin.version>
+        <jetty-maven-plugin.version>9.4.5.v20170502</jetty-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 
         <!-- External libraries-bom versions -->
@@ -153,6 +154,14 @@
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
 
     </dependencies>
 
