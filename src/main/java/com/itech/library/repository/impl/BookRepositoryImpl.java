@@ -72,12 +72,7 @@ public class BookRepositoryImpl implements BookRepository {
         query.setParameter("title", book.getTitle());
         query.setParameter("year", book.getYear());
         query.setParameter("count", book.getCount());
-        List<Book> foundBook = query.list();
-        Optional<Book> findBookOptional = Optional.empty();
-        if (foundBook.size() == 1) {
-            findBookOptional = Optional.of(foundBook.get(0));
-        }
-        return findBookOptional;
+        return query.uniqueResultOptional();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class Book {
     private Author author;
 
     @ManyToMany(mappedBy = "books")
-    private Set<User> users = new HashSet<>(0);
+    private Set<User> users = new HashSet<>();
 
     public Book() {
     }

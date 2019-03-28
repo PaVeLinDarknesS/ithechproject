@@ -24,7 +24,7 @@ public class Author {
     @OneToMany(cascade = CascadeType.ALL,
             fetch = FetchType.LAZY,
             mappedBy = "author")
-    private Set<Book> books = new HashSet<>(0);
+    private Set<Book> books = new HashSet<>();
 
     public Author() {
     }

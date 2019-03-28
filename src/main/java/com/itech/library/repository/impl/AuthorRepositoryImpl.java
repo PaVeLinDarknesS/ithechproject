@@ -65,12 +65,7 @@ public class AuthorRepositoryImpl implements AuthorRepository {
                 "and a.lastName = :last", Author.class);
         query.setParameter("first", author.getFirstName());
         query.setParameter("last", author.getLastName());
-        List<Author> foundAuthor = query.list();
-        Optional<Author> findAuthorOptional = Optional.empty();
-        if (foundAuthor.size() == 1) {
-            findAuthorOptional = Optional.of(foundAuthor.get(0));
-        }
-        return findAuthorOptional;
+        return query.uniqueResultOptional();
     }
 
     @Override

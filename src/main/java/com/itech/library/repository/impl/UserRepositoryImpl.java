@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -50,12 +49,7 @@ public class UserRepositoryImpl implements UserRepository {
                 "and u.password = :pass", User.class);
         query.setParameter("login", user.getLogin());
         query.setParameter("pass", user.getPassword());
-        List<User> foundUsers = query.list();
-        Optional<User> findUserOptional = Optional.empty();
-        if (foundUsers.size() == 1) {
-            findUserOptional = Optional.of(foundUsers.get(0));
-        }
-        return findUserOptional;
+        return query.uniqueResultOptional();
     }
 
     @Override

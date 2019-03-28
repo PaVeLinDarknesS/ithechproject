@@ -23,7 +23,7 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id", updatable = false, nullable = false)},
             inverseJoinColumns = {@JoinColumn(name = "books_id", nullable = false, updatable = false)}
     )
-    private Set<Book> books = new HashSet<>(0);
+    private Set<Book> books = new HashSet<>();
 
     public User() {
     }
