@@ -81,7 +81,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookByAuthorId(int author) {
+    public List<Book> getBooksByAuthorId(int author) {
         Session session = sessionFactory.getCurrentSession();
         Query<Book> query = session.createQuery("from Book as b where b.author.id = :author", Book.class);
         query.setParameter("author", author);
@@ -89,7 +89,7 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public List<Book> getBookByAuthorFio(String firstName, String lastName) {
+    public List<Book> getBooksByAuthorFio(String firstName, String lastName) {
         Session session = sessionFactory.getCurrentSession();
         Query<Book> query = session.createQuery("from Book as b where b.author.firstName = :first " +
                 "and b.author.lastName = :last", Book.class);
