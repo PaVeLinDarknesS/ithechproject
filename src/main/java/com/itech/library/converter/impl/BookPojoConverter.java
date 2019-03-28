@@ -5,9 +5,11 @@ import com.itech.library.entity.Book;
 import com.itech.library.pojo.AuthorPojo;
 import com.itech.library.pojo.BookPojo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class BookPojoConverter implements PojoConverter<Optional<BookPojo>, Optional<Book>> {
 
     @Autowired

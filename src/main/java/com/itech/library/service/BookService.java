@@ -7,6 +7,8 @@ import java.util.List;
 public interface BookService {
 
     List<BookPojo> getAllBooks();
+
+    List<BookPojo> getBooksByAuthorFio(String firstName, String lastName);
 //TODO Write
     /*
     Book addBook(Book book);
@@ -15,7 +17,6 @@ public interface BookService {
     Optional<Book> getBookById(int id);
     Optional<Book> getBookByTitle(String title);
     Optional<Book> findOne(Book book);
-    List<Book> getBookByAuthorId(int author);
-    List<Book> getBookByAuthorFio(String firstName, String lastName);
+    List<Book> getBooksByAuthorId(int author);
     */
 }

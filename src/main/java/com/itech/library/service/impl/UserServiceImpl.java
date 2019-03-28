@@ -1,5 +1,6 @@
 package com.itech.library.service.impl;
 
+import com.itech.library.converter.impl.UserPojoConverter;
 import com.itech.library.entity.User;
 import com.itech.library.pojo.UserPojo;
 import com.itech.library.repository.UserRepository;
@@ -19,18 +20,17 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserPojoConverter userConverter;
+
     @Override
     public Optional<UserPojo> getUserByLogin(String login) {
         if (login != null && login.length() > 0) {
             Optional<User> optionalUser = userRepository.getUserByLogin(login);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                UserPojo userPojo = new UserPojo.Builder()
-                        .setId(user.getId())
-                        .setLogin(user.getLogin())
-                        .setPassword(user.getPassword())
-                        .build();
-                return Optional.of(userPojo);
+                Optional<UserPojo> userPojo = userConverter.entityToPojo(Optional.of(user));
+                return userPojo;
             }
         }
         return Optional.empty();

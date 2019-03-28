@@ -136,19 +136,19 @@ public class BookRepositoryImplTest {
 
     @Test
     public void getBookByAuthorPositive() {
-        List<Book> books = bookRepository.getBookByAuthorId(1);
+        List<Book> books = bookRepository.getBooksByAuthorId(1);
         Assert.assertNotEquals(0, books.size());
     }
 
     @Test
     public void getBookByAuthorNegative_NonExistentAuthor() {
-        List<Book> books = bookRepository.getBookByAuthorId(0);
+        List<Book> books = bookRepository.getBooksByAuthorId(0);
         Assert.assertEquals(0, books.size());
     }
 
     @Test
     public void getBookByAuthorFioPositive() {
-        List<Book> books = bookRepository.getBookByAuthorFio("First1", "Last1");
+        List<Book> books = bookRepository.getBooksByAuthorFio("First1", "Last1");
         Assert.assertNotEquals(0, books.size());
     }
 }

@@ -28,4 +28,10 @@ public class BookServiceImplTest {
         List<BookPojo> bookPojos = bookService.getAllBooks();
         Assert.assertTrue(bookPojos.size() > 0);
     }
+
+    @Test
+    public void getBooksByAuthorFio() {
+        List<BookPojo> list = bookService.getBooksByAuthorFio("First1", "Last1");
+        Assert.assertNotEquals(0, list.size());
+    }
 }

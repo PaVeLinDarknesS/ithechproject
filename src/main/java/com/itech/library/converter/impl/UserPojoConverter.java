@@ -3,9 +3,11 @@ package com.itech.library.converter.impl;
 import com.itech.library.converter.PojoConverter;
 import com.itech.library.entity.User;
 import com.itech.library.pojo.UserPojo;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class UserPojoConverter implements PojoConverter<Optional<UserPojo>, Optional<User>> {
 
     @Override
