@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class BookPojoConverter implements PojoConverter<Optional<BookPojo>, Optional<Book>> {
+public class BookPojoConverter implements PojoConverter<BookPojo, Book> {
 
     @Autowired
     private AuthorPojoConverter authorPojoConverter;
 
     @Override
-    public Optional<BookPojo> entityToPojo(Optional<Book> bookEntity) {
-        if (bookEntity.isPresent()) {
-            Book book = bookEntity.get();
+    public BookPojo entityToPojo(Book book) {
+        if (book != null) {
             Optional<AuthorPojo> authorPojo = authorPojoConverter.entityToPojo(Optional.ofNullable(book.getAuthor()));
 
             BookPojo bookPojo = new BookPojo.Builder()
@@ -28,18 +27,16 @@ public class BookPojoConverter implements PojoConverter<Optional<BookPojo>, Opti
                     .setYear(book.getYear())
                     .setAuthor(authorPojo.isPresent() ? authorPojo.get() : null)
                     .build();
-            return Optional.ofNullable(bookPojo);
+            return bookPojo;
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
-    public Optional<Book> pojoToEntity(Optional<BookPojo> bookPojo) {
-        if (bookPojo.isPresent()) {
-            BookPojo book = bookPojo.get();
-            Book bookEntity = new Book(book.getTitle(), book.getYear(), book.getCount());
-            return Optional.ofNullable(bookEntity);
+    public Book pojoToEntity(BookPojo book) {
+        if (book != null) {
+            return new Book(book.getTitle(), book.getYear(), book.getCount());
         }
-        return Optional.empty();
+        return null;
     }
 }

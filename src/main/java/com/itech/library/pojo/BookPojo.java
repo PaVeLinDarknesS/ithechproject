@@ -1,15 +1,27 @@
 package com.itech.library.pojo;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import java.util.Objects;
+
 public class BookPojo {
 
+
     private Integer id;
+
+    @NotBlank
     private String title;
     private Integer year;
+    @Min(0)
     private Integer count;
 
     private AuthorPojo author;
 
     public BookPojo() {
+    }
+
+    public BookPojo(Integer id) {
+        this.id = id;
     }
 
     public BookPojo(Builder builder) {
@@ -95,5 +107,22 @@ public class BookPojo {
         public BookPojo build() {
             return new BookPojo(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookPojo bookPojo = (BookPojo) o;
+        return Objects.equals(id, bookPojo.id) &&
+                Objects.equals(title, bookPojo.title) &&
+                Objects.equals(year, bookPojo.year) &&
+                Objects.equals(count, bookPojo.count) &&
+                Objects.equals(author, bookPojo.author);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, year, count, author);
     }
 }

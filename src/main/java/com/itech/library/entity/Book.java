@@ -21,7 +21,8 @@ public class Book {
     @JoinColumn(name = "author")
     private Author author;
 
-    @ManyToMany(mappedBy = "books")
+    @ManyToMany(mappedBy = "books",
+            cascade = CascadeType.ALL)
     private Set<User> users = new HashSet<>();
 
     public Book() {

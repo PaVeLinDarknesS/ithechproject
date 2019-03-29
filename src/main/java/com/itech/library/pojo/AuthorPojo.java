@@ -1,5 +1,7 @@
 package com.itech.library.pojo;
 
+import java.util.Objects;
+
 public class AuthorPojo {
 
     private Integer id;
@@ -62,5 +64,20 @@ public class AuthorPojo {
         public AuthorPojo build() {
             return new AuthorPojo(this);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthorPojo that = (AuthorPojo) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(firstName, that.firstName) &&
+                Objects.equals(lastName, that.lastName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName);
     }
 }

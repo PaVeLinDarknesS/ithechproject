@@ -23,6 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
         User user = session.get(User.class, id);
+        user.getBooks().size();
         return Optional.ofNullable(user);
     }
 
@@ -57,6 +58,13 @@ public class UserRepositoryImpl implements UserRepository {
         Session session = sessionFactory.getCurrentSession();
         session.saveOrUpdate(updateUser);
         return updateUser;
+    }
+
+    @Override
+    public User deleteUser(User deleteUser) {
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(deleteUser);
+        return deleteUser;
     }
 
     @Override

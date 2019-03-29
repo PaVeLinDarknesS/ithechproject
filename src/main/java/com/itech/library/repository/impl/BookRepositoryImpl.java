@@ -29,6 +29,8 @@ public class BookRepositoryImpl implements BookRepository {
     @Override
     public Book deleteBook(Book book) {
         Session session = sessionFactory.getCurrentSession();
+        book.getUsers().clear();
+        //updateBook(book);
         session.delete(book);
         return book;
     }
