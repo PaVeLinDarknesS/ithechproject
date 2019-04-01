@@ -12,7 +12,7 @@ public interface BookService {
 
     List<Book> getBooksByAuthorFio(String firstName, String lastName);
 
-    Optional<BookDto> getBookByTitle(String title);
+    Optional<Book> getBookByTitle(String title);
 
     BookDto addBook(BookDto book);
 

@@ -37,15 +37,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Optional<BookDto> getBookByTitle(String title) {
-        if (title != null && title.length() > 0) {
-            Optional<Book> bookEntity = bookRepository.getBookByTitle(title);
-            if (bookEntity.isPresent()) {
-                BookDto bookDto = bookConverter.entityToPojo(bookEntity.get());
-                return Optional.of(bookDto);
-            }
-        }
-        return Optional.empty();
+    public Optional<Book> getBookByTitle(String title) {
+        return bookRepository.getBookByTitle(title);
     }
 
 
