@@ -18,7 +18,7 @@ public interface AuthorRepository {
 
     List<Author> getAllAuthors();
 
-    Optional<Author> findOne(Author author);
+    Optional<Author> getAuthorByFio(String firstName, String lastName);
 
     /**
      * Working with Set<book>
