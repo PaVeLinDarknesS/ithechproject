@@ -1,11 +1,11 @@
 package com.itech.library.service.impl;
 
 import com.itech.library.config.WebConfig;
+import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.repository.BookRepository;
-import com.itech.library.repository.UserRepository;
 import com.itech.library.service.BookService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -27,6 +27,9 @@ public class BookServiceImplTest {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private BookDtoConverter bookConverter;
+
     @Test
     public void getAllBooks() {
         List<Book> books = bookService.getAllBooks();
@@ -41,7 +44,7 @@ public class BookServiceImplTest {
 
     @Test
     public void getBookByTitle() {
-        Optional<BookDto> book = bookService.getBookByTitle("Title1");
+        Optional<Book> book = bookService.getBookByTitle("Title1");
         Assert.assertTrue(book.isPresent());
     }
 
@@ -62,19 +65,19 @@ public class BookServiceImplTest {
     @Test
     @Transactional
     public void updateBook() {
-        BookDto getBookDto = bookService.getBookByTitle("Title1").get();
-        getBookDto.setYear(1111);
+        Book getBook = bookService.getBookByTitle("Title1").get();
+        getBook.setYear(1111);
 
-        BookDto updateBookDto = bookService.updateBook(getBookDto);
-        Assert.assertEquals(getBookDto.getId(), updateBookDto.getId());
+        BookDto updateBookDto = bookService.updateBook(bookConverter.entityToPojo(getBook));
+        Assert.assertEquals(getBook.getId(), updateBookDto.getId());
     }
 
     @Test
     @Transactional
     public void deleteBook() {
-        BookDto getBookDto = bookService.getBookByTitle("Title3").get();
-        BookDto deleteBook = bookService.deleteBook(getBookDto);
-        Optional<BookDto> findDeleteBook = bookService.getBookByTitle("Title3");
+        Book getBook = bookService.getBookByTitle("Title3").get();
+        BookDto deleteBook = bookService.deleteBook(bookConverter.entityToPojo(getBook));
+        Optional<Book> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
     }
 }
