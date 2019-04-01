@@ -17,6 +17,8 @@ public interface UserRepository {
 
     User updateUser(User updateUser);
 
+    User deleteUser(User deleteUser);
+
     /**
      * Work with Set<Book>
      */

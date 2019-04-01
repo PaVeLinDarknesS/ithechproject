@@ -17,7 +17,8 @@ public class User {
     private String login;
     private String password;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
     @JoinTable(
             name = "users_books",
             joinColumns = {@JoinColumn(name = "user_id", updatable = false, nullable = false)},

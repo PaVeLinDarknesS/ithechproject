@@ -19,7 +19,7 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class})
-@Transactional
+//@Transactional
 public class BookRepositoryImplTest {
 
     @Autowired
