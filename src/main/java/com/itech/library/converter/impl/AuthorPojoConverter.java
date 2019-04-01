@@ -5,32 +5,29 @@ import com.itech.library.entity.Author;
 import com.itech.library.pojo.AuthorPojo;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class AuthorPojoConverter implements PojoConverter<Optional<AuthorPojo>, Optional<Author>> {
+public class AuthorPojoConverter implements PojoConverter<AuthorPojo, Author> {
 
     @Override
-    public Optional<AuthorPojo> entityToPojo(Optional<Author> authorEntity) {
-        if (authorEntity.isPresent()) {
-            Author author = authorEntity.get();
+    public AuthorPojo entityToPojo(Author author) {
+        if (author != null) {
             AuthorPojo authorPojo = new AuthorPojo.Builder()
                     .setId(author.getId())
                     .setFirstName(author.getFirstName())
                     .setLastName(author.getLastName())
                     .build();
-            return Optional.ofNullable(authorPojo);
+            return authorPojo;
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
-    public Optional<Author> pojoToEntity(Optional<AuthorPojo> authorPojo) {
-        if (authorPojo.isPresent()) {
-            AuthorPojo author = authorPojo.get();
+    public Author pojoToEntity(AuthorPojo author) {
+        if (author != null) {
             Author authorEntity = new Author(author.getFirstName(), author.getLastName());
-            return Optional.ofNullable(authorEntity);
+            authorEntity.setId(author.getId());
+            return authorEntity;
         }
-        return Optional.empty();
+        return null;
     }
 }

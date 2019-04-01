@@ -4,7 +4,6 @@ import com.itech.library.converter.impl.BookPojoConverter;
 import com.itech.library.entity.Book;
 import com.itech.library.pojo.BookPojo;
 import com.itech.library.repository.BookRepository;
-import com.itech.library.repository.UserRepository;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,15 +17,11 @@ import java.util.Optional;
 @Transactional
 public class BookServiceImpl implements BookService {
 
-    //TODO Write
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
     private BookPojoConverter bookConverter;
-
-    @Autowired
-    private UserRepository userRepository;
 
     @Override
     public List<BookPojo> getAllBooks() {
@@ -83,8 +78,9 @@ public class BookServiceImpl implements BookService {
                 findBook.setTitle(convertBook.getTitle());
                 findBook.setCount(convertBook.getCount());
                 findBook.setYear(convertBook.getYear());
-                findBook.setAuthor(convertBook.getAuthor());
-//            findBook.setUsers(convertBook.getUsers());
+                if (!findBook.getAuthor().equals(convertBook.getAuthor())) {
+                    findBook.setAuthor(convertBook.getAuthor());
+                }
                 Book updateBook = bookRepository.updateBook(findBook);
                 return bookConverter.entityToPojo(updateBook);
             }
@@ -105,6 +101,4 @@ public class BookServiceImpl implements BookService {
         }
         return new BookPojo(-1);
     }
-
-
 }

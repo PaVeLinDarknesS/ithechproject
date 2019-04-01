@@ -2,7 +2,6 @@ package com.itech.library.service.impl;
 
 import com.itech.library.config.WebConfig;
 import com.itech.library.entity.Book;
-import com.itech.library.entity.User;
 import com.itech.library.pojo.BookPojo;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.repository.BookRepository;
@@ -74,42 +73,14 @@ public class BookServiceImplTest {
         BookPojo updateBookPojo = bookService.updateBook(getBookPojo);
         Assert.assertEquals(getBookPojo.getId(), updateBookPojo.getId());
 
+        Book book = bookRepository.getBookByTitle("Title1").get();
     }
 
     @Test
     public void deleteBook() {
-        //Book getBook = bookRepository.getBookByTitle("Title2").get();
-        //userRepository.removeBookInUser(getBook, getBook.getUsers().iterator().next());
-
-        BookPojo getBookPojo = bookService.getBookByTitle("Title1").get();
+        BookPojo getBookPojo = bookService.getBookByTitle("Title3").get();
         BookPojo deleteBook = bookService.deleteBook(getBookPojo);
-
-        //Assert.assertEquals(getBookPojo, deleteBook);
-
-        Optional<BookPojo> findDeleteBook = bookService.getBookByTitle("Title1");
-        //Assert.assertFalse(findDeleteBook.isPresent());
-
-    }
-
-    @Test
-    public void deleteAuthor() {
-        User user = userRepository.getUserById(1).get();
-        User deleteUser = userRepository.deleteUser(user);
-
-        Assert.assertNotEquals(0, deleteUser.getId().intValue());
-
-        Optional<User> userFind = userRepository.getUserByLogin("Admin");
-
-    }
-
-    @Test
-    public void deleteBookInAuthor() {
-        User user = userRepository.getUserById(1).get();
-        List<Book> books = bookRepository.getBooksByAuthorId(1);
-        userRepository.removeBookInUser(books.get(0), user);
-        Assert.assertNotEquals(0, user.getId().intValue());
-
-        Optional<User> userFind = userRepository.getUserByLogin("Admin");
-
+        Optional<BookPojo> findDeleteBook = bookService.getBookByTitle("Title3");
+        Assert.assertFalse(findDeleteBook.isPresent());
     }
 }
