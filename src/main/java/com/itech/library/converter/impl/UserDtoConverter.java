@@ -1,6 +1,6 @@
 package com.itech.library.converter.impl;
 
-import com.itech.library.converter.PojoConverter;
+import com.itech.library.converter.DtoConverter;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.User;
 import org.springframework.stereotype.Service;
@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserDtoConverter implements PojoConverter<Optional<UserDto>, Optional<User>> {
+public class UserDtoConverter implements DtoConverter<Optional<UserDto>, Optional<User>> {
 
     @Override
-    public Optional<UserDto> entityToPojo(Optional<User> userEntity) {
+    public Optional<UserDto> entityToDto(Optional<User> userEntity) {
         if (userEntity.isPresent()) {
             User user = userEntity.get();
             UserDto userDto = new UserDto.Builder()
@@ -25,7 +25,7 @@ public class UserDtoConverter implements PojoConverter<Optional<UserDto>, Option
     }
 
     @Override
-    public Optional<User> pojoToEntity(Optional<UserDto> userPojo) {
+    public Optional<User> dtoToEntity(Optional<UserDto> userPojo) {
         if (userPojo.isPresent()) {
             UserDto user = userPojo.get();
             User userEntity = new User(user.getLogin(), user.getPassword());

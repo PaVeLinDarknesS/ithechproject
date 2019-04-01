@@ -30,13 +30,13 @@ public class AuthorRepositoryImplTest {
     private BookRepository bookRepository;
 
     @Test
-    public void getAuthorByIdPositive() {
+    public void getAuthorById() {
         Optional<Author> user = authorRepository.getAuthorById(1);
         Assert.assertTrue(user.isPresent());
     }
 
     @Test
-    public void getAuthorByIdPositiveNegative() {
+    public void getAuthorById_positiveNegative() {
         Optional<Author> user = authorRepository.getAuthorById(1);
         Assert.assertTrue(user.isPresent());
     }

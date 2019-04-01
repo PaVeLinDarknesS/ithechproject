@@ -25,11 +25,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<UserDto> getUserByLogin(String login) {
+        //StringUtils.isEmpty()
         if (login != null && login.length() > 0) {
             Optional<User> optionalUser = userRepository.getUserByLogin(login);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                Optional<UserDto> userPojo = userConverter.entityToPojo(Optional.of(user));
+                Optional<UserDto> userPojo = userConverter.entityToDto(Optional.of(user));
                 return userPojo;
             }
         }

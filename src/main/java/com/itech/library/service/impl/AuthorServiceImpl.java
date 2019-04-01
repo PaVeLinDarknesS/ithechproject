@@ -2,11 +2,15 @@ package com.itech.library.service.impl;
 
 import com.itech.library.converter.impl.AuthorDtoConverter;
 import com.itech.library.dto.AuthorDto;
+import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
+import com.itech.library.entity.Book;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.service.AuthorService;
+import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -19,6 +23,9 @@ public class AuthorServiceImpl implements AuthorService {
     private AuthorRepository authorRepository;
 
     @Autowired
+    private BookService bookService;
+
+    @Autowired
     private AuthorDtoConverter authorDtoConverter;
 
 
@@ -26,12 +33,12 @@ public class AuthorServiceImpl implements AuthorService {
     public AuthorDto addAuthor(AuthorDto author) {
         Optional<Author> optionalAuthor = authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName());
         if (optionalAuthor.isPresent()) {
-            AuthorDto authorDto = authorDtoConverter.entityToPojo(optionalAuthor.get());
+            AuthorDto authorDto = authorDtoConverter.entityToDto(optionalAuthor.get());
             authorDto.setId(0);
             return authorDto;
         } else {
-            Author addAuthor = authorRepository.addAuthor(authorDtoConverter.pojoToEntity(author));
-            return authorDtoConverter.entityToPojo(addAuthor);
+            Author addAuthor = authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author));
+            return authorDtoConverter.entityToDto(addAuthor);
         }
     }
 
@@ -45,7 +52,7 @@ public class AuthorServiceImpl implements AuthorService {
             findAuthor.setLastName(author.getLastName());
 
             Author updateAuthor = authorRepository.updateAuthor(findAuthor);
-            return authorDtoConverter.entityToPojo(updateAuthor);
+            return authorDtoConverter.entityToDto(updateAuthor);
         }
         return new AuthorDto(-1);
     }
@@ -56,11 +63,11 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> findAuthorOptional = authorRepository.getAuthorById(author.getId());
         if (findAuthorOptional.isPresent()) {
             Author findAuthor = findAuthorOptional.get();
-            if (findAuthor.getBooks() != null && findAuthor.getBooks().size() > 0) {
+            if (!CollectionUtils.isEmpty(findAuthor.getBooks())) {
                 return new AuthorDto(0);
             }
             Author deleteAuthor = authorRepository.deleteAuthor(findAuthor);
-            return authorDtoConverter.entityToPojo(deleteAuthor);
+            return authorDtoConverter.entityToDto(deleteAuthor);
         }
         return new AuthorDto(-1);
     }
@@ -76,6 +83,32 @@ public class AuthorServiceImpl implements AuthorService {
             return authorRepository.getAuthorByFio(firstName, lastName);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean addBookInAuthor(BookDto bookDto, AuthorDto authorDto) {
+        boolean result = false;
+        Optional<Book> book = bookService.getBookByTitle(bookDto.getTitle());
+        Optional<Author> author = authorRepository.getAuthorByFio(authorDto.getFirstName(), authorDto.getLastName());
+        if (book.isPresent() && author.isPresent()) {
+            authorRepository.addBookInAuthor(book.get(), author.get());
+            result = true;
+        }
+        return result;
+    }
+
+    @Override
+    public boolean removeBookInAuthor(BookDto bookDto, AuthorDto authorDto) {
+        boolean result = false;
+        Optional<Book> book = bookService.getBookByTitle(bookDto.getTitle());
+        Optional<Author> author = authorRepository.getAuthorByFio(authorDto.getFirstName(), authorDto.getLastName());
+        if (book.isPresent() && author.isPresent()) {
+            if (author.get().getBooks().contains(book.get())) {
+                authorRepository.removeBookInAuthor(book.get(), author.get());
+                result = true;
+            }
+        }
+        return result;
     }
 
 

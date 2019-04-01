@@ -1,6 +1,7 @@
 package com.itech.library.service;
 
 import com.itech.library.dto.AuthorDto;
+import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
 
 import java.util.List;
@@ -18,8 +19,8 @@ public interface AuthorService {
 
     Optional<Author> getAuthorByFio(String firstName, String lastName);
 
-    //void addBookInAuthor(Book book, Author author);
+    boolean addBookInAuthor(BookDto bookDto, AuthorDto authorDto);
 
-    //void removeBookInAuthor(Book book, Author author);
+    boolean removeBookInAuthor(BookDto bookDto, AuthorDto authorDto);
 
 }
