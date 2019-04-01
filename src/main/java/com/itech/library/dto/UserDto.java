@@ -1,15 +1,15 @@
-package com.itech.library.pojo;
+package com.itech.library.dto;
 
-public class UserPojo {
+public class UserDto {
 
     private Integer id;
     private String login;
     private String password;
 
-    public UserPojo() {
+    public UserDto() {
     }
 
-    public UserPojo(Builder builder) {
+    public UserDto(Builder builder) {
         this.id = builder.id;
         this.login = builder.login;
         this.password = builder.password;
@@ -61,8 +61,8 @@ public class UserPojo {
             return this;
         }
 
-        public UserPojo build() {
-            return new UserPojo(this);
+        public UserDto build() {
+            return new UserDto(this);
         }
     }
 }
