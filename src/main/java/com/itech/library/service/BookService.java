@@ -1,21 +1,22 @@
 package com.itech.library.service;
 
-import com.itech.library.pojo.BookPojo;
+import com.itech.library.dto.BookDto;
+import com.itech.library.entity.Book;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface BookService {
 
-    List<BookPojo> getAllBooks();
+    List<Book> getAllBooks();
 
-    List<BookPojo> getBooksByAuthorFio(String firstName, String lastName);
+    List<Book> getBooksByAuthorFio(String firstName, String lastName);
 
-    Optional<BookPojo> getBookByTitle(String title);
+    Optional<BookDto> getBookByTitle(String title);
 
-    BookPojo addBook(BookPojo book);
+    BookDto addBook(BookDto book);
 
-    BookPojo updateBook(BookPojo book);
+    BookDto updateBook(BookDto book);
 
-    BookPojo deleteBook(BookPojo book);
+    BookDto deleteBook(BookDto book);
 }

@@ -1,8 +1,8 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.UserPojoConverter;
+import com.itech.library.converter.impl.UserDtoConverter;
 import com.itech.library.entity.User;
-import com.itech.library.pojo.UserPojo;
+import com.itech.library.dto.UserDto;
 import com.itech.library.repository.UserRepository;
 import com.itech.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,15 +21,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserPojoConverter userConverter;
+    private UserDtoConverter userConverter;
 
     @Override
-    public Optional<UserPojo> getUserByLogin(String login) {
+    public Optional<UserDto> getUserByLogin(String login) {
         if (login != null && login.length() > 0) {
             Optional<User> optionalUser = userRepository.getUserByLogin(login);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                Optional<UserPojo> userPojo = userConverter.entityToPojo(Optional.of(user));
+                Optional<UserDto> userPojo = userConverter.entityToPojo(Optional.of(user));
                 return userPojo;
             }
         }

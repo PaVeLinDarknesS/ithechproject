@@ -1,8 +1,8 @@
 package com.itech.library.service.impl;
 
 import com.itech.library.config.WebConfig;
+import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
-import com.itech.library.pojo.BookPojo;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
@@ -22,65 +22,59 @@ import java.util.Optional;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextConfiguration(classes = {WebConfig.class})
-@Transactional
 public class BookServiceImplTest {
 
     @Autowired
     private BookService bookService;
-    @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    AuthorRepository authorRepository;
 
     @Test
     public void getAllBooks() {
-        List<BookPojo> bookPojos = bookService.getAllBooks();
-        Assert.assertTrue(bookPojos.size() > 0);
+        List<Book> books = bookService.getAllBooks();
+        Assert.assertTrue(books.size() > 0);
     }
 
     @Test
     public void getBooksByAuthorFio() {
-        List<BookPojo> list = bookService.getBooksByAuthorFio("First1", "Last1");
-        Assert.assertNotEquals(0, list.size());
+        List<Book> books = bookService.getBooksByAuthorFio("First1", "Last1");
+        Assert.assertNotEquals(0, books.size());
     }
 
     @Test
     public void getBookByTitle() {
-        Optional<BookPojo> book = bookService.getBookByTitle("Title1");
+        Optional<BookDto> book = bookService.getBookByTitle("Title1");
         Assert.assertTrue(book.isPresent());
     }
 
 
     @Test
+    @Transactional
     public void addBook() {
-        BookPojo bookPojo = new BookPojo.Builder().setTitle("My").setCount(1).build();
-        BookPojo bookPojo1 = new BookPojo.Builder().setTitle("Title1").setCount(1).build();
+        BookDto bookDto = new BookDto.Builder().setTitle("My").setCount(1).build();
+        BookDto bookDto1 = new BookDto.Builder().setTitle("Title1").setCount(1).build();
 
-        BookPojo addNewBook = bookService.addBook(bookPojo);
-        BookPojo addExistBook = bookService.addBook(bookPojo1);
+        BookDto addNewBook = bookService.addBook(bookDto);
+        BookDto addExistBook = bookService.addBook(bookDto1);
 
         Assert.assertEquals(0, addExistBook.getId().intValue());
         Assert.assertNotEquals(0, addNewBook.getId().intValue());
     }
 
     @Test
+    @Transactional
     public void updateBook() {
-        BookPojo getBookPojo = bookService.getBookByTitle("Title1").get();
-        getBookPojo.setYear(1111);
+        BookDto getBookDto = bookService.getBookByTitle("Title1").get();
+        getBookDto.setYear(1111);
 
-        BookPojo updateBookPojo = bookService.updateBook(getBookPojo);
-        Assert.assertEquals(getBookPojo.getId(), updateBookPojo.getId());
-
-        Book book = bookRepository.getBookByTitle("Title1").get();
+        BookDto updateBookDto = bookService.updateBook(getBookDto);
+        Assert.assertEquals(getBookDto.getId(), updateBookDto.getId());
     }
 
     @Test
+    @Transactional
     public void deleteBook() {
-        BookPojo getBookPojo = bookService.getBookByTitle("Title3").get();
-        BookPojo deleteBook = bookService.deleteBook(getBookPojo);
-        Optional<BookPojo> findDeleteBook = bookService.getBookByTitle("Title3");
+        BookDto getBookDto = bookService.getBookByTitle("Title3").get();
+        BookDto deleteBook = bookService.deleteBook(getBookDto);
+        Optional<BookDto> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
     }
 }

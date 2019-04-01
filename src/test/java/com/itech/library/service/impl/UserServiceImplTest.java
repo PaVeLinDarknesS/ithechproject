@@ -1,7 +1,7 @@
 package com.itech.library.service.impl;
 
 import com.itech.library.config.WebConfig;
-import com.itech.library.pojo.UserPojo;
+import com.itech.library.dto.UserDto;
 import com.itech.library.service.UserService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -25,7 +25,7 @@ public class UserServiceImplTest {
 
     @Test
     public void getUserByLogin() {
-        Optional<UserPojo> userPojo = userService.getUserByLogin("Admin");
+        Optional<UserDto> userPojo = userService.getUserByLogin("Admin");
         Assert.assertTrue(userPojo.isPresent());
     }
 }

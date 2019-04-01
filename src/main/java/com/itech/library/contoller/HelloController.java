@@ -1,6 +1,6 @@
 package com.itech.library.contoller;
 
-import com.itech.library.pojo.BookPojo;
+import com.itech.library.dto.BookDto;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +27,12 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public ResponseEntity<?> getHelloPage() {
-        return new ResponseEntity<>(new BookPojo.Builder().setTitle("as").build(), HttpStatus.OK);
+        return new ResponseEntity<>(new BookDto.Builder().setTitle("as").build(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/hello1", method = RequestMethod.POST)
-    public ResponseEntity<?> getHelloPage1(@Valid @RequestBody BookPojo bookPojo) {
-        return new ResponseEntity<>(bookPojo, HttpStatus.OK);
+    public ResponseEntity<?> getHelloPage1(@Valid @RequestBody BookDto bookDto) {
+        return new ResponseEntity<>(bookDto, HttpStatus.OK);
     }
 
 }

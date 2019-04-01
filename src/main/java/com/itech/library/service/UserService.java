@@ -1,12 +1,12 @@
 package com.itech.library.service;
 
-import com.itech.library.pojo.UserPojo;
+import com.itech.library.dto.UserDto;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserPojo> getUserByLogin(String login);
+    Optional<UserDto> getUserByLogin(String login);
 //TODO Write
 
     /*

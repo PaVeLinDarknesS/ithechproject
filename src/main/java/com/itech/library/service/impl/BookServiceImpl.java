@@ -1,8 +1,8 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.BookPojoConverter;
+import com.itech.library.converter.impl.BookDtoConverter;
+import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
-import com.itech.library.pojo.BookPojo;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,41 +14,35 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class BookServiceImpl implements BookService {
 
     @Autowired
     private BookRepository bookRepository;
 
     @Autowired
-    private BookPojoConverter bookConverter;
+    private BookDtoConverter bookConverter;
 
     @Override
-    public List<BookPojo> getAllBooks() {
-        List<Book> booksFromBd = bookRepository.getAllBooks();
-        List<BookPojo> books = new ArrayList<>();
-        booksFromBd.stream().forEach(book ->
-                books.add(bookConverter.entityToPojo(book)));
-        return books;
+    public List<Book> getAllBooks() {
+        return bookRepository.getAllBooks();
     }
 
     @Override
-    public List<BookPojo> getBooksByAuthorFio(String firstName, String lastName) {
-        List<BookPojo> books = new ArrayList<>();
-        if (firstName != null && lastName != null && firstName.length() > 0 && lastName.length() > 0) {
-            List<Book> booksEntity = bookRepository.getBooksByAuthorFio(firstName, lastName);
-            booksEntity.stream().forEach(book -> books.add(bookConverter.entityToPojo(book)));
+    public List<Book> getBooksByAuthorFio(String firstName, String lastName) {
+        List<Book> books = new ArrayList<>();
+        if (!firstName.isEmpty() && !lastName.isEmpty()) {
+            books = bookRepository.getBooksByAuthorFio(firstName, lastName);
         }
         return books;
     }
 
     @Override
-    public Optional<BookPojo> getBookByTitle(String title) {
+    public Optional<BookDto> getBookByTitle(String title) {
         if (title != null && title.length() > 0) {
             Optional<Book> bookEntity = bookRepository.getBookByTitle(title);
             if (bookEntity.isPresent()) {
-                BookPojo bookPojo = bookConverter.entityToPojo(bookEntity.get());
-                return Optional.of(bookPojo);
+                BookDto bookDto = bookConverter.entityToPojo(bookEntity.get());
+                return Optional.of(bookDto);
             }
         }
         return Optional.empty();
@@ -56,12 +50,12 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public BookPojo addBook(BookPojo book) {
+    public BookDto addBook(BookDto book) {
         Optional<Book> findBook = bookRepository.getBookByTitle(book.getTitle());
         if (findBook.isPresent()) {
-            BookPojo bookPojo = bookConverter.entityToPojo(findBook.get());
-            bookPojo.setId(0);
-            return bookPojo;
+            BookDto bookDto = bookConverter.entityToPojo(findBook.get());
+            bookDto.setId(0);
+            return bookDto;
         } else {
             Book addBook = bookRepository.addBook(bookConverter.pojoToEntity(book));
             return bookConverter.entityToPojo(addBook);
@@ -69,36 +63,33 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public BookPojo updateBook(BookPojo book) {
-        if (book.getId() != null) {
-            Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
-            if (findBookOptional.isPresent()) {
-                Book convertBook = bookConverter.pojoToEntity(book);
-                Book findBook = findBookOptional.get();
-                findBook.setTitle(convertBook.getTitle());
-                findBook.setCount(convertBook.getCount());
-                findBook.setYear(convertBook.getYear());
-                if (!findBook.getAuthor().equals(convertBook.getAuthor())) {
-                    findBook.setAuthor(convertBook.getAuthor());
-                }
-                Book updateBook = bookRepository.updateBook(findBook);
-                return bookConverter.entityToPojo(updateBook);
-            }
+    @Transactional
+    public BookDto updateBook(BookDto book) {
+        Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
+        if (findBookOptional.isPresent()) {
+            Book findBook = findBookOptional.get();
+
+            findBook.setTitle(book.getTitle());
+            findBook.setCount(book.getCount());
+            findBook.setYear(book.getYear());
+
+            Book updateBook = bookRepository.updateBook(findBook);
+            return bookConverter.entityToPojo(updateBook);
         }
-        return new BookPojo(0);
+        return new BookDto(-1);
     }
 
     @Override
-    public BookPojo deleteBook(BookPojo book) {
-        Optional<Book> findBookOptional = bookRepository.getBookByTitle(book.getTitle());
+    public BookDto deleteBook(BookDto book) {
+        Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
         if (findBookOptional.isPresent()) {
             Book findBook = findBookOptional.get();
             if (findBook.getUsers() != null && findBook.getUsers().size() > 0) {
-                return new BookPojo(0);
+                return new BookDto(0);
             }
             Book deleteBook = bookRepository.deleteBook(findBook);
             return bookConverter.entityToPojo(deleteBook);
         }
-        return new BookPojo(-1);
+        return new BookDto(-1);
     }
 }

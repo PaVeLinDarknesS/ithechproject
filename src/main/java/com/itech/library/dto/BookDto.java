@@ -1,10 +1,10 @@
-package com.itech.library.pojo;
+package com.itech.library.dto;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
-public class BookPojo {
+public class BookDto {
 
 
     private Integer id;
@@ -15,16 +15,16 @@ public class BookPojo {
     @Min(0)
     private Integer count;
 
-    private AuthorPojo author;
+    private AuthorDto author;
 
-    public BookPojo() {
+    public BookDto() {
     }
 
-    public BookPojo(Integer id) {
+    public BookDto(Integer id) {
         this.id = id;
     }
 
-    public BookPojo(Builder builder) {
+    public BookDto(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.year = builder.year;
@@ -64,11 +64,11 @@ public class BookPojo {
         this.count = count;
     }
 
-    public AuthorPojo getAuthor() {
+    public AuthorDto getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorPojo author) {
+    public void setAuthor(AuthorDto author) {
         this.author = author;
     }
 
@@ -77,7 +77,7 @@ public class BookPojo {
         private String title;
         private Integer year;
         private Integer count;
-        private AuthorPojo author;
+        private AuthorDto author;
 
         public Builder setId(Integer id) {
             this.id = id;
@@ -99,13 +99,13 @@ public class BookPojo {
             return this;
         }
 
-        public Builder setAuthor(AuthorPojo author) {
+        public Builder setAuthor(AuthorDto author) {
             this.author = author;
             return this;
         }
 
-        public BookPojo build() {
-            return new BookPojo(this);
+        public BookDto build() {
+            return new BookDto(this);
         }
     }
 
@@ -113,12 +113,12 @@ public class BookPojo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        BookPojo bookPojo = (BookPojo) o;
-        return Objects.equals(id, bookPojo.id) &&
-                Objects.equals(title, bookPojo.title) &&
-                Objects.equals(year, bookPojo.year) &&
-                Objects.equals(count, bookPojo.count) &&
-                Objects.equals(author, bookPojo.author);
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) &&
+                Objects.equals(title, bookDto.title) &&
+                Objects.equals(year, bookDto.year) &&
+                Objects.equals(count, bookDto.count) &&
+                Objects.equals(author, bookDto.author);
     }
 
     @Override

@@ -1,17 +1,17 @@
-package com.itech.library.pojo;
+package com.itech.library.dto;
 
 import java.util.Objects;
 
-public class AuthorPojo {
+public class AuthorDto {
 
     private Integer id;
     private String firstName;
     private String lastName;
 
-    public AuthorPojo() {
+    public AuthorDto() {
     }
 
-    public AuthorPojo(Builder builder) {
+    public AuthorDto(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
@@ -61,8 +61,8 @@ public class AuthorPojo {
             return this;
         }
 
-        public AuthorPojo build() {
-            return new AuthorPojo(this);
+        public AuthorDto build() {
+            return new AuthorDto(this);
         }
     }
 
@@ -70,7 +70,7 @@ public class AuthorPojo {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AuthorPojo that = (AuthorPojo) o;
+        AuthorDto that = (AuthorDto) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(firstName, that.firstName) &&
                 Objects.equals(lastName, that.lastName);

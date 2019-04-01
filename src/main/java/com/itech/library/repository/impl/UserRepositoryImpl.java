@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> getUserById(int id) {
         Session session = sessionFactory.getCurrentSession();
         User user = session.get(User.class, id);
-        user.getBooks().size();
+        //user.getBooks().size();
         return Optional.ofNullable(user);
     }
 
