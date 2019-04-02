@@ -19,8 +19,6 @@ public interface BookRepository {
 
     Optional<Book> getBookByTitle(String title);
 
-    Optional<Book> findOne(Book book);
-
     List<Book> getBooksByAuthorId(int author);
 
     List<Book> getBooksByAuthorFio(String firstName, String lastName);

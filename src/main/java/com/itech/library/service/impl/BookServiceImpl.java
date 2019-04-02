@@ -3,12 +3,14 @@ package com.itech.library.service.impl;
 import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
+import com.itech.library.exeption.BookNotFoundException;
+import com.itech.library.exeption.DeleteBookHaveByUserException;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -41,23 +43,19 @@ public class BookServiceImpl implements BookService {
         return bookRepository.getBookByTitle(title);
     }
 
-
     @Override
-    public BookDto addBook(BookDto book) {
+    public Book addBook(BookDto book) {
         Optional<Book> findBook = bookRepository.getBookByTitle(book.getTitle());
         if (findBook.isPresent()) {
-            BookDto bookDto = bookConverter.entityToDto(findBook.get());
-            bookDto.setId(0);
-            return bookDto;
+            return findBook.get();
         } else {
             Book addBook = bookRepository.addBook(bookConverter.dtoToEntity(book));
-            return bookConverter.entityToDto(addBook);
+            return addBook;
         }
     }
 
     @Override
-    @Transactional
-    public BookDto updateBook(BookDto book) {
+    public Book updateBook(BookDto book) throws BookNotFoundException {
         Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
         if (findBookOptional.isPresent()) {
             Book findBook = findBookOptional.get();
@@ -66,23 +64,22 @@ public class BookServiceImpl implements BookService {
             findBook.setCount(book.getCount());
             findBook.setYear(book.getYear());
 
-            Book updateBook = bookRepository.updateBook(findBook);
-            return bookConverter.entityToDto(updateBook);
+            return bookRepository.updateBook(findBook);
         }
-        return new BookDto(-1);
+        throw new BookNotFoundException("Book with id_" + book.getId() + "_ don't found");
     }
 
     @Override
-    public BookDto deleteBook(BookDto book) {
+    public Book deleteBook(BookDto book) throws BookNotFoundException, DeleteBookHaveByUserException {
         Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
         if (findBookOptional.isPresent()) {
             Book findBook = findBookOptional.get();
-            if (findBook.getUsers() != null && findBook.getUsers().size() > 0) {
-                return new BookDto(0);
+            if (!CollectionUtils.isEmpty(findBook.getUsers())) {
+                throw new DeleteBookHaveByUserException("Book with id_" + book.getId() + "_ have some user");
             }
             Book deleteBook = bookRepository.deleteBook(findBook);
-            return bookConverter.entityToDto(deleteBook);
+            return deleteBook;
         }
-        return new BookDto(-1);
+        throw new BookNotFoundException("Book with id_" + book.getId() + "_ not found");
     }
 }

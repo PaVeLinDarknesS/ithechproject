@@ -5,6 +5,8 @@ import com.itech.library.dto.BookDto;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
+import com.itech.library.exeption.UserExistException;
+import com.itech.library.exeption.UserNotFoundException;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
 import com.itech.library.service.UserService;
@@ -46,20 +48,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(UserDto user) {
-        User addUser;
+    public User addUser(UserDto user) throws UserExistException {
         Optional<User> optionalUser = userRepository.getUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
-            addUser = userRepository.addUser(userConverter.dtoToEntity(user));
+            return userRepository.addUser(userConverter.dtoToEntity(user));
         } else {
-            addUser = null;
+            throw new UserExistException("User with login_" + user.getLogin() + "_ exist");
         }
-        return addUser;
     }
 
     @Override
-    public User updateUser(UserDto userDto) {
-        User updateUser = null;
+    public User updateUser(UserDto userDto) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.getUserById(userDto.getId());
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
@@ -67,20 +66,19 @@ public class UserServiceImpl implements UserService {
             user.setLogin(userDto.getLogin());
             user.setPassword(userDto.getPassword());
 
-            updateUser = userRepository.updateUser(user);
+            return userRepository.updateUser(user);
         }
-        return updateUser;
+        throw new UserNotFoundException("User with id_" + userDto.getId() + "_ not found");
     }
 
     @Override
-    public User deleteUser(UserDto userDto) {
-        User deleteUser = null;
+    public User deleteUser(UserDto userDto) throws UserNotFoundException {
         Optional<User> optionalUser = userRepository.getUserByAllField(userConverter.dtoToEntity(userDto));
         if (optionalUser.isPresent()) {
             removeAllBookInUser(userDto);
-            deleteUser = userRepository.deleteUser(optionalUser.get());
+            return userRepository.deleteUser(optionalUser.get());
         }
-        return deleteUser;
+        throw new UserNotFoundException("User with id_" + userDto.getId() + "_ not found");
     }
 
     @Override

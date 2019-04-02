@@ -3,17 +3,19 @@ package com.itech.library.service;
 import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
+import com.itech.library.exeption.AuthorNotFoundException;
+import com.itech.library.exeption.DeleteAuthorContainBookException;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface AuthorService {
 
-    AuthorDto addAuthor(AuthorDto author);
+    Author addAuthor(AuthorDto author);
 
-    AuthorDto updateAuthor(AuthorDto author);
+    Author updateAuthor(AuthorDto author) throws AuthorNotFoundException;
 
-    AuthorDto deleteAuthor(AuthorDto author);
+    Author deleteAuthor(AuthorDto author) throws AuthorNotFoundException, DeleteAuthorContainBookException;
 
     List<Author> getAllAuthors();
 

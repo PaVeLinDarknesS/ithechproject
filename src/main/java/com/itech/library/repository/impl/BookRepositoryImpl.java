@@ -63,19 +63,6 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Optional<Book> findOne(Book book) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from Book as b " +
-                "where b.title = :title " +
-                "and b.year = :year " +
-                "and b.count = :count", Book.class);
-        query.setParameter("title", book.getTitle());
-        query.setParameter("year", book.getYear());
-        query.setParameter("count", book.getCount());
-        return query.uniqueResultOptional();
-    }
-
-    @Override
     public List<Book> getBooksByAuthorId(int author) {
         Session session = sessionFactory.getCurrentSession();
         Query<Book> query = session.createQuery("from Book as b where b.author.id = :author", Book.class);
