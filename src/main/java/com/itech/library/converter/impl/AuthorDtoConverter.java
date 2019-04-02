@@ -1,28 +1,28 @@
 package com.itech.library.converter.impl;
 
-import com.itech.library.converter.PojoConverter;
+import com.itech.library.converter.DtoConverter;
 import com.itech.library.entity.Author;
 import com.itech.library.dto.AuthorDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthorDtoConverter implements PojoConverter<AuthorDto, Author> {
+public class AuthorDtoConverter implements DtoConverter<AuthorDto, Author> {
 
     @Override
-    public AuthorDto entityToPojo(Author author) {
+    public AuthorDto entityToDto(Author author) {
+        AuthorDto authorDto = null;
         if (author != null) {
-            AuthorDto authorDto = new AuthorDto.Builder()
+             authorDto = new AuthorDto.Builder()
                     .setId(author.getId())
                     .setFirstName(author.getFirstName())
                     .setLastName(author.getLastName())
                     .build();
-            return authorDto;
         }
-        return null;
+        return authorDto;
     }
 
     @Override
-    public Author pojoToEntity(AuthorDto author) {
+    public Author dtoToEntity(AuthorDto author) {
         if (author != null) {
             Author authorEntity = new Author(author.getFirstName(), author.getLastName());
             authorEntity.setId(author.getId());

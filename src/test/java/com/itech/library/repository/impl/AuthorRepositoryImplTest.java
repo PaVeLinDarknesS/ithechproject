@@ -30,13 +30,13 @@ public class AuthorRepositoryImplTest {
     private BookRepository bookRepository;
 
     @Test
-    public void getAuthorByIdPositive() {
+    public void getAuthorById() {
         Optional<Author> user = authorRepository.getAuthorById(1);
         Assert.assertTrue(user.isPresent());
     }
 
     @Test
-    public void getAuthorByIdPositiveNegative() {
+    public void getAuthorById_positiveNegative() {
         Optional<Author> user = authorRepository.getAuthorById(1);
         Assert.assertTrue(user.isPresent());
     }
@@ -83,16 +83,16 @@ public class AuthorRepositoryImplTest {
     public void deleteAuthorPositive() {
         Author deleteAuthor = new Author("DeleteAuthor", "DeleteAuthor");
         authorRepository.addAuthor(deleteAuthor);
-        Assert.assertTrue(authorRepository.findOne(deleteAuthor).isPresent());
+        Assert.assertTrue(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
         Author author = authorRepository.deleteAuthor(deleteAuthor);
         Assert.assertEquals(deleteAuthor, author);
-        Assert.assertFalse(authorRepository.findOne(deleteAuthor).isPresent());
+        Assert.assertFalse(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
     }
 
     @Test
     public void deleteAuthorNegative() {
         Author deleteAuthor = new Author("DeleteAuthor", "DeleteAuthor");
-        Assert.assertFalse(authorRepository.findOne(deleteAuthor).isPresent());
+        Assert.assertFalse(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
         Author author = authorRepository.deleteAuthor(deleteAuthor);
         Assert.assertNull(author.getId());
     }
@@ -106,14 +106,14 @@ public class AuthorRepositoryImplTest {
     @Test
     public void findOnePositive() {
         Author findAuthor = new Author("First1", "Last1");
-        Optional<Author> author = authorRepository.findOne(findAuthor);
+        Optional<Author> author = authorRepository.getAuthorByFio(findAuthor.getFirstName(), findAuthor.getLastName());
         Assert.assertTrue(author.isPresent());
     }
 
     @Test
     public void findOneNegative() {
         Author findAuthor = new Author("Admin", "Admin");
-        Optional<Author> author = authorRepository.findOne(findAuthor);
+        Optional<Author> author = authorRepository.getAuthorByFio(findAuthor.getFirstName(), findAuthor.getLastName());
         Assert.assertFalse(author.isPresent());
     }
 
