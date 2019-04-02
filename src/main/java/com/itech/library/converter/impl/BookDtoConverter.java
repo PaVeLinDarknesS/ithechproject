@@ -1,22 +1,22 @@
 package com.itech.library.converter.impl;
 
-import com.itech.library.converter.PojoConverter;
+import com.itech.library.converter.DtoConverter;
 import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
-public class BookDtoConverter implements PojoConverter<BookDto, Book> {
+@Component
+public class BookDtoConverter implements DtoConverter<BookDto, Book> {
 
     @Autowired
     private AuthorDtoConverter authorDtoConverter;
 
     @Override
-    public BookDto entityToPojo(Book book) {
+    public BookDto entityToDto(Book book) {
         if (book != null) {
-            AuthorDto authorDto = authorDtoConverter.entityToPojo(book.getAuthor());
+            AuthorDto authorDto = authorDtoConverter.entityToDto(book.getAuthor());
 
             BookDto bookDto = new BookDto.Builder()
                     .setId(book.getId())
@@ -31,7 +31,7 @@ public class BookDtoConverter implements PojoConverter<BookDto, Book> {
 
     public BookDto entityToPojoWithAuthor(Book book) {
         if (book != null) {
-            AuthorDto authorDto = authorDtoConverter.entityToPojo(book.getAuthor());
+            AuthorDto authorDto = authorDtoConverter.entityToDto(book.getAuthor());
 
             BookDto bookDto = new BookDto.Builder()
                     .setId(book.getId())
@@ -46,11 +46,11 @@ public class BookDtoConverter implements PojoConverter<BookDto, Book> {
     }
 
     @Override
-    public Book pojoToEntity(BookDto book) {
+    public Book dtoToEntity(BookDto book) {
         if (book != null) {
             Book bookEntity = new Book(book.getTitle(), book.getYear(), book.getCount());
             if (book.getAuthor() != null) {
-                bookEntity.setAuthor(authorDtoConverter.pojoToEntity(book.getAuthor()));
+                bookEntity.setAuthor(authorDtoConverter.dtoToEntity(book.getAuthor()));
             }
             return bookEntity;
         }

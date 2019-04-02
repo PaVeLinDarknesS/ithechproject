@@ -12,7 +12,7 @@ public interface UserService {
     /*
     Optional<User> getUserById(int id);
     User addUser(User user);
-    Optional<User> findOne(User user);
+    Optional<User> getAuthorByFio(User user);
     User updateUser(User updateUser);
     void addBookInUser(Book book, User user);
     void removeBookInUser(Book book, User user);

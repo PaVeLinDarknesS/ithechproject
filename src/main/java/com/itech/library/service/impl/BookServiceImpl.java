@@ -46,12 +46,12 @@ public class BookServiceImpl implements BookService {
     public BookDto addBook(BookDto book) {
         Optional<Book> findBook = bookRepository.getBookByTitle(book.getTitle());
         if (findBook.isPresent()) {
-            BookDto bookDto = bookConverter.entityToPojo(findBook.get());
+            BookDto bookDto = bookConverter.entityToDto(findBook.get());
             bookDto.setId(0);
             return bookDto;
         } else {
-            Book addBook = bookRepository.addBook(bookConverter.pojoToEntity(book));
-            return bookConverter.entityToPojo(addBook);
+            Book addBook = bookRepository.addBook(bookConverter.dtoToEntity(book));
+            return bookConverter.entityToDto(addBook);
         }
     }
 
@@ -67,7 +67,7 @@ public class BookServiceImpl implements BookService {
             findBook.setYear(book.getYear());
 
             Book updateBook = bookRepository.updateBook(findBook);
-            return bookConverter.entityToPojo(updateBook);
+            return bookConverter.entityToDto(updateBook);
         }
         return new BookDto(-1);
     }
@@ -81,7 +81,7 @@ public class BookServiceImpl implements BookService {
                 return new BookDto(0);
             }
             Book deleteBook = bookRepository.deleteBook(findBook);
-            return bookConverter.entityToPojo(deleteBook);
+            return bookConverter.entityToDto(deleteBook);
         }
         return new BookDto(-1);
     }

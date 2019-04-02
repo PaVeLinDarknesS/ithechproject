@@ -58,13 +58,13 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     }
 
     @Override
-    public Optional<Author> findOne(Author author) {
+    public Optional<Author> getAuthorByFio(String firstName, String lastName) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from Author as a " +
                 "where a.firstName = :first " +
                 "and a.lastName = :last", Author.class);
-        query.setParameter("first", author.getFirstName());
-        query.setParameter("last", author.getLastName());
+        query.setParameter("first", firstName);
+        query.setParameter("last", lastName);
         return query.uniqueResultOptional();
     }
 

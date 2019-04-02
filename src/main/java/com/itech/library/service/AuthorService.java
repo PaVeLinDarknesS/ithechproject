@@ -1,16 +1,26 @@
 package com.itech.library.service;
 
+import com.itech.library.dto.AuthorDto;
+import com.itech.library.dto.BookDto;
+import com.itech.library.entity.Author;
+
+import java.util.List;
+import java.util.Optional;
+
 public interface AuthorService {
 
-//TODO Write
-    /*
-    Optional<Author> getAuthorById(int id);
-    Author addAuthor(Author author);
-    Author updateAuthor(Author author);
-    Author deleteAuthor(Author author);
+    AuthorDto addAuthor(AuthorDto author);
+
+    AuthorDto updateAuthor(AuthorDto author);
+
+    AuthorDto deleteAuthor(AuthorDto author);
+
     List<Author> getAllAuthors();
-    Optional<Author> findOne(Author author);
-    void addBookInAuthor(Book book, Author author);
-    void removeBookInAuthor(Book book, Author author);
-    */
+
+    Optional<Author> getAuthorByFio(String firstName, String lastName);
+
+    boolean addBookInAuthor(BookDto bookDto, AuthorDto authorDto);
+
+    boolean removeBookInAuthor(BookDto bookDto, AuthorDto authorDto);
+
 }
