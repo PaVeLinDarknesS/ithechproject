@@ -13,7 +13,7 @@ public interface UserRepository {
 
     User addUser(User user);
 
-    Optional<User> findOne(User user);
+    Optional<User> getUser(User user);
 
     User updateUser(User updateUser);
 

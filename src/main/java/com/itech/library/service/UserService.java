@@ -1,16 +1,17 @@
 package com.itech.library.service;
 
 import com.itech.library.dto.UserDto;
+import com.itech.library.entity.User;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserDto> getUserByLogin(String login);
+    Optional<User> getUserByLogin(String login);
 
-    //boolean checkExistUser(UserDto userDto);
+    boolean checkExistUser(UserDto userDto);
 
-    //UserDto addUser(UserDto user);
+    User addUser(UserDto user);
 
     //UserDto updateUser(UserDto updateUser);
 

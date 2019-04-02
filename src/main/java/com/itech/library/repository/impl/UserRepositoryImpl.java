@@ -42,7 +42,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> findOne(User user) {
+    public Optional<User> getUser(User user) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from User as u " +
                 "where u.login = :login " +

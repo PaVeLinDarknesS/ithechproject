@@ -9,7 +9,7 @@ public interface AuthorService {
     Author updateAuthor(Author author);
     Author deleteAuthor(Author author);
     List<Author> getAllAuthors();
-    Optional<Author> findOne(Author author);
+    Optional<Author> getUser(Author author);
     void addBookInAuthor(Book book, Author author);
     void removeBookInAuthor(Book book, Author author);
     */
