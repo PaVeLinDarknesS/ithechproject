@@ -11,6 +11,10 @@ public class AuthorDto {
     public AuthorDto() {
     }
 
+    public AuthorDto(Integer id) {
+        this.id = id;
+    }
+
     public AuthorDto(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;

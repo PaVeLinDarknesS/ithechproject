@@ -4,8 +4,6 @@ import com.itech.library.config.WebConfig;
 import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
-import com.itech.library.repository.AuthorRepository;
-import com.itech.library.repository.BookRepository;
 import com.itech.library.service.BookService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -68,7 +66,7 @@ public class BookServiceImplTest {
         Book getBook = bookService.getBookByTitle("Title1").get();
         getBook.setYear(1111);
 
-        BookDto updateBookDto = bookService.updateBook(bookConverter.entityToPojo(getBook));
+        BookDto updateBookDto = bookService.updateBook(bookConverter.entityToDto(getBook));
         Assert.assertEquals(getBook.getId(), updateBookDto.getId());
     }
 
@@ -76,7 +74,7 @@ public class BookServiceImplTest {
     @Transactional
     public void deleteBook() {
         Book getBook = bookService.getBookByTitle("Title3").get();
-        BookDto deleteBook = bookService.deleteBook(bookConverter.entityToPojo(getBook));
+        BookDto deleteBook = bookService.deleteBook(bookConverter.entityToDto(getBook));
         Optional<Book> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
     }

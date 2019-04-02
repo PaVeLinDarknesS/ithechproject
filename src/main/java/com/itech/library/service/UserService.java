@@ -1,20 +1,27 @@
 package com.itech.library.service;
 
+import com.itech.library.dto.BookDto;
 import com.itech.library.dto.UserDto;
+import com.itech.library.entity.User;
 
 import java.util.Optional;
 
 public interface UserService {
 
-    Optional<UserDto> getUserByLogin(String login);
-//TODO Write
+    Optional<User> getUserByLogin(String login);
 
-    /*
-    Optional<User> getUserById(int id);
-    User addUser(User user);
-    Optional<User> findOne(User user);
-    User updateUser(User updateUser);
-    void addBookInUser(Book book, User user);
-    void removeBookInUser(Book book, User user);
-    */
+    boolean checkExistUser(UserDto userDto);
+
+    User addUser(UserDto user);
+
+    User updateUser(UserDto userDto);
+
+    User deleteUser(UserDto userDto);
+
+    boolean addBookInUser(BookDto bookDto, UserDto userDto);
+
+    boolean removeBookInUser(BookDto bookDto, UserDto userDto);
+
+    boolean removeAllBookInUser(UserDto userDto);
+
 }

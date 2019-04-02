@@ -1,36 +1,33 @@
 package com.itech.library.converter.impl;
 
-import com.itech.library.converter.PojoConverter;
+import com.itech.library.converter.DtoConverter;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.User;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
-public class UserDtoConverter implements PojoConverter<Optional<UserDto>, Optional<User>> {
+public class UserDtoConverter implements DtoConverter<UserDto, User> {
 
     @Override
-    public Optional<UserDto> entityToPojo(Optional<User> userEntity) {
-        if (userEntity.isPresent()) {
-            User user = userEntity.get();
+    public UserDto entityToDto(User user) {
+        if (user != null) {
             UserDto userDto = new UserDto.Builder()
                     .setId(user.getId())
                     .setLogin(user.getLogin())
                     .setPassword(user.getPassword())
                     .build();
-            return Optional.ofNullable(userDto);
+            return userDto;
         }
-        return Optional.empty();
+        return null;
     }
 
     @Override
-    public Optional<User> pojoToEntity(Optional<UserDto> userPojo) {
-        if (userPojo.isPresent()) {
-            UserDto user = userPojo.get();
+    public User dtoToEntity(UserDto user) {
+        if (user != null) {
             User userEntity = new User(user.getLogin(), user.getPassword());
-            return Optional.ofNullable(userEntity);
+            userEntity.setId(user.getId());
+            return userEntity;
         }
-        return Optional.empty();
+        return null;
     }
 }
