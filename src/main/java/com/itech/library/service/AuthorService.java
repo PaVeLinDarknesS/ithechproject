@@ -11,9 +11,9 @@ public interface AuthorService {
 
     AuthorDto addAuthor(AuthorDto author);
 
-    AuthorDto updateAuthor(Author author);
+    AuthorDto updateAuthor(AuthorDto author);
 
-    AuthorDto deleteAuthor(Author author);
+    AuthorDto deleteAuthor(AuthorDto author);
 
     List<Author> getAllAuthors();
 

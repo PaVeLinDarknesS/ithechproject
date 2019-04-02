@@ -31,19 +31,18 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto addAuthor(AuthorDto author) {
+        Author addAuthor;
         Optional<Author> optionalAuthor = authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName());
         if (optionalAuthor.isPresent()) {
-            AuthorDto authorDto = authorDtoConverter.entityToDto(optionalAuthor.get());
-            authorDto.setId(0);
-            return authorDto;
+            addAuthor = optionalAuthor.get();
         } else {
-            Author addAuthor = authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author));
-            return authorDtoConverter.entityToDto(addAuthor);
+            addAuthor = authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author));
         }
+        return authorDtoConverter.entityToDto(addAuthor);
     }
 
     @Override
-    public AuthorDto updateAuthor(Author author) {
+    public AuthorDto updateAuthor(AuthorDto author) {
         Optional<Author> optionalAuthor = authorRepository.getAuthorById(author.getId());
         if (optionalAuthor.isPresent()) {
             Author findAuthor = optionalAuthor.get();
@@ -59,7 +58,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     @Transactional
-    public AuthorDto deleteAuthor(Author author) {
+    public AuthorDto deleteAuthor(AuthorDto author) {
         Optional<Author> findAuthorOptional = authorRepository.getAuthorById(author.getId());
         if (findAuthorOptional.isPresent()) {
             Author findAuthor = findAuthorOptional.get();
@@ -79,10 +78,11 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<Author> getAuthorByFio(String firstName, String lastName) {
+        Optional<Author> author = Optional.empty();
         if (!firstName.isEmpty() && !lastName.isEmpty()) {
-            return authorRepository.getAuthorByFio(firstName, lastName);
+            author = authorRepository.getAuthorByFio(firstName, lastName);
         }
-        return Optional.empty();
+        return author;
     }
 
     @Override
