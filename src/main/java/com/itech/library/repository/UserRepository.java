@@ -13,7 +13,7 @@ public interface UserRepository {
 
     User addUser(User user);
 
-    Optional<User> getUser(User user);
+    Optional<User> getUserByAllField(User user);
 
     User updateUser(User updateUser);
 

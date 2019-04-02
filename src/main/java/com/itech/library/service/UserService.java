@@ -1,5 +1,6 @@
 package com.itech.library.service;
 
+import com.itech.library.dto.BookDto;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.User;
 
@@ -13,14 +14,14 @@ public interface UserService {
 
     User addUser(UserDto user);
 
-    //UserDto updateUser(UserDto updateUser);
+    User updateUser(UserDto userDto);
 
-    //UserDto deleteUser(UserDto deleteUser);
+    User deleteUser(UserDto userDto);
 
-    //boolean addBookInUser(BookDto book, UserDto user);
+    boolean addBookInUser(BookDto bookDto, UserDto userDto);
 
-    //boolean removeBookInUser(BookDto book, UserDto user);
+    boolean removeBookInUser(BookDto bookDto, UserDto userDto);
 
-    //boolean removeAllBookInUser(UserDto user);
+    boolean removeAllBookInUser(UserDto userDto);
 
 }

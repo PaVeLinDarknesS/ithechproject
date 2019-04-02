@@ -77,7 +77,7 @@ public class UserRepositoryImplTest {
     @Test
     public void checkExistUserPositive() {
         User oneUser = new User("Admin", "Admin");
-        Optional<User> user = userRepository.getUser(oneUser);
+        Optional<User> user = userRepository.getUserByAllField(oneUser);
         Assert.assertTrue(user.isPresent());
         Assert.assertEquals(oneUser.getLogin(), user.get().getLogin());
         Assert.assertEquals(oneUser.getPassword(), user.get().getPassword());
@@ -86,7 +86,7 @@ public class UserRepositoryImplTest {
     @Test
     public void checkExistUser() {
         User oneUser = new User("T", "T");
-        Optional<User> user = userRepository.getUser(oneUser);
+        Optional<User> user = userRepository.getUserByAllField(oneUser);
         Assert.assertFalse(user.isPresent());
     }
 
