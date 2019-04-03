@@ -13,6 +13,7 @@ import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -82,7 +83,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<Author> getAuthorByFio(String firstName, String lastName) {
         Optional<Author> author = Optional.empty();
-        if (!firstName.isEmpty() && !lastName.isEmpty()) {
+        if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
             author = authorRepository.getAuthorByFio(firstName, lastName);
         }
         return author;

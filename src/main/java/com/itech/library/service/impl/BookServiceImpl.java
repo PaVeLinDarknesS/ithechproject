@@ -10,6 +10,7 @@ import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<Book> getBooksByAuthorFio(String firstName, String lastName) {
         List<Book> books = new ArrayList<>();
-        if (!firstName.isEmpty() && !lastName.isEmpty()) {
+        if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
             books = bookRepository.getBooksByAuthorFio(firstName, lastName);
         }
         return books;
@@ -41,6 +42,11 @@ public class BookServiceImpl implements BookService {
     @Override
     public Optional<Book> getBookByTitle(String title) {
         return bookRepository.getBookByTitle(title);
+    }
+
+    @Override
+    public Optional<Book> getBookById(int id) {
+        return bookRepository.getBookById(id);
     }
 
     @Override

@@ -42,9 +42,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkExistUser(UserDto userDto) {
-        boolean result = false;
-        result = userRepository.getUserByAllField(userConverter.dtoToEntity(userDto)).isPresent();
-        return result;
+        return userRepository.getUserByAllField(userConverter.dtoToEntity(userDto)).isPresent();
     }
 
     @Override

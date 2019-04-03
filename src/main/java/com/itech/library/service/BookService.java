@@ -16,6 +16,8 @@ public interface BookService {
 
     Optional<Book> getBookByTitle(String title);
 
+    Optional<Book> getBookById(int id);
+
     Book addBook(BookDto book);
 
     Book updateBook(BookDto book) throws BookNotFoundException;

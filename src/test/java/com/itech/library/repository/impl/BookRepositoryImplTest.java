@@ -12,7 +12,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -84,16 +83,16 @@ public class BookRepositoryImplTest {
     public void deleteBookPositive() {
         Book deleteBook = new Book("Deletebook", 2018, 2);
         bookRepository.addBook(deleteBook);
-        Assert.assertTrue(bookRepository.findOne(deleteBook).isPresent());
+        Assert.assertTrue(bookRepository.getBookByTitle(deleteBook.getTitle()).isPresent());
         Book book = bookRepository.deleteBook(deleteBook);
         Assert.assertEquals(deleteBook, book);
-        Assert.assertFalse(bookRepository.findOne(deleteBook).isPresent());
+        Assert.assertFalse(bookRepository.getBookByTitle(deleteBook.getTitle()).isPresent());
     }
 
     @Test
     public void deleteBookNegative() {
         Book deleteBook = new Book("Deletebook", 2018, 2);
-        Assert.assertFalse(bookRepository.findOne(deleteBook).isPresent());
+        Assert.assertFalse(bookRepository.getBookByTitle(deleteBook.getTitle()).isPresent());
         Book book = bookRepository.deleteBook(deleteBook);
         Assert.assertNull(book.getId());
     }
@@ -120,7 +119,7 @@ public class BookRepositoryImplTest {
     @Test
     public void findOnePositive() {
         Book oneBook = new Book("Title1", 2010, 2);
-        Optional<Book> book = bookRepository.findOne(oneBook);
+        Optional<Book> book = bookRepository.getBookByTitle(oneBook.getTitle());
         Assert.assertTrue(book.isPresent());
         Assert.assertEquals(oneBook.getTitle(), book.get().getTitle());
         Assert.assertEquals(oneBook.getCount(), book.get().getCount());
@@ -130,7 +129,7 @@ public class BookRepositoryImplTest {
     @Test
     public void findOneNegative() {
         Book oneBook = new Book("None", 1111, 1);
-        Optional<Book> book = bookRepository.findOne(oneBook);
+        Optional<Book> book = bookRepository.getBookByTitle(oneBook.getTitle());
         Assert.assertFalse(book.isPresent());
     }
 
