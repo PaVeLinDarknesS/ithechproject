@@ -53,7 +53,6 @@ public class AuthorRepositoryImpl implements AuthorRepository {
     public List<Author> getAllAuthors() {
         Session session = sessionFactory.getCurrentSession();
         Query<Author> query = session.createQuery("from Author", Author.class);
-        List<Author> authors = query.list();
         return query.list();
     }
 
