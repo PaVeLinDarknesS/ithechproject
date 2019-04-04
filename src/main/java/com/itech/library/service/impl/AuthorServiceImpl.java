@@ -5,12 +5,15 @@ import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
+import com.itech.library.exeption.AuthorNotFoundException;
+import com.itech.library.exeption.DeleteAuthorContainBookException;
 import com.itech.library.repository.AuthorRepository;
 import com.itech.library.service.AuthorService;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -30,7 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 
     @Override
-    public AuthorDto addAuthor(AuthorDto author) {
+    public Author addAuthor(AuthorDto author) {
         Author addAuthor;
         Optional<Author> optionalAuthor = authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName());
         if (optionalAuthor.isPresent()) {
@@ -38,11 +41,11 @@ public class AuthorServiceImpl implements AuthorService {
         } else {
             addAuthor = authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author));
         }
-        return authorDtoConverter.entityToDto(addAuthor);
+        return addAuthor;
     }
 
     @Override
-    public AuthorDto updateAuthor(AuthorDto author) {
+    public Author updateAuthor(AuthorDto author) throws AuthorNotFoundException {
         Optional<Author> optionalAuthor = authorRepository.getAuthorById(author.getId());
         if (optionalAuthor.isPresent()) {
             Author findAuthor = optionalAuthor.get();
@@ -51,24 +54,25 @@ public class AuthorServiceImpl implements AuthorService {
             findAuthor.setLastName(author.getLastName());
 
             Author updateAuthor = authorRepository.updateAuthor(findAuthor);
-            return authorDtoConverter.entityToDto(updateAuthor);
+            return updateAuthor;
         }
-        return new AuthorDto(-1);
+        throw new AuthorNotFoundException("Author with id_" + author.getId() + "_ don't found");
     }
 
     @Override
     @Transactional
-    public AuthorDto deleteAuthor(AuthorDto author) {
+    public Author deleteAuthor(AuthorDto author) throws AuthorNotFoundException, DeleteAuthorContainBookException {
         Optional<Author> findAuthorOptional = authorRepository.getAuthorById(author.getId());
         if (findAuthorOptional.isPresent()) {
             Author findAuthor = findAuthorOptional.get();
             if (!CollectionUtils.isEmpty(findAuthor.getBooks())) {
-                return new AuthorDto(0);
+                throw new DeleteAuthorContainBookException(
+                        "Author " + author.getFirstName() + " " + author.getLastName() + " contain Book");
             }
             Author deleteAuthor = authorRepository.deleteAuthor(findAuthor);
-            return authorDtoConverter.entityToDto(deleteAuthor);
+            return deleteAuthor;
         }
-        return new AuthorDto(-1);
+        throw new AuthorNotFoundException("Author with id_" + author.getId() + "_ don't found");
     }
 
     @Override
@@ -79,7 +83,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<Author> getAuthorByFio(String firstName, String lastName) {
         Optional<Author> author = Optional.empty();
-        if (!firstName.isEmpty() && !lastName.isEmpty()) {
+        if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
             author = authorRepository.getAuthorByFio(firstName, lastName);
         }
         return author;

@@ -2,6 +2,8 @@ package com.itech.library.service;
 
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
+import com.itech.library.exeption.BookNotFoundException;
+import com.itech.library.exeption.DeleteBookHaveByUserException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,9 +16,11 @@ public interface BookService {
 
     Optional<Book> getBookByTitle(String title);
 
-    BookDto addBook(BookDto book);
+    Optional<Book> getBookById(int id);
 
-    BookDto updateBook(BookDto book);
+    Book addBook(BookDto book);
 
-    BookDto deleteBook(BookDto book);
+    Book updateBook(BookDto book) throws BookNotFoundException;
+
+    Book deleteBook(BookDto book) throws BookNotFoundException, DeleteBookHaveByUserException;
 }

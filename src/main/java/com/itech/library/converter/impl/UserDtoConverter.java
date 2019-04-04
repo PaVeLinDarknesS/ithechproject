@@ -3,9 +3,9 @@ package com.itech.library.converter.impl;
 import com.itech.library.converter.DtoConverter;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.User;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 public class UserDtoConverter implements DtoConverter<UserDto, User> {
 
     @Override

@@ -7,7 +7,7 @@
         <h1>Hello</h1>
 
 
-        <form action="/hello1" modelAttribute="bookPojo" method="post">
+        <form action="/hello1" modelAttribute="bookDto" method="post">
             <input type="text" id="title">
             <input type="text" id="count">
             <input type="submit" value="Submit" />

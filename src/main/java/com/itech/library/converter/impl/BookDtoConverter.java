@@ -23,21 +23,6 @@ public class BookDtoConverter implements DtoConverter<BookDto, Book> {
                     .setTitle(book.getTitle())
                     .setCount(book.getCount())
                     .setYear(book.getYear())
-                    .build();
-            return bookDto;
-        }
-        return null;
-    }
-
-    public BookDto entityToPojoWithAuthor(Book book) {
-        if (book != null) {
-            AuthorDto authorDto = authorDtoConverter.entityToDto(book.getAuthor());
-
-            BookDto bookDto = new BookDto.Builder()
-                    .setId(book.getId())
-                    .setTitle(book.getTitle())
-                    .setCount(book.getCount())
-                    .setYear(book.getYear())
                     .setAuthor(authorDto)
                     .build();
             return bookDto;

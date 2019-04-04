@@ -28,6 +28,8 @@
 
         <!-- External libraries-bom versions -->
         <spring-framework-bom.version>5.1.1.RELEASE</spring-framework-bom.version>
+        <spring-boot-dependencies.version>2.1.0.RELEASE</spring-boot-dependencies.version>
+        <hibernate-validator.version>6.0.5.Final</hibernate-validator.version>
     </properties>
 
 
@@ -167,7 +169,7 @@
         <dependency>
             <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.0.13.Final</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <dependency>
@@ -224,6 +226,14 @@
 
     <dependencyManagement>
         <dependencies>
+
+            <!--<dependency>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-dependencies</artifactId>-->
+                <!--<version>${spring-boot-dependencies.version}</version>-->
+                <!--<type>pom</type>-->
+                <!--<scope>provided</scope>-->
+            <!--</dependency>-->
 
             <dependency>
                 <groupId>org.springframework</groupId>

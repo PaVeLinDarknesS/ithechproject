@@ -4,6 +4,8 @@ import com.itech.library.config.WebConfig;
 import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
+import com.itech.library.exeption.BookNotFoundException;
+import com.itech.library.exeption.DeleteBookHaveByUserException;
 import com.itech.library.service.BookService;
 import org.junit.Assert;
 import org.junit.Test;
@@ -53,28 +55,28 @@ public class BookServiceImplTest {
         BookDto bookDto = new BookDto.Builder().setTitle("My").setCount(1).build();
         BookDto bookDto1 = new BookDto.Builder().setTitle("Title1").setCount(1).build();
 
-        BookDto addNewBook = bookService.addBook(bookDto);
-        BookDto addExistBook = bookService.addBook(bookDto1);
+        Book addNewBook = bookService.addBook(bookDto);
+        Book addExistBook = bookService.addBook(bookDto1);
 
-        Assert.assertEquals(0, addExistBook.getId().intValue());
+        Assert.assertEquals(1, addExistBook.getId().intValue());
         Assert.assertNotEquals(0, addNewBook.getId().intValue());
     }
 
     @Test
     @Transactional
-    public void updateBook() {
+    public void updateBook() throws BookNotFoundException {
         Book getBook = bookService.getBookByTitle("Title1").get();
         getBook.setYear(1111);
 
-        BookDto updateBookDto = bookService.updateBook(bookConverter.entityToDto(getBook));
+        Book updateBookDto = bookService.updateBook(bookConverter.entityToDto(getBook));
         Assert.assertEquals(getBook.getId(), updateBookDto.getId());
     }
 
     @Test
     @Transactional
-    public void deleteBook() {
+    public void deleteBook() throws BookNotFoundException, DeleteBookHaveByUserException {
         Book getBook = bookService.getBookByTitle("Title3").get();
-        BookDto deleteBook = bookService.deleteBook(bookConverter.entityToDto(getBook));
+        Book deleteBook = bookService.deleteBook(bookConverter.entityToDto(getBook));
         Optional<Book> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
     }
