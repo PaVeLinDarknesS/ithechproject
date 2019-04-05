@@ -28,12 +28,20 @@
         <b>Count</b> - ${book.getCount()} <br />
         <hr />
         <b>Author</b> -
-        ${author.getFirstName()}
-        ${author.getLastName()}
+        <c:choose>
+            <c:when test="${author!=null}">
+                    ${author.getFirstName()}
+                    ${author.getLastName()} 
+            </c:when>    
+            <c:otherwise>
+                <strike> not </strike>
+            </c:otherwise>
+    </c:choose>
         <hr />
         <hr />
 
         <a href="/book/${book.getId()}/update">Update</a>
+
         <form action="/book/${book.getId()}/delete" method="POST">
             <input type="submit" name="button" value="Delete" onclick="return confirmDelete()">
         </form>

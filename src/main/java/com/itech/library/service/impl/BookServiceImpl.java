@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -76,16 +77,17 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book deleteBook(BookDto book) throws BookNotFoundException, DeleteBookHaveByUserException {
-        Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
+    @Transactional
+    public Book deleteBook(int id) throws BookNotFoundException, DeleteBookHaveByUserException {
+        Optional<Book> findBookOptional = bookRepository.getBookById(id);
         if (findBookOptional.isPresent()) {
             Book findBook = findBookOptional.get();
             if (!CollectionUtils.isEmpty(findBook.getUsers())) {
-                throw new DeleteBookHaveByUserException("Book with id_" + book.getId() + "_ have some user");
+                throw new DeleteBookHaveByUserException("Book with id_" + id + "_ have some user");
             }
             Book deleteBook = bookRepository.deleteBook(findBook);
             return deleteBook;
         }
-        throw new BookNotFoundException("Book with id_" + book.getId() + "_ not found");
+        throw new BookNotFoundException("Book with id_" + id + "_ not found");
     }
 }

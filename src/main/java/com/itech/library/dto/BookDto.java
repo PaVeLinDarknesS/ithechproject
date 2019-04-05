@@ -1,7 +1,8 @@
 package com.itech.library.dto;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 public class BookDto {
@@ -9,10 +10,12 @@ public class BookDto {
 
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Title doesn't be empty")
     private String title;
     private Integer year;
-    @Min(0)
+
+    @NotNull(message = "Count not null")
+    @Positive(message = "Count always more then 0")
     private Integer count;
 
     private AuthorDto author;

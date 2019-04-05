@@ -76,7 +76,7 @@ public class BookServiceImplTest {
     @Transactional
     public void deleteBook() throws BookNotFoundException, DeleteBookHaveByUserException {
         Book getBook = bookService.getBookByTitle("Title3").get();
-        Book deleteBook = bookService.deleteBook(bookConverter.entityToDto(getBook));
+        Book deleteBook = bookService.deleteBook(getBook.getId());
         Optional<Book> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
     }

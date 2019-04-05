@@ -11,6 +11,7 @@
         <title>All Books</title>
     </head>
     <body>
+            <a href="/book/create">Add Book</a>
         <div>
             <ol>
                 <c:forEach items="${books}" var="item">
@@ -21,6 +22,12 @@
                     </li>
                 </c:forEach>
             </ol>
+        </div>
+        
+        <div>
+            <b>
+                ${message}
+            </b>
         </div>
     </body>
 

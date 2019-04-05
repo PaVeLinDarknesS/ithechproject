@@ -22,5 +22,5 @@ public interface BookService {
 
     Book updateBook(BookDto book) throws BookNotFoundException;
 
-    Book deleteBook(BookDto book) throws BookNotFoundException, DeleteBookHaveByUserException;
+    Book deleteBook(int id) throws BookNotFoundException, DeleteBookHaveByUserException;
 }
