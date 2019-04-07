@@ -52,13 +52,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(BookDto book) {
-        Optional<Book> findBook = bookRepository.getBookByTitle(book.getTitle());
-        if (findBook.isPresent()) {
-            return findBook.get();
-        } else {
-            Book addBook = bookRepository.addBook(bookConverter.dtoToEntity(book));
-            return addBook;
-        }
+        return bookRepository.getBookByTitle(book.getTitle())
+                .orElseGet(() -> bookRepository.addBook(bookConverter.dtoToEntity(book)));
     }
 
     @Override
@@ -85,8 +80,7 @@ public class BookServiceImpl implements BookService {
             if (!CollectionUtils.isEmpty(findBook.getUsers())) {
                 throw new DeleteBookHaveByUserException("Book with id_" + id + "_ have some user");
             }
-            Book deleteBook = bookRepository.deleteBook(findBook);
-            return deleteBook;
+            return bookRepository.deleteBook(findBook);
         }
         throw new BookNotFoundException("Book with id_" + id + "_ not found");
     }

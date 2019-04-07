@@ -34,10 +34,8 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Author addAuthor(AuthorDto author) {
-        Author addAuthor;
-        Optional<Author> optionalAuthor = authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName());
-        addAuthor = optionalAuthor.orElseGet(() -> authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author)));
-        return addAuthor;
+        return authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName())
+                .orElseGet(() -> authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author)));
     }
 
     @Override
@@ -64,7 +62,7 @@ public class AuthorServiceImpl implements AuthorService {
                 throw new DeleteAuthorContainBookException(
                         "Author " + findAuthor.getFirstName() + " " + findAuthor.getLastName() + " contain Book");
             }
-            return  authorRepository.deleteAuthor(findAuthor);
+            return authorRepository.deleteAuthor(findAuthor);
         }
         throw new AuthorNotFoundException("Author with id_" + id + "_ don't found");
     }
