@@ -15,11 +15,13 @@ public interface AuthorService {
 
     Author updateAuthor(AuthorDto author) throws AuthorNotFoundException;
 
-    Author deleteAuthor(AuthorDto author) throws AuthorNotFoundException, DeleteAuthorContainBookException;
+    Author deleteAuthor(int id) throws AuthorNotFoundException, DeleteAuthorContainBookException;
 
     List<Author> getAllAuthors();
 
     Optional<Author> getAuthorByFio(String firstName, String lastName);
+
+    Optional<Author> getAuthorById(int id);
 
     boolean addBookInAuthor(BookDto bookDto, AuthorDto authorDto);
 

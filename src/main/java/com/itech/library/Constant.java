@@ -12,6 +12,13 @@ public class Constant {
             public static final String CREATE = "/book/createBook";
         }
 
+        public static class Author {
+            public static final String ALL = "/author/allAuthor";
+            public static final String ONE = "/author/oneAuthor";
+            public static final String UPDATE = "/author/updatAauthor";
+            public static final String CREATE = "/author/createAuthor";
+        }
+
         public static class Error {
             public static final String ERROR = "/error/error";
         }

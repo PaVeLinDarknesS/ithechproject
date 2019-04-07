@@ -108,7 +108,7 @@ public class BookController {
 
     // Create Book
     @GetMapping("/book/create")
-    public ModelAndView addBookById() {
+    public ModelAndView showAddBookPage() {
         ModelAndView modelAndView = new ModelAndView();
 
         modelAndView.addObject("book", new Book());
