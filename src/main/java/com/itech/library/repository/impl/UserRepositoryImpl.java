@@ -45,10 +45,9 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> getUserByAllField(User user) {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("from User as u " +
-                "where u.id = :id " +
-                "and u.login = :login " +
+                "where u.login = :login " +
                 "and u.password = :pass", User.class);
-        query.setParameter("id", user.getId());
+
         query.setParameter("login", user.getLogin());
         query.setParameter("pass", user.getPassword());
         return query.uniqueResultOptional();

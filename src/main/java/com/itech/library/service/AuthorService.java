@@ -3,11 +3,13 @@ package com.itech.library.service;
 import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
+import com.itech.library.entity.Book;
 import com.itech.library.exeption.AuthorNotFoundException;
 import com.itech.library.exeption.DeleteAuthorContainBookException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public interface AuthorService {
 
@@ -27,4 +29,5 @@ public interface AuthorService {
 
     boolean removeBookInAuthor(BookDto bookDto, AuthorDto authorDto);
 
+    Set<Book> getBooksByAuthorId(int authorId);
 }

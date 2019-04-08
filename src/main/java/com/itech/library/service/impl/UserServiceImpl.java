@@ -1,6 +1,5 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.UserDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.Book;
@@ -26,9 +25,6 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private UserDtoConverter userConverter;
-
-    @Autowired
     private BookRepository bookRepository;
 
     @Override
@@ -42,14 +38,16 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean checkExistUser(UserDto userDto) {
-        return userRepository.getUserByAllField(userConverter.dtoToEntity(userDto)).isPresent();
+        return userRepository.getUserByAllField(
+                new User(userDto.getLogin(), userDto.getPassword())
+        ).isPresent();
     }
 
     @Override
     public User addUser(UserDto user) throws UserExistException {
         Optional<User> optionalUser = userRepository.getUserByLogin(user.getLogin());
         if (!optionalUser.isPresent()) {
-            return userRepository.addUser(userConverter.dtoToEntity(user));
+            return userRepository.addUser(new User(user.getLogin(), user.getPassword()));
         } else {
             throw new UserExistException("User with login_" + user.getLogin() + "_ exist");
         }
@@ -71,7 +69,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User deleteUser(UserDto userDto) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.getUserByAllField(userConverter.dtoToEntity(userDto));
+        Optional<User> optionalUser = userRepository.getUserByAllField(
+                new User(userDto.getLogin(), userDto.getPassword()));
+
         if (optionalUser.isPresent()) {
             removeAllBookInUser(userDto);
             return userRepository.deleteUser(optionalUser.get());
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
             User user = userOptional.get();
             Set<Book> books = user.getBooks();
 
-            books.stream().forEach(book -> {
+            books.forEach(book -> {
                 book.getUsers().remove(user);
                 book.setCount(book.getCount() + 1);
             });

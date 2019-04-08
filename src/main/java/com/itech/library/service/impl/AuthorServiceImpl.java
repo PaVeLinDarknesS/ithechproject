@@ -1,6 +1,5 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.AuthorDtoConverter;
 import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
@@ -16,8 +15,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -28,14 +29,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private AuthorDtoConverter authorDtoConverter;
-
 
     @Override
     public Author addAuthor(AuthorDto author) {
         return authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName())
-                .orElseGet(() -> authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author)));
+                .orElseGet(() -> authorRepository.addAuthor(
+                        new Author(author.getFirstName(), author.getLastName())
+                ));
     }
 
     @Override
@@ -116,5 +116,15 @@ public class AuthorServiceImpl implements AuthorService {
         return result;
     }
 
-
+    @Override
+    @Transactional
+    public Set<Book> getBooksByAuthorId(int authorId) {
+        Set<Book> books = new HashSet<>();
+        Optional<Author> authorByFio = authorRepository.getAuthorById(authorId);
+        if (authorByFio.isPresent()) {
+            authorByFio.get().getBooks().size();
+            books = authorByFio.get().getBooks();
+        }
+        return books;
+    }
 }

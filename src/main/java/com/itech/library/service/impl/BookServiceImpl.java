@@ -1,11 +1,11 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
 import com.itech.library.exeption.BookNotFoundException;
 import com.itech.library.exeption.DeleteBookHaveByUserException;
 import com.itech.library.repository.BookRepository;
+import com.itech.library.service.AuthorService;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,7 +24,8 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Autowired
-    private BookDtoConverter bookConverter;
+    private AuthorService authorService;
+
 
     @Override
     public List<Book> getAllBooks() {
@@ -53,7 +54,12 @@ public class BookServiceImpl implements BookService {
     @Override
     public Book addBook(BookDto book) {
         return bookRepository.getBookByTitle(book.getTitle())
-                .orElseGet(() -> bookRepository.addBook(bookConverter.dtoToEntity(book)));
+                .orElseGet(() -> bookRepository.addBook(new Book(
+                        book.getTitle(),
+                        book.getYear(),
+                        book.getCount(),
+                        authorService.getAuthorById(book.getAuthorId()).orElse(null)
+                )));
     }
 
     @Override
@@ -65,6 +71,7 @@ public class BookServiceImpl implements BookService {
             findBook.setTitle(book.getTitle());
             findBook.setCount(book.getCount());
             findBook.setYear(book.getYear());
+            findBook.setAuthor(authorService.getAuthorById(book.getAuthorId()).orElse(null));
 
             return bookRepository.updateBook(findBook);
         }
