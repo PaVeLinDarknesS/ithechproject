@@ -19,6 +19,10 @@ public class Constant {
             public static final String CREATE = "/author/createAuthor";
         }
 
+        public static class User {
+            public static final String LOGIN = "/user/login";
+        }
+
         public static class Error {
             public static final String ERROR_BOOK = "/error/errorBook";
             public static final String ERROR_AUTHOR = "/error/errorAuthor";

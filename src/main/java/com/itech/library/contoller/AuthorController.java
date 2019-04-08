@@ -20,8 +20,6 @@ import java.util.Optional;
 @Controller
 public class AuthorController {
 
-    //з
-
     @Autowired
     private AuthorService authorService;
 
@@ -43,6 +41,7 @@ public class AuthorController {
         Optional<Author> author = authorService.getAuthorById(id);
         if (author.isPresent()) {
             modelAndView.addObject("author", author.get());
+            modelAndView.addObject("books", authorService.getBooksByAuthorId(author.get().getId()));
             modelAndView.setViewName(Constant.View.Author.ONE);
         } else {
             modelAndView.addObject("error", "Author with Id = " + id + " don't find");
@@ -53,7 +52,7 @@ public class AuthorController {
     }
 
 
-    // Delete Book
+    // Delete Author
     @PostMapping("/author/{id}/delete")
     public ModelAndView deleteAuthor(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -70,7 +69,7 @@ public class AuthorController {
     }
 
 
-    // Update Book
+    // Update Author
     @GetMapping("/author/{id}/update")
     public ModelAndView updateAuthorById(@PathVariable("id") Integer id) {
         ModelAndView modelAndView = new ModelAndView();
@@ -110,7 +109,7 @@ public class AuthorController {
     }
 
 
-    // Create Book
+    // Create Author
     @GetMapping("/author/create")
     public ModelAndView showAddAuthorPage() {
         ModelAndView modelAndView = new ModelAndView();

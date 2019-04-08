@@ -27,7 +27,7 @@ public class HelloController {
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public ResponseEntity<?> getHelloPage() {
-        return new ResponseEntity<>(new BookDto.Builder().setTitle("as").build(), HttpStatus.OK);
+        return new ResponseEntity<>(new BookDto(), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/hello1", method = RequestMethod.POST)

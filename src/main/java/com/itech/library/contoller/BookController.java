@@ -5,6 +5,7 @@ import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
 import com.itech.library.exeption.BookNotFoundException;
 import com.itech.library.exeption.DeleteBookHaveByUserException;
+import com.itech.library.service.AuthorService;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,9 @@ public class BookController {
 
     @Autowired
     private BookService bookService;
+
+    @Autowired
+    private AuthorService authorService;
 
     // Get Book
     @GetMapping("/book/")
@@ -74,6 +78,7 @@ public class BookController {
         Optional<Book> book = bookService.getBookById(id);
         if (book.isPresent()) {
             modelAndView.addObject("book", book.get());
+            modelAndView.addObject("authors" ,  authorService.getAllAuthors());
             modelAndView.setViewName(Constant.View.Book.UPDATE);
         } else {
             modelAndView.addObject("error", "Book with Id = " + id + " don't find");
@@ -111,7 +116,8 @@ public class BookController {
     public ModelAndView showAddBookPage() {
         ModelAndView modelAndView = new ModelAndView();
 
-        modelAndView.addObject("book", new Book());
+        modelAndView.addObject("book", new BookDto());
+        modelAndView.addObject("authors" ,  authorService.getAllAuthors());
         modelAndView.setViewName(Constant.View.Book.CREATE);
         return modelAndView;
     }
@@ -122,6 +128,7 @@ public class BookController {
 
         if (result.hasErrors()) {
             modelAndView.addObject("book", bookDto);
+            modelAndView.addObject("authors" ,  authorService.getAllAuthors());
             modelAndView.addObject("errors", result.getAllErrors());
             modelAndView.setViewName(Constant.View.Book.CREATE);
         } else {
