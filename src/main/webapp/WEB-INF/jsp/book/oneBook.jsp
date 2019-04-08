@@ -26,12 +26,12 @@
         <b>Author</b> -
         <c:choose>
             <c:when test="${author!=null}">
-                ${author.toString()}
+                <a href="/author/${author.getId()}">${author.toString()}</a>
             </c:when>    
             <c:otherwise>
                 <strike> not </strike>
             </c:otherwise>
-    </c:choose>
+        </c:choose>
         <hr />
         <hr />
 

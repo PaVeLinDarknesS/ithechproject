@@ -3,7 +3,8 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.itech.library.entity.*" %>
+<%@ page import="com.itech.library.dto.*" %>
+<c:set var="author" value="${book.getAuthorId()}" />
 
 <html lang="en">
 
@@ -32,16 +33,33 @@
     <div>
         <form action="/book/create" method="POST">
         
-            <p><b>Title:</b><br>
+            <p><b>Title:</b><br />
                 <input name="title" value="${book.getTitle()}"/>
             </p>
             
-            <p><b>Year:</b><br>
+            <p><b>Year:</b><br />
                 <input name="year" value="${book.getYear()}"/>
             </p>
 
-            <p><b>Count:</b><br>
+            <p><b>Count:</b><br />
                 <input name="count" type="number" value="${book.getCount()}"/>
+            </p>
+
+            <p>
+                <b>Author:</b> <br />
+                <select name="authorId">
+                    <option value="0" selected>none</option>
+                    <c:forEach items="${authors}" var="item">
+                        <c:choose>
+                            <c:when test="${item.getId().equals(author)}">
+                                <option value="${item.getId()}" selected>${item.toString()}</option>
+                            </c:when>    
+                            <c:otherwise>
+                                <option value="${item.getId()}">${item.toString()}</option>   
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select>
             </p>
 
             <hr />

@@ -62,13 +62,13 @@ public class AuthorServiceImplTest {
     @Test
     @Ignore
     public void addBookInAuthor() {
-        BookDto bookDto = new BookDto.Builder().setTitle("Title4").build();
+        /*BookDto bookDto = new BookDto.Builder().setTitle("Title4").build();
         BookDto bookDto1 = new BookDto.Builder().setTitle("Title3").build();
         AuthorDto authorDto = new AuthorDto.Builder()
                 .setFirstName("First1")
                 .setLastName("Last1")
                 .build();
-
+*/
         //authorService.addBookInAuthor(bookDto, authorDto);
         //authorService.addBookInAuthor(bookDto1, authorDto);
         Assert.assertFalse(false);
@@ -77,12 +77,12 @@ public class AuthorServiceImplTest {
     @Test
     @Ignore
     public void removeBookInAuthor_ifAuthorNotContainBook_false() {
-        BookDto bookDto = new BookDto.Builder().setTitle("Title3").build();
+       /* BookDto bookDto = new BookDto.Builder().setTitle("Title3").build();
         AuthorDto authorDto = new AuthorDto.Builder()
                 .setFirstName("First1")
                 .setLastName("Last1")
                 .build();
-
+*/
         //boolean result = authorService.removeBookInAuthor(bookDto, authorDto);
         //Assert.assertFalse(result);
     }
@@ -90,12 +90,12 @@ public class AuthorServiceImplTest {
     @Test
     @Ignore
     public void removeBookInAuthor_ifAuthorContainBook_true() {
-        BookDto bookDto = new BookDto.Builder().setTitle("Title2").build();
+        /*BookDto bookDto = new BookDto.Builder().setTitle("Title2").build();
         AuthorDto authorDto = new AuthorDto.Builder()
                 .setFirstName("First1")
                 .setLastName("Last1")
                 .build();
-
+*/
         //boolean result = authorService.removeBookInAuthor(bookDto, authorDto);
         //Assert.assertTrue(result);
     }

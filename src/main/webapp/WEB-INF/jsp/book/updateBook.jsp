@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.itech.library.entity.*" %>
+<c:set var="author" value="${book.getAuthor()}" />
 
 <html lang="en">
 
@@ -12,11 +13,7 @@
 
     <script type="text/javascript">
         function confirmUpdate() {
-            if (confirm("Do you want update book '${book.getTitle()}'?")) {
-                return true;
-            } else {
-                return false;
-            }
+            return confirm("Do you want update book '${book.getTitle()}'?");
         }
     </script>
 </head>
@@ -46,6 +43,23 @@
             
             <p><b>Count:</b><br>
                 <input name="count" value="${book.getCount()}"/>
+            </p>
+
+            <p>
+                <b>Author:</b> <br />
+                <select name="authorId">
+                    <option value="0" selected>none</option>
+                    <c:forEach items="${authors}" var="item">
+                        <c:choose>
+                            <c:when test="${item.equals(author)}">
+                                <option value="${item.getId()}" selected>${item.toString()}</option>
+                            </c:when>    
+                            <c:otherwise>
+                                <option value="${item.getId()}">${item.toString()}</option>   
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </select>
             </p>
 
             <hr />

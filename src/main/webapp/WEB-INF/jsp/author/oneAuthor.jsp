@@ -3,8 +3,8 @@
 <%@ page import="java.util.*, java.text.*" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.util.Set" %>
 <%@ page import="com.itech.library.entity.*" %>
-<!-- <c:set var="books" value="${author.getBooks()}" /> -->
 
 <html lang="en">
 
@@ -23,9 +23,8 @@
         <b>Last name</b> - ${author.getLastName()}, <br />
         <hr />
         <b>Books</b> -
-        <!-- TODO -->
         <c:choose>
-            <c:when test="${books==null}">
+            <c:when test="${!books.isEmpty()}">
                 <c:forEach items="${books}" var="item">
                     <li> 
                         <a href="/book/${item.getId()}">
