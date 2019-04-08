@@ -43,7 +43,7 @@ public class BookController {
             modelAndView.setViewName(Constant.View.Book.ONE);
         } else {
             modelAndView.addObject("error", "Book with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
         }
         return modelAndView;
     }
@@ -56,10 +56,10 @@ public class BookController {
 
         try {
             Book book = bookService.deleteBook(id);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS);
+            modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
             modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful delete");
         } catch (BookNotFoundException | DeleteBookHaveByUserException e) {
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
             modelAndView.addObject("error", e.getMessage());
         }
         return modelAndView;
@@ -77,7 +77,7 @@ public class BookController {
             modelAndView.setViewName(Constant.View.Book.UPDATE);
         } else {
             modelAndView.addObject("error", "Book with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
         }
 
         return modelAndView;
@@ -95,11 +95,11 @@ public class BookController {
 
             try {
                 Book book = bookService.updateBook(bookDto);
-                modelAndView.setViewName(Constant.View.Success.SUCCESS);
+                modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
                 modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful Update");
             } catch (BookNotFoundException e) {
                 modelAndView.addObject("error", e.getMessage());
-                modelAndView.setViewName(Constant.View.Error.ERROR);
+                modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
             }
         }
         return modelAndView;
@@ -126,7 +126,7 @@ public class BookController {
             modelAndView.setViewName(Constant.View.Book.CREATE);
         } else {
             Book book = bookService.addBook(bookDto);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS);
+            modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
             modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful Create");
         }
         return modelAndView;

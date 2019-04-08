@@ -8,12 +8,11 @@
 <html lang="en">
 
 <head>
-    <title>Create Book</title>
+    <title>Create Author</title>
 
     <script type="text/javascript">
         function confirmCreate() {
-            var message = document.getElementsById('title').value;
-            return confirm("Do you want save book '"+message+"'?");
+            return confirm("Do you want save new author ?");
         }
     </script>
 </head>
@@ -30,18 +29,14 @@
         </ol>
     </div>
     <div>
-        <form action="/book/create" method="POST">
+        <form action="/author/create" method="POST">
         
-            <p><b>Title:</b><br>
-                <input name="title" value="${book.getTitle()}"/>
+            <p><b>First name:</b><br>
+                <input name="firstName" value="${author.getFirstName()}"/>
             </p>
             
-            <p><b>Year:</b><br>
-                <input name="year" value="${book.getYear()}"/>
-            </p>
-
-            <p><b>Count:</b><br>
-                <input name="count" type="number" value="${book.getCount()}"/>
+            <p><b>Last name:</b><br>
+                <input name="lastName" value="${author.getLastName()}"/>
             </p>
 
             <hr />
@@ -49,7 +44,7 @@
             <input type="submit" name="button" value="Create" onclick="return confirmCreate()"> 
         
         </form>
-        <a href="/book/">All Books</a>
+        <a href="/author/">All Authors</a>
     </div>
 </body>
 </html>

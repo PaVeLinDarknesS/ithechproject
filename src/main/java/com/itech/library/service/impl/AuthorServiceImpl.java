@@ -84,7 +84,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public Optional<Author> getAuthorById(int id) {
         Optional<Author> author = Optional.empty();
-        if (id <= 0) {
+        if (id > 0) {
             author = authorRepository.getAuthorById(id);
         }
         return author;

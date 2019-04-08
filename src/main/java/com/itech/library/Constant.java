@@ -15,16 +15,18 @@ public class Constant {
         public static class Author {
             public static final String ALL = "/author/allAuthor";
             public static final String ONE = "/author/oneAuthor";
-            public static final String UPDATE = "/author/updatAauthor";
+            public static final String UPDATE = "/author/updateAuthor";
             public static final String CREATE = "/author/createAuthor";
         }
 
         public static class Error {
-            public static final String ERROR = "/error/error";
+            public static final String ERROR_BOOK = "/error/errorBook";
+            public static final String ERROR_AUTHOR = "/error/errorAuthor";
         }
 
         public static class Success {
-            public static final String SUCCESS = "/success/success";
+            public static final String SUCCESS_BOOK = "/success/successBook";
+            public static final String SUCCESS_AUTHOR = "/success/successAuthor";
         }
 
         public static final String HELLO = "/hello";

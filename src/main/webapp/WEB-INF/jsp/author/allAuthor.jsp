@@ -8,15 +8,15 @@
 
 <html lang="en">
     <head>
-        <title>All Books</title>
+        <title>All Authors</title>
     </head>
     <body>
-            <a href="/book/create">Add Book</a>
+            <a href="/author/create">Add Author</a>
         <div>
             <ol>
-                <c:forEach items="${books}" var="item">
+                <c:forEach items="${authors}" var="item">
                     <li> 
-                        <a href="/book/${item.getId()}">
+                        <a href="/author/${item.getId()}">
                             ${item.toString()}
                         </a>
                     </li>

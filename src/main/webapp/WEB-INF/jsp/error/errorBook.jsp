@@ -15,7 +15,7 @@
     <h2>
         ${error}
     </h2>
-    <a href="/book/">All Book</a>
+    <a href="/book/">All Books</a>
 </body>
 
 </html>

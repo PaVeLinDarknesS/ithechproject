@@ -98,4 +98,9 @@ public class Book {
     public int hashCode() {
         return Objects.hash(id, title, year, count, author);
     }
+
+    @Override
+    public String toString() {
+        return title + ", " + year;
+    }
 }

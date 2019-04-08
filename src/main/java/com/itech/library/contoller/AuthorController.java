@@ -46,7 +46,7 @@ public class AuthorController {
             modelAndView.setViewName(Constant.View.Author.ONE);
         } else {
             modelAndView.addObject("error", "Author with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_AUTHOR);
         }
 
         return modelAndView;
@@ -60,10 +60,10 @@ public class AuthorController {
 
         try {
             Author author = authorService.deleteAuthor(id);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS);
+            modelAndView.setViewName(Constant.View.Success.SUCCESS_AUTHOR);
             modelAndView.addObject("message", "Author '" + author.toString() + "' was successful delete");
         } catch (DeleteAuthorContainBookException | AuthorNotFoundException e) {
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_AUTHOR);
             modelAndView.addObject("error", e.getMessage());
         }
         return modelAndView;
@@ -81,7 +81,7 @@ public class AuthorController {
             modelAndView.setViewName(Constant.View.Author.UPDATE);
         } else {
             modelAndView.addObject("error", "Author with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR);
+            modelAndView.setViewName(Constant.View.Error.ERROR_AUTHOR);
         }
 
         return modelAndView;
@@ -99,11 +99,11 @@ public class AuthorController {
 
             try {
                 Author author = authorService.updateAuthor(authorDto);
-                modelAndView.setViewName(Constant.View.Success.SUCCESS);
+                modelAndView.setViewName(Constant.View.Success.SUCCESS_AUTHOR);
                 modelAndView.addObject("message", "Author '" + author.toString() + "' was successful Update");
             } catch (AuthorNotFoundException e) {
                 modelAndView.addObject("error", e.getMessage());
-                modelAndView.setViewName(Constant.View.Error.ERROR);
+                modelAndView.setViewName(Constant.View.Error.ERROR_AUTHOR);
             }
         }
         return modelAndView;
@@ -130,7 +130,7 @@ public class AuthorController {
             modelAndView.setViewName(Constant.View.Author.CREATE);
         } else {
             Author author = authorService.addAuthor(authorDto);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS);
+            modelAndView.setViewName(Constant.View.Success.SUCCESS_AUTHOR);
             modelAndView.addObject("message", "Author '" + author.toString() + "' was successful Create");
         }
         return modelAndView;

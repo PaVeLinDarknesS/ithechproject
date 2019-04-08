@@ -12,11 +12,7 @@
     <title>${book.getTitle()}</title>
     <script type="text/javascript">
         function confirmDelete() {
-            if (confirm("Do you want delete book '${book.getTitle()}'")) {
-                return true;
-            } else {
-                return false;
-            }
+            return confirm("Do you want delete book '${book.getTitle()}'");
         }
     </script>
 </head>
@@ -30,8 +26,7 @@
         <b>Author</b> -
         <c:choose>
             <c:when test="${author!=null}">
-                    ${author.getFirstName()}
-                    ${author.getLastName()} 
+                ${author.toString()}
             </c:when>    
             <c:otherwise>
                 <strike> not </strike>
