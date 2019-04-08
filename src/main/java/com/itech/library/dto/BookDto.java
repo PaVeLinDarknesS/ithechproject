@@ -18,7 +18,7 @@ public class BookDto {
     @Positive(message = "Count always more then 0")
     private Integer count;
 
-    private AuthorDto author;
+    private Integer authorId;
 
     public BookDto() {
     }
@@ -32,9 +32,10 @@ public class BookDto {
         this.title = builder.title;
         this.year = builder.year;
         this.count = builder.count;
-        this.author = builder.author;
+        this.authorId = builder.authorId;
     }
 
+    // Get Set
     public Integer getId() {
         return id;
     }
@@ -67,20 +68,28 @@ public class BookDto {
         this.count = count;
     }
 
-    public AuthorDto getAuthor() {
-        return author;
+    public Integer getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 
-    public static class Builder {
+    //Builder
+    public static final class Builder {
         private Integer id;
         private String title;
         private Integer year;
         private Integer count;
-        private AuthorDto author;
+        private Integer authorId;
+
+        private Builder() {
+        }
+
+        public static Builder aBookDto() {
+            return new Builder();
+        }
 
         public Builder setId(Integer id) {
             this.id = id;
@@ -102,30 +111,30 @@ public class BookDto {
             return this;
         }
 
-        public Builder setAuthor(AuthorDto author) {
-            this.author = author;
+        public Builder setAuthorId(Integer authorId) {
+            this.authorId = authorId;
             return this;
         }
 
         public BookDto build() {
             return new BookDto(this);
         }
-    }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        BookDto bookDto = (BookDto) o;
-        return Objects.equals(id, bookDto.id) &&
-                Objects.equals(title, bookDto.title) &&
-                Objects.equals(year, bookDto.year) &&
-                Objects.equals(count, bookDto.count) &&
-                Objects.equals(author, bookDto.author);
-    }
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            BookDto bookDto = (BookDto) o;
+            return Objects.equals(id, bookDto.id) &&
+                    Objects.equals(title, bookDto.title) &&
+                    Objects.equals(year, bookDto.year) &&
+                    Objects.equals(count, bookDto.count) &&
+                    Objects.equals(authorId, bookDto.authorId);
+        }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, title, year, count, author);
+        @Override
+        public int hashCode() {
+            return Objects.hash(id, title, year, count, authorId);
+        }
     }
 }

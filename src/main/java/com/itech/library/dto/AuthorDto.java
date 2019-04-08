@@ -1,11 +1,15 @@
 package com.itech.library.dto;
 
+import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class AuthorDto {
 
     private Integer id;
+
+    @NotBlank(message = "First name doesn't be empty")
     private String firstName;
+    @NotBlank(message = "Last name doesn't be empty")
     private String lastName;
 
     public AuthorDto() {
@@ -15,12 +19,13 @@ public class AuthorDto {
         this.id = id;
     }
 
-    public AuthorDto(Builder builder) {
+    private AuthorDto(Builder builder) {
         this.id = builder.id;
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
     }
 
+    // Get Set
     public Integer getId() {
         return id;
     }
@@ -45,6 +50,7 @@ public class AuthorDto {
         this.lastName = lastName;
     }
 
+    // Builder
     public static class Builder {
         private Integer id;
         private String firstName;
