@@ -21,9 +21,9 @@
 <body>
     <div>
         <ol>
-            <c:forEach items="${errors}" var="bug">
+            <c:forEach items="${errors}" var="error">
                 <li> <b>
-                    ${bug.defaultMessage}
+                    ${error.defaultMessage}
                 </b>
                 </li>
             </c:forEach>
@@ -49,7 +49,7 @@
                 <b>Author:</b> <br />
                 <select name="authorId">
                     <option value="0" selected>none</option>
-                    <c:forEach items="${authors}" var="item">
+                    <c:forEach items="${authors}" var="oneAuthor">
                         <c:choose>
                             <c:when test="${item.equals(author)}">
                                 <option value="${item.getId()}" selected>${item.toString()}</option>

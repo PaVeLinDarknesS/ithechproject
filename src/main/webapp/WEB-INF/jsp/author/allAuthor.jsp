@@ -8,15 +8,19 @@
 
 <html lang="en">
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>All Authors</title>
+        <link rel="icon" href='<c:url value="/images/favicon.ico" />' type="image/x-icon">
     </head>
     <body>
+            <jsp:include page="../parts/header.jsp" flush="true"/>
+          
             <a href="/author/create">Add Author</a>
         <div>
             <ol>
-                <c:forEach items="${authors}" var="item">
+                <c:forEach items="${authors}" var="author">
                     <li> 
-                        <a href="/author/${item.getId()}">
+                        <a href="/author/${author.getId()}">
                             ${item.toString()}
                         </a>
                     </li>
@@ -30,5 +34,5 @@
             </b>
         </div>
     </body>
-
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </html>

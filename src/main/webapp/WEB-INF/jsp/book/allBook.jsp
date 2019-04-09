@@ -14,10 +14,10 @@
             <a href="/book/create">Add Book</a>
         <div>
             <ol>
-                <c:forEach items="${books}" var="item">
+                <c:forEach items="${books}" var="book">
                     <li> 
                         <a href="/book/${item.getId()}">
-                            ${item.toString()}
+                            ${book.toString()}
                         </a>
                     </li>
                 </c:forEach>

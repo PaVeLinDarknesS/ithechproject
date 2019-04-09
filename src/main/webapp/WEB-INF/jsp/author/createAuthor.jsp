@@ -20,9 +20,9 @@
 <body>
     <div>
         <ol>
-            <c:forEach items="${errors}" var="bug">
+            <c:forEach items="${errors}" var="error">
                 <li> <b>
-                    ${bug.defaultMessage}
+                    ${error.defaultMessage}
                 </b>
                 </li>
             </c:forEach>

@@ -9,13 +9,12 @@ import com.itech.library.service.AuthorService;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletRequest;
 import javax.validation.Valid;
 import java.util.Optional;
 
@@ -30,113 +29,109 @@ public class BookController {
 
     // Get Book
     @GetMapping("/book/")
-    public ModelAndView getAllBook(ServletRequest request) {
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.addObject("books", bookService.getAllBooks());
-        modelAndView.setViewName(Constant.View.Book.ALL);
-        return modelAndView;
+    public String getBooks(Model model) {
+        model.addAttribute("books", bookService.getAllBooks());
+        return Constant.View.Book.ALL;
     }
 
     @GetMapping("/book/{id}")
-    public ModelAndView getBookById(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView();
-
+    public String getBook(@PathVariable("id") Integer id, Model model) {
+        String view;
         Optional<Book> book = bookService.getBookById(id);
+
         if (book.isPresent()) {
-            modelAndView.addObject("book", book.get());
-            modelAndView.setViewName(Constant.View.Book.ONE);
+            model.addAttribute("book", book.get());
+            view = Constant.View.Book.ONE;
         } else {
-            modelAndView.addObject("error", "Book with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
+            model.addAttribute("error", "Book with Id = " + id + " don't find");
+            view = Constant.View.Error.ERROR_BOOK;
         }
-        return modelAndView;
+        return view;
     }
 
 
     // Delete Book
     @PostMapping("/book/{id}/delete")
-    public ModelAndView deleteBook(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String deleteBook(@PathVariable("id") Integer id, Model model) {
+        String view;
 
         try {
             Book book = bookService.deleteBook(id);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
-            modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful delete");
+            model.addAttribute("message", "Book '" + book.getTitle() + "' was successful delete");
+            view = Constant.View.Success.SUCCESS_BOOK;
         } catch (BookNotFoundException | DeleteBookHaveByUserException e) {
-            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
-            modelAndView.addObject("error", e.getMessage());
+            model.addAttribute("error", e.getMessage());
+            view = Constant.View.Error.ERROR_BOOK;
         }
-        return modelAndView;
+        return view;
     }
 
 
     // Update Book
     @GetMapping("/book/{id}/update")
-    public ModelAndView updateBookById(@PathVariable("id") Integer id) {
-        ModelAndView modelAndView = new ModelAndView();
-
+    public String updateBook(@PathVariable("id") Integer id, Model model) {
+        String view;
         Optional<Book> book = bookService.getBookById(id);
+
         if (book.isPresent()) {
-            modelAndView.addObject("book", book.get());
-            modelAndView.addObject("authors" ,  authorService.getAllAuthors());
-            modelAndView.setViewName(Constant.View.Book.UPDATE);
+            model.addAttribute("book", book.get());
+            model.addAttribute("authors", authorService.getAllAuthors());
+            view = Constant.View.Book.UPDATE;
         } else {
-            modelAndView.addObject("error", "Book with Id = " + id + " don't find");
-            modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
+            model.addAttribute("error", "Book with Id = " + id + " don't find");
+            view = Constant.View.Error.ERROR_BOOK;
         }
 
-        return modelAndView;
+        return view;
     }
 
     @PostMapping("/book/{id}/update")
-    public ModelAndView updateBook(@Valid BookDto bookDto, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String updateBook(@Valid BookDto bookDto, BindingResult result, Model model) {
+        String view;
 
         if (result.hasErrors()) {
-            modelAndView.addObject("book", bookDto);
-            modelAndView.addObject("errors", result.getAllErrors());
-            modelAndView.setViewName(Constant.View.Book.UPDATE);
+            model.addAttribute("book", bookDto);
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("errors", result.getAllErrors());
+            view = Constant.View.Book.UPDATE;
         } else {
 
             try {
                 Book book = bookService.updateBook(bookDto);
-                modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
-                modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful Update");
+                model.addAttribute("message", "Book '" + book.getTitle() + "' was successful Update");
+                view = Constant.View.Success.SUCCESS_BOOK;
             } catch (BookNotFoundException e) {
-                modelAndView.addObject("error", e.getMessage());
-                modelAndView.setViewName(Constant.View.Error.ERROR_BOOK);
+                model.addAttribute("error", e.getMessage());
+                view = Constant.View.Error.ERROR_BOOK;
             }
         }
-        return modelAndView;
+        return view;
     }
 
 
     // Create Book
     @GetMapping("/book/create")
-    public ModelAndView showAddBookPage() {
-        ModelAndView modelAndView = new ModelAndView();
-
-        modelAndView.addObject("book", new BookDto());
-        modelAndView.addObject("authors" ,  authorService.getAllAuthors());
-        modelAndView.setViewName(Constant.View.Book.CREATE);
-        return modelAndView;
+    public String createBook(Model model) {
+        model.addAttribute("book", new BookDto());
+        model.addAttribute("authors", authorService.getAllAuthors());
+        return Constant.View.Book.CREATE;
     }
 
     @PostMapping("/book/create")
-    public ModelAndView addBook(@Valid BookDto bookDto, BindingResult result) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String createBook(@Valid BookDto bookDto, BindingResult result, Model model) {
+        String view;
 
         if (result.hasErrors()) {
-            modelAndView.addObject("book", bookDto);
-            modelAndView.addObject("authors" ,  authorService.getAllAuthors());
-            modelAndView.addObject("errors", result.getAllErrors());
-            modelAndView.setViewName(Constant.View.Book.CREATE);
+            model.addAttribute("book", bookDto);
+            model.addAttribute("authors", authorService.getAllAuthors());
+            model.addAttribute("errors", result.getAllErrors());
+            view = Constant.View.Book.CREATE;
         } else {
             Book book = bookService.addBook(bookDto);
-            modelAndView.setViewName(Constant.View.Success.SUCCESS_BOOK);
-            modelAndView.addObject("message", "Book '" + book.getTitle() + "' was successful Create");
+            model.addAttribute("message", "Book '" + book.getTitle() + "' was successful Create");
+            view = Constant.View.Success.SUCCESS_BOOK;
         }
-        return modelAndView;
+        return view;
     }
 
 }

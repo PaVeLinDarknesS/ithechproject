@@ -4,7 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.itech.library.dto.*" %>
-<c:set var="author" value="${book.getAuthorId()}" />
+<c:set var="authorId" value="${book.getAuthorId()}" />
 
 <html lang="en">
 
@@ -22,9 +22,9 @@
 <body>
     <div>
         <ol>
-            <c:forEach items="${errors}" var="bug">
+            <c:forEach items="${errors}" var="error">
                 <li> <b>
-                    ${bug.defaultMessage}
+                    ${error.defaultMessage}
                 </b>
                 </li>
             </c:forEach>
@@ -49,13 +49,13 @@
                 <b>Author:</b> <br />
                 <select name="authorId">
                     <option value="0" selected>none</option>
-                    <c:forEach items="${authors}" var="item">
+                    <c:forEach items="${authors}" var="author">
                         <c:choose>
-                            <c:when test="${item.getId().equals(author)}">
-                                <option value="${item.getId()}" selected>${item.toString()}</option>
+                            <c:when test="${author.getId().equals(authorId)}">
+                                <option value="${author.getId()}" selected>${author.toString()}</option>
                             </c:when>    
                             <c:otherwise>
-                                <option value="${item.getId()}">${item.toString()}</option>   
+                                <option value="${author.getId()}">${author.toString()}</option>   
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>
