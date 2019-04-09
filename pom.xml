@@ -65,12 +65,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <scope>test</scope>
-        </dependency>
         <!--  End Spring  -->
 
         <!--  Spring Security  -->
@@ -85,14 +79,6 @@
         </dependency>
         <!--  Spring Security  -->
 
-        <!--  H2  -->
-        <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-            <version>${h2.version}</version>
-            <scope>test</scope>
-        </dependency>
-
         <!--  Logging  -->
         <dependency>
             <groupId>org.slf4j</groupId>
@@ -100,49 +86,12 @@
             <version>${slf4j-log4j12.version}</version>
         </dependency>
 
-        <!--  Thymeleaf  -->
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf</artifactId>
-            <version>${thymeleaf.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.thymeleaf</groupId>
-            <artifactId>thymeleaf-spring4</artifactId>
-            <version>${thymeleaf.version}</version>
-        </dependency>
-        <!--  End Thymeleaf  -->
-
         <!--  Servlet-api  -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>${javax.servlet-api.version}</version>
             <scope>provided</scope>
-        </dependency>
-
-        <!--  JSON  -->
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>${json.version}</version>
-        </dependency>
-
-        <!--  JUnit  -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!--  Mockito  -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>${mockito-all.version}</version>
-            <scope>test</scope>
         </dependency>
 
         <!--  Hibernate-core  -->
@@ -172,10 +121,36 @@
             <version>${hibernate-validator.version}</version>
         </dependency>
 
+        <!--Test-->
+        <!--Spring-->
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${jackson.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  JUnit  -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  Mockito  -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>${mockito-all.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--  H2  -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>${h2.version}</version>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
@@ -228,11 +203,11 @@
         <dependencies>
 
             <!--<dependency>-->
-                <!--<groupId>org.springframework.boot</groupId>-->
-                <!--<artifactId>spring-boot-dependencies</artifactId>-->
-                <!--<version>${spring-boot-dependencies.version}</version>-->
-                <!--<type>pom</type>-->
-                <!--<scope>provided</scope>-->
+            <!--<groupId>org.springframework.boot</groupId>-->
+            <!--<artifactId>spring-boot-dependencies</artifactId>-->
+            <!--<version>${spring-boot-dependencies.version}</version>-->
+            <!--<type>pom</type>-->
+            <!--<scope>provided</scope>-->
             <!--</dependency>-->
 
             <dependency>

@@ -1,5 +1,6 @@
 package com.itech.library.repository.impl;
 
+import com.itech.library.config.SecurityConfig;
 import com.itech.library.config.WebConfig;
 import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
