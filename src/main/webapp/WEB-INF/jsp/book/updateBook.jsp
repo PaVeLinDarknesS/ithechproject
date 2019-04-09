@@ -51,11 +51,11 @@
                     <option value="0" selected>none</option>
                     <c:forEach items="${authors}" var="oneAuthor">
                         <c:choose>
-                            <c:when test="${item.equals(author)}">
-                                <option value="${item.getId()}" selected>${item.toString()}</option>
+                            <c:when test="${oneAuthor.equals(author)}">
+                                <option value="${oneAuthor.getId()}" selected>${oneAuthor.toString()}</option>
                             </c:when>    
                             <c:otherwise>
-                                <option value="${item.getId()}">${item.toString()}</option>   
+                                <option value="${oneAuthor.getId()}">${oneAuthor.toString()}</option>   
                             </c:otherwise>
                         </c:choose>
                     </c:forEach>

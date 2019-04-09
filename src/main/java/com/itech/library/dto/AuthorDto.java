@@ -90,4 +90,9 @@ public class AuthorDto {
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
     }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
+    }
 }

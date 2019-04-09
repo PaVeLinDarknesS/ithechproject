@@ -119,22 +119,27 @@ public class BookDto {
         public BookDto build() {
             return new BookDto(this);
         }
+    }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            BookDto bookDto = (BookDto) o;
-            return Objects.equals(id, bookDto.id) &&
-                    Objects.equals(title, bookDto.title) &&
-                    Objects.equals(year, bookDto.year) &&
-                    Objects.equals(count, bookDto.count) &&
-                    Objects.equals(authorId, bookDto.authorId);
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookDto bookDto = (BookDto) o;
+        return Objects.equals(id, bookDto.id) &&
+                Objects.equals(title, bookDto.title) &&
+                Objects.equals(year, bookDto.year) &&
+                Objects.equals(count, bookDto.count) &&
+                Objects.equals(authorId, bookDto.authorId);
+    }
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(id, title, year, count, authorId);
-        }
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, year, count, authorId);
+    }
+
+    @Override
+    public String toString() {
+        return title + ", " + year;
     }
 }
