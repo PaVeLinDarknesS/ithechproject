@@ -25,10 +25,10 @@
         <b>Books</b> -
         <c:choose>
             <c:when test="${!books.isEmpty()}">
-                <c:forEach items="${books}" var="item">
+                <c:forEach items="${books}" var="book">
                     <li> 
-                        <a href="/book/${item.getId()}">
-                            ${item.toString()}
+                        <a href="/book/${book.getId()}">
+                            ${book.toString()}
                         </a>
                     </li>
                 </c:forEach>

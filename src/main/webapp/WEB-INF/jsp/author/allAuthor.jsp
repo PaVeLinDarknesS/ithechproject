@@ -21,7 +21,7 @@
                 <c:forEach items="${authors}" var="author">
                     <li> 
                         <a href="/author/${author.getId()}">
-                            ${item.toString()}
+                            ${author.toString()}
                         </a>
                     </li>
                 </c:forEach>

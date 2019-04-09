@@ -16,7 +16,7 @@
             <ol>
                 <c:forEach items="${books}" var="book">
                     <li> 
-                        <a href="/book/${item.getId()}">
+                        <a href="/book/${book.getId()}">
                             ${book.toString()}
                         </a>
                     </li>
