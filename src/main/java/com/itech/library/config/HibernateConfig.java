@@ -32,16 +32,7 @@ public class HibernateConfig {
         dataSource.setUrl(env.getProperty("jdbc.url"));
         dataSource.setUsername(env.getProperty("jdbc.user"));
         dataSource.setPassword(env.getProperty("jdbc.pass"));
-
         return dataSource;
-        /*EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-        return builder
-                .setType(EmbeddedDatabaseType.valueOf(env.getProperty("db.driverName")))
-                .setName(env.getProperty("db.name"))
-                .setScriptEncoding("UTF-8")
-                //.continueOnError(true)
-                //.ignoreFailedDrops(true)
-                .build();*/
     }
 
     @Bean

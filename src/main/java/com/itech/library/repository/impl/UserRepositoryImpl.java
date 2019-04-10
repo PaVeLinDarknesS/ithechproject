@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,9 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private SessionFactory sessionFactory;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Optional<User> getUserById(int id) {
@@ -37,6 +41,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User addUser(User user) {
         Session session = sessionFactory.getCurrentSession();
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         session.save(user);
         return user;
     }
@@ -56,6 +61,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User updateUser(User updateUser) {
         Session session = sessionFactory.getCurrentSession();
+        updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
         session.saveOrUpdate(updateUser);
         return updateUser;
     }

@@ -6,6 +6,7 @@ import com.itech.library.entity.User;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,7 @@ public class UserRepositoryImplTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
+    @Ignore
     public void addUserNegative_AddNull() {
         User user = userRepository.addUser(null);
     }

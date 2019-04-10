@@ -12,7 +12,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.itech.library")
-@Import({SecurityConfig.class})
+//@Import({SecurityConfig.class})
 public class WebConfig {
 
     @Bean

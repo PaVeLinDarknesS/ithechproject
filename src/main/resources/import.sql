@@ -1,5 +1,5 @@
-INSERT INTO users (login,password) VALUES ('Admin','Admin');
-INSERT INTO users (login,password) VALUES ('User','User');
+INSERT INTO users (login,password,role,enabled) VALUES ('Admin','$2a$10$cg8NnPbpMNNifa9DHLuopOnLf0XOuVHSk1ZNPoziGsRG9TPUv7y0W','ROLE_ADMIN',TRUE);
+INSERT INTO users (login,password,role,enabled) VALUES ('User','$2a$10$bVhhRNNZ7k2ia8tSLUiWxOLeRVHVev2Jb5XrWbAbdaKWYo2.aM.IK','USER',TRUE);
 
 INSERT INTO authors (first_name,last_name) VALUES ('First1','Last1');
 INSERT INTO authors (first_name,last_name) VALUES ('First2','Last2');
