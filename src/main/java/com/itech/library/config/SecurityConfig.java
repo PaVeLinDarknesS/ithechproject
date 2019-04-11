@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -36,12 +37,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth
 //                .userDetailsService(userDetailsService)
 //                .passwordEncoder(passwordEncoder);
-        .jdbcAuthentication().dataSource(dataSource)
+                .jdbcAuthentication().dataSource(dataSource)
 //        .withDefaultSchema()
-        .passwordEncoder(passwordEncoder)
+                .passwordEncoder(passwordEncoder)
 
-        .usersByUsernameQuery("SELECT login, password, enabled FROM users WHERE login=?")
-        .authoritiesByUsernameQuery("SELECT login, role FROM users WHERE login=?");
+                .usersByUsernameQuery("SELECT login, password, enabled FROM users WHERE login=?")
+                .authoritiesByUsernameQuery("SELECT login, role FROM users WHERE login=?");
     }
 //http://websystique.com/spring-security/spring-security-4-password-encoder-bcrypt-example-with-hibernate/
 
@@ -57,11 +58,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        //http.csrf().disable();
+        //http.authorizeRequests().antMatchers("/**").permitAll();
         http.authorizeRequests()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/dba**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                .antMatchers("/user/book/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/user/book/**").hasRole("ADMIN")
+                //.antMatchers("/dba**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_USER')")
+                //.antMatchers("/test").permitAll()
                 .antMatchers("/login").permitAll()
-                .and().formLogin();
+                .and().formLogin()
+                .and().csrf().disable();
+
     }
 
     @Bean

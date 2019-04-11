@@ -54,7 +54,7 @@ public class UserRepositoryImpl implements UserRepository {
                 "and u.password = :pass", User.class);
 
         query.setParameter("login", user.getLogin());
-        query.setParameter("pass", user.getPassword());
+        query.setParameter("pass", passwordEncoder.encode(user.getPassword()));
         return query.uniqueResultOptional();
     }
 
@@ -74,16 +74,26 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void addBookInUser(Book book, User user) {
-        user.getBooks().add(book);
-        book.getUsers().add(user);
-        book.setCount(book.getCount() - 1);
+    @Transactional
+    public boolean addBookInUser(Book book, User user) {
+        boolean result = false;
+        if (user.getBooks().add(book)) {
+            book.getUsers().add(user);
+            book.setCount(book.getCount() - 1);
+            result = true;
+        }
+        return result;
     }
 
     @Override
-    public void removeBookInUser(Book book, User user) {
-        user.getBooks().remove(book);
-        book.getUsers().remove(user);
-        book.setCount(book.getCount() + 1);
+    @Transactional
+    public boolean removeBookInUser(Book book, User user) {
+        boolean result = false;
+        if (user.getBooks().remove(book)) {
+            book.getUsers().remove(user);
+            book.setCount(book.getCount() + 1);
+            result = true;
+        }
+        return result;
     }
 }

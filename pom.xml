@@ -23,7 +23,7 @@
         <postgresql.version>42.2.5</postgresql.version>
         <jackson.version>2.9.5</jackson.version>
         <!-- Plugins versions -->
-        <jetty-maven-plugin.version>9.4.5.v20170502</jetty-maven-plugin.version>
+        <jetty-maven-plugin.version>9.4.15.v20190215</jetty-maven-plugin.version>
         <maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 
         <!-- External libraries-bom versions -->
@@ -120,6 +120,14 @@
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>${spring-framework-bom.version}</version>
+        </dependency>
+
 
         <!--Test-->
         <!--Spring-->

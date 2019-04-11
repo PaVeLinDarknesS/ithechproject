@@ -1,9 +1,10 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.dto.BookDto;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
+import com.itech.library.exeption.BookCountLessZeroExeption;
+import com.itech.library.exeption.TakeSameBookExeption;
 import com.itech.library.exeption.UserExistException;
 import com.itech.library.exeption.UserNotFoundException;
 import com.itech.library.repository.BookRepository;
@@ -73,31 +74,40 @@ public class UserServiceImpl implements UserService {
                 new User(userDto.getLogin(), userDto.getPassword()));
 
         if (optionalUser.isPresent()) {
-            removeAllBookInUser(userDto);
+            removeAllBookInUser(userDto.getLogin());
             return userRepository.deleteUser(optionalUser.get());
         }
         throw new UserNotFoundException("User with id_" + userDto.getId() + "_ not found");
     }
 
     @Override
-    public boolean addBookInUser(BookDto bookDto, UserDto userDto) {
+    @Transactional
+    public boolean addBookInUser(Integer bookId, String login) throws BookCountLessZeroExeption, TakeSameBookExeption {
         boolean result = false;
-        Optional<Book> book = bookRepository.getBookByTitle(bookDto.getTitle());
-        Optional<User> user = userRepository.getUserByLogin(userDto.getLogin());
+        Optional<Book> book = bookRepository.getBookById(bookId);
+        Optional<User> user = userRepository.getUserByLogin(login);
 
         if (book.isPresent() && user.isPresent()) {
-            userRepository.addBookInUser(book.get(), user.get());
-            result = true;
+            if (book.get().getCount() > 0) {
+                if (userRepository.addBookInUser(book.get(), user.get())) {
+                    result = true;
+                } else {
+                    throw new TakeSameBookExeption("This book '" + book.get().getTitle() + "'exist in  current user");
+                }
+            } else {
+                throw new BookCountLessZeroExeption("You cannot take book '" + book.get().getTitle() +
+                        "', because now count of free = 0");
+            }
         }
         return result;
     }
 
     @Override
     @Transactional
-    public boolean removeBookInUser(BookDto bookDto, UserDto userDto) {
+    public boolean removeBookInUser(Integer bookId, String login) {
         boolean result = false;
-        Optional<Book> book = bookRepository.getBookByTitle(bookDto.getTitle());
-        Optional<User> user = userRepository.getUserByLogin(userDto.getLogin());
+        Optional<Book> book = bookRepository.getBookById(bookId);
+        Optional<User> user = userRepository.getUserByLogin(login);
 
         if (book.isPresent() && user.isPresent() && user.get().getBooks().contains(book.get())) {
             userRepository.removeBookInUser(book.get(), user.get());
@@ -107,10 +117,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Transactional
-    public boolean removeAllBookInUser(UserDto userDto) {
+    public boolean removeAllBookInUser(String login) {
         boolean result = false;
-        Optional<User> userOptional = userRepository.getUserByLogin(userDto.getLogin());
+        Optional<User> userOptional = userRepository.getUserByLogin(login);
 
         if (userOptional.isPresent()) {
             User user = userOptional.get();
@@ -125,5 +134,16 @@ public class UserServiceImpl implements UserService {
             result = true;
         }
         return result;
+    }
+
+    @Override
+    @Transactional
+    public Set<Book> getAllBookFromUserLogin(String login) throws UserNotFoundException {
+        Optional<User> userOptional = userRepository.getUserByLogin(login);
+        if (userOptional.isPresent()) {
+            userOptional.get().getBooks().size();
+            return userOptional.get().getBooks();
+        }
+        throw new UserNotFoundException("User with login '" + login + "' not found");
     }
 }
