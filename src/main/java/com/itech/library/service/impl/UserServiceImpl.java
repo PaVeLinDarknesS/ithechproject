@@ -3,10 +3,7 @@ package com.itech.library.service.impl;
 import com.itech.library.dto.UserDto;
 import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
-import com.itech.library.exeption.BookCountLessZeroExeption;
-import com.itech.library.exeption.TakeSameBookExeption;
-import com.itech.library.exeption.UserExistException;
-import com.itech.library.exeption.UserNotFoundException;
+import com.itech.library.exeption.*;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
 import com.itech.library.service.UserService;
@@ -104,14 +101,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean removeBookInUser(Integer bookId, String login) {
+    public boolean removeBookInUser(Integer bookId, String login) throws BookNotFoundException {
         boolean result = false;
         Optional<Book> book = bookRepository.getBookById(bookId);
         Optional<User> user = userRepository.getUserByLogin(login);
 
-        if (book.isPresent() && user.isPresent() && user.get().getBooks().contains(book.get())) {
-            userRepository.removeBookInUser(book.get(), user.get());
-            result = true;
+        if (book.isPresent() && user.isPresent()) {
+            if (user.get().getBooks().contains(book.get())) {
+                userRepository.removeBookInUser(book.get(), user.get());
+                result = true;
+            } else {
+                throw new BookNotFoundException("Book '" + book.get().getTitle() + "' don't find in User '" + login + '\'');
+            }
         }
         return result;
     }
