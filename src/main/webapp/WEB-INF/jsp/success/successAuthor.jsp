@@ -9,10 +9,11 @@
 </head>
 
 <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
     <h2>
         ${message}
     </h2>
     <a href="/author/">All Authors</a>
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
-
 </html>

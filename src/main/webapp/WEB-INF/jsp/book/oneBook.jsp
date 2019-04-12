@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.itech.library.entity.*" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <c:set var="author" value="${book.getAuthor()}" />
 
 <html lang="en">
@@ -18,6 +19,7 @@
 </head>
 
 <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
     <div>
         <b>Title</b> - ${book.getTitle()}, <br />
         <b>Year</b> - ${book.getYear()}, <br />
@@ -33,17 +35,17 @@
             </c:otherwise>
         </c:choose>
         <hr />
-        <hr />
 
-        <a href="/book/${book.getId()}/update">Update</a>
-
-        <form action="/book/${book.getId()}/delete" method="POST">
-            <input type="submit" name="button" value="Delete" onclick="return confirmDelete()">
-        </form>
+        <sec:authorize access="hasRole('ADMIN')">
+            <a href="/book/${book.getId()}/update">Update</a>
+            
+            <form action="/book/${book.getId()}/delete" method="POST">
+                <input type="submit" name="button" value="Delete" onclick="return confirmDelete()">
+            </form>
+        </sec:authorize>
     </div>
     <div id="welcome">
     </div>
-
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
-
 </html>

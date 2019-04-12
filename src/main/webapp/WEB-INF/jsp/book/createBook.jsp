@@ -21,6 +21,7 @@
 
 <body>
     <div>
+            <jsp:include page="../parts/header.jsp" flush="true"/>
         <ol>
             <c:forEach items="${errors}" var="error">
                 <li> <b>
@@ -69,5 +70,6 @@
         </form>
         <a href="/book/">All Books</a>
     </div>
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
 </html>

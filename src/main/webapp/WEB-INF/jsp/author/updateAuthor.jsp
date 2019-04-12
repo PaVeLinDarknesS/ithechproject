@@ -18,6 +18,7 @@
 </head>
 
 <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
     <div>
         <ol>
             <c:forEach items="${errors}" var="error">
@@ -45,5 +46,6 @@
         </form>
         <a href="/author/">All Authors</a>
     </div>
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
 </html>

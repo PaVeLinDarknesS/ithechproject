@@ -5,6 +5,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.itech.library.entity.*" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html lang="en">
     <head>
@@ -13,9 +14,13 @@
         <link rel="icon" href='<c:url value="/images/favicon.ico" />' type="image/x-icon">
     </head>
     <body>
-            <jsp:include page="../parts/header.jsp" flush="true"/>
-          
+        <jsp:include page="../parts/header.jsp" flush="true"/>
+        
+        <sec:authorize access="hasRole('ADMIN')">
             <a href="/author/create">Add Author</a>
+            <hr />
+        </sec:authorize>
+
         <div>
             <ol>
                 <c:forEach items="${authors}" var="author">

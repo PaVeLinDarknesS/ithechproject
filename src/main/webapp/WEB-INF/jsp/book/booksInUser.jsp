@@ -12,7 +12,18 @@
         <title>All Books</title>
     </head>
     <body>
-        <form action="/user/book/delete" method="POST">
+        <jsp:include page="../parts/header.jsp" flush="true"/>
+        
+        <ol>
+            <c:forEach items="${errors}" var="error">
+                <li> <b>
+                    ${error.defaultMessage}
+                </b>
+                </li>
+            </c:forEach>
+        </ol>
+        
+        <form action="/book/user/delete" method="POST">
             <div>
                 <c:forEach items="${books}" var="book">
                     <a href="/book/${book.getId()}">
@@ -30,6 +41,6 @@
                 ${message}
             </b>
         </div>
+        <jsp:include page="../parts/footer.jsp" flush="true"/>
     </body>
-
 </html>

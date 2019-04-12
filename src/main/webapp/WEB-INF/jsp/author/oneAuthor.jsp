@@ -5,6 +5,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Set" %>
 <%@ page import="com.itech.library.entity.*" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html lang="en">
 
@@ -18,6 +19,7 @@
 </head>
 
 <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
     <div>
         <b>First name</b> - ${author.getFirstName()}, <br />
         <b>Last name</b> - ${author.getLastName()}, <br />
@@ -38,13 +40,16 @@
             </c:otherwise>
     </c:choose>
         <hr />
-        <hr />
-
-        <a href="/author/${author.getId()}/update">Update</a>
-
-        <form action="/author/${author.getId()}/delete" method="POST">
-            <input type="submit" name="button" value="Delete" onclick="return confirmDelete()">
-        </form>
+        
+        <sec:authorize access="hasRole('ADMIN')">
+            <hr />
+            <a href="/author/${author.getId()}/update">Update</a>
+            
+            <form action="/author/${author.getId()}/delete" method="POST">
+                <input type="submit" name="button" value="Delete" onclick="return confirmDelete()">
+            </form>
+        </sec:authorize>
     </div>
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
 </html>

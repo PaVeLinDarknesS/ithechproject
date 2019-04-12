@@ -9,6 +9,7 @@
 </head>
 
 <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
     <h1>
         Oops!
     </h1>
@@ -16,6 +17,6 @@
         ${error}
     </h2>
     <a href="/book/">All Books</a>
+    <jsp:include page="../parts/footer.jsp" flush="true"/>
 </body>
-
 </html>

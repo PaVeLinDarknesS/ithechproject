@@ -5,29 +5,36 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.itech.library.entity.*" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <html lang="en">
     <head>
         <title>All Books</title>
     </head>
     <body>
+        <jsp:include page="../parts/header.jsp" flush="true"/>
+
+        <sec:authorize access="hasRole('ADMIN')">
             <a href="/book/create">Add Book</a>
-        <form action="/user/book/add" method="POST">
+            <hr />
+        </sec:authorize>
+        
+        <form action="/book/user/add" method="POST">
             <div>
                 <c:forEach items="${books}" var="book">
                     <a href="/book/${book.getId()}">
                         ${book.toString()}
                     </a>
-                    <input type="checkbox" name="books" value="${book.getId()}"/>        
+                    <sec:authorize access="isAuthenticated()">
+                        <input type="checkbox" name="books" value="${book.getId()}"/>        
+                    </sec:authorize>
                     <br />
                 </c:forEach>
-               <input type="submit">
+                <sec:authorize access="isAuthenticated()">
+                        <input type="submit">
+                </sec:authorize>
             </div>
         </form>
-
-        <a href="/user/book/">
-            My books
-        </a>
         
         <div>
             <c:forEach items="${errors}" var="error">
@@ -42,6 +49,6 @@
                 ${message}
             </b>
         </div>
+        <jsp:include page="../parts/footer.jsp" flush="true"/>
     </body>
-
 </html>
