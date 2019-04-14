@@ -34,12 +34,6 @@ public class UserServiceImpl implements UserService {
         return user;
     }
 
-    @Override
-    public boolean checkExistUser(UserDto userDto) {
-        return userRepository.getUserByAllField(
-                new User(userDto.getLogin(), userDto.getPassword())
-        ).isPresent();
-    }
 
     @Override
     public User addUser(UserDto user) throws UserExistException {
@@ -67,8 +61,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User deleteUser(UserDto userDto) throws UserNotFoundException {
-        Optional<User> optionalUser = userRepository.getUserByAllField(
-                new User(userDto.getLogin(), userDto.getPassword()));
+        Optional<User> optionalUser = userRepository.getUserByLogin(userDto.getLogin());
 
         if (optionalUser.isPresent()) {
             removeAllBookInUser(userDto.getLogin());
