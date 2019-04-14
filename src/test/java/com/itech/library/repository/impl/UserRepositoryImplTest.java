@@ -6,7 +6,6 @@ import com.itech.library.entity.User;
 import com.itech.library.repository.BookRepository;
 import com.itech.library.repository.UserRepository;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,65 +30,52 @@ public class UserRepositoryImplTest {
 
 
     @Test
-    public void getUserByIdPositive() {
+    public void getUserById_ifUserFind_returnUserOptional() {
         Optional<User> user = userRepository.getUserById(1);
         Assert.assertTrue(user.isPresent());
     }
 
     @Test
-    public void getUserByIdNegative() {
+    public void getUserById_ifUserNotFind_returnEmptyOptional() {
         Optional<User> user = userRepository.getUserById(0);
         Assert.assertFalse(user.isPresent());
     }
 
     @Test
-    public void getUserByLoginPositive() {
+    public void getUserByLogin_ifUserFind_returnUserOptional() {
         Optional<User> user = userRepository.getUserByLogin("Admin");
         Assert.assertTrue(user.isPresent());
         Assert.assertEquals("Admin", user.get().getLogin());
     }
 
     @Test
-    public void getUserByLoginNegative() {
+    public void getUserByLogin_ifUserNotFind_returnEmptyOptional() {
         Optional<User> user = userRepository.getUserByLogin("");
         Assert.assertFalse(user.isPresent());
     }
 
+
     @Test
-    public void addUserPositive() {
-        User addUser = new User("UserForTest", "UserForTest");
-        User user = userRepository.addUser(addUser);
+    public void addUser_returnNewUser() {
+        User user = userRepository.addUser(new User("UserForTest", "UserForTest"));
         Optional<User> getAddUser = userRepository.getUserByLogin("UserForTest");
         Assert.assertTrue(getAddUser.isPresent());
         Assert.assertEquals(user, getAddUser.get());
     }
 
-    @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-    public void addUserNegative_AddExistUser() {
-        User addUser = new User("Admin", "12345678");
-        User user = userRepository.addUser(addUser);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    @Ignore
-    public void addUserNegative_AddNull() {
-        User user = userRepository.addUser(null);
+    @Test
+    public void updateUser_ifUserExist_returnUpdateUser() {
+        User updateUser = userRepository.getUserById(2).get();
+        updateUser.setLogin("NewUser");
+        userRepository.updateUser(updateUser);
+        Assert.assertEquals("NewUser", userRepository.getUserById(2).get().getLogin());
     }
 
     @Test
-    public void checkExistUserPositive() {
-        User oneUser = new User("Admin", "Admin");
-        Optional<User> user = userRepository.getUserByAllField(oneUser);
-//        Assert.assertTrue(user.isPresent());
-//        Assert.assertEquals(oneUser.getLogin(), user.get().getLogin());
-//        Assert.assertEquals(oneUser.getPassword(), user.get().getPassword());
-    }
-
-    @Test
-    public void checkExistUser() {
-        User oneUser = new User("T", "T");
-        Optional<User> user = userRepository.getUserByAllField(oneUser);
-        Assert.assertFalse(user.isPresent());
+    public void deleteUser_returnDeleteUser() {
+        User deleteUser = userRepository.getUserById(2).get();
+        userRepository.deleteUser(deleteUser);
+        Assert.assertFalse(userRepository.getUserById(2).isPresent());
     }
 
     @Test
@@ -98,7 +84,7 @@ public class UserRepositoryImplTest {
         int count = book.getCount();
         User user = userRepository.getUserById(2).get();
         int countBookInUser = user.getBooks().size();
-        userRepository.addBookInUser(book, user);
+        Assert.assertTrue(userRepository.addBookInUser(book, user));
 
         Assert.assertEquals(count - 1, book.getCount().intValue());
         Assert.assertEquals(countBookInUser + 1, user.getBooks().size());
