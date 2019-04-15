@@ -1,20 +1,26 @@
 package com.itech.library.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class UserDto {
 
     private Integer id;
+
+    @NotBlank(message = "Login doesn't be empty")
     private String login;
+    @NotBlank(message = "Password doesn't be empty")
     private String password;
 
     public UserDto() {
     }
 
-    public UserDto(Builder builder) {
+    private UserDto(Builder builder) {
         this.id = builder.id;
         this.login = builder.login;
         this.password = builder.password;
     }
 
+    // Get Set
     public Integer getId() {
         return id;
     }
@@ -39,7 +45,7 @@ public class UserDto {
         this.password = password;
     }
 
-
+    // Builder
     public static class Builder {
         private Integer id;
         private String login;

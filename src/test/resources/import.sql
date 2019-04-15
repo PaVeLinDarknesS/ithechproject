@@ -6,7 +6,7 @@ INSERT INTO authors (first_name,last_name) VALUES ('First2','Last2');
 
 INSERT INTO books (title,year,count,author) VALUES ('Title1',2010,2,1);
 INSERT INTO books (title,year,count,author) VALUES ('Title2',2013,3,1);
-INSERT INTO books (title,year,count) VALUES ('Title3',2015,2);
+INSERT INTO books (title,year,count) VALUES ('Title31',2015,2);
 INSERT INTO books (title,year,count,author) VALUES ('Title4',2017,5,2);
 INSERT INTO books (title,year,count,author) VALUES ('Title5',2019,2,2);
 

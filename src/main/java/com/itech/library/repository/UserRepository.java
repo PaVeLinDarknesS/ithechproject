@@ -3,6 +3,7 @@ package com.itech.library.repository;
 import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
@@ -13,8 +14,6 @@ public interface UserRepository {
 
     User addUser(User user);
 
-    Optional<User> getUserByAllField(User user);
-
     User updateUser(User updateUser);
 
     User deleteUser(User deleteUser);
@@ -22,7 +21,7 @@ public interface UserRepository {
     /**
      * Work with Set<Book>
      */
-    void addBookInUser(Book book, User user);
+    boolean addBookInUser(Book book, User user);
 
-    void removeBookInUser(Book book, User user);
+    boolean removeBookInUser(Book book, User user);
 }

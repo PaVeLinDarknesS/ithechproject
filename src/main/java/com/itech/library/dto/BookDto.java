@@ -1,7 +1,8 @@
 package com.itech.library.dto;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.util.Objects;
 
 public class BookDto {
@@ -9,13 +10,15 @@ public class BookDto {
 
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Title doesn't be empty")
     private String title;
     private Integer year;
-    @Min(0)
+
+    @NotNull(message = "Count not null")
+    @Positive(message = "Count always more then 0")
     private Integer count;
 
-    private AuthorDto author;
+    private Integer authorId;
 
     public BookDto() {
     }
@@ -29,9 +32,10 @@ public class BookDto {
         this.title = builder.title;
         this.year = builder.year;
         this.count = builder.count;
-        this.author = builder.author;
+        this.authorId = builder.authorId;
     }
 
+    // Get Set
     public Integer getId() {
         return id;
     }
@@ -64,20 +68,28 @@ public class BookDto {
         this.count = count;
     }
 
-    public AuthorDto getAuthor() {
-        return author;
+    public Integer getAuthorId() {
+        return authorId;
     }
 
-    public void setAuthor(AuthorDto author) {
-        this.author = author;
+    public void setAuthorId(Integer authorId) {
+        this.authorId = authorId;
     }
 
-    public static class Builder {
+    //Builder
+    public static final class Builder {
         private Integer id;
         private String title;
         private Integer year;
         private Integer count;
-        private AuthorDto author;
+        private Integer authorId;
+
+        private Builder() {
+        }
+
+        public static Builder aBookDto() {
+            return new Builder();
+        }
 
         public Builder setId(Integer id) {
             this.id = id;
@@ -99,8 +111,8 @@ public class BookDto {
             return this;
         }
 
-        public Builder setAuthor(AuthorDto author) {
-            this.author = author;
+        public Builder setAuthorId(Integer authorId) {
+            this.authorId = authorId;
             return this;
         }
 
@@ -118,11 +130,16 @@ public class BookDto {
                 Objects.equals(title, bookDto.title) &&
                 Objects.equals(year, bookDto.year) &&
                 Objects.equals(count, bookDto.count) &&
-                Objects.equals(author, bookDto.author);
+                Objects.equals(authorId, bookDto.authorId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, year, count, author);
+        return Objects.hash(id, title, year, count, authorId);
+    }
+
+    @Override
+    public String toString() {
+        return title + ", " + year;
     }
 }

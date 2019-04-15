@@ -7,14 +7,6 @@ import java.util.Optional;
 
 public interface BookRepository {
 
-    Book addBook(Book book);
-
-    Book deleteBook(Book book);
-
-    Book updateBook(Book book);
-
-    List<Book> getAllBooks();
-
     Optional<Book> getBookById(int id);
 
     Optional<Book> getBookByTitle(String title);
@@ -22,4 +14,13 @@ public interface BookRepository {
     List<Book> getBooksByAuthorId(int author);
 
     List<Book> getBooksByAuthorFio(String firstName, String lastName);
+
+    List<Book> getAllBooks();
+
+    Book addBook(Book book);
+
+    Book deleteBook(Book book);
+
+    Book updateBook(Book book);
+
 }

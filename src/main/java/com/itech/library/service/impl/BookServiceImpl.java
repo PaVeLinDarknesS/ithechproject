@@ -1,17 +1,18 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.BookDtoConverter;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Book;
 import com.itech.library.exeption.BookNotFoundException;
 import com.itech.library.exeption.DeleteBookHaveByUserException;
 import com.itech.library.repository.BookRepository;
+import com.itech.library.service.AuthorService;
 import com.itech.library.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +24,8 @@ public class BookServiceImpl implements BookService {
     private BookRepository bookRepository;
 
     @Autowired
-    private BookDtoConverter bookConverter;
+    private AuthorService authorService;
+
 
     @Override
     public List<Book> getAllBooks() {
@@ -51,13 +53,13 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Book addBook(BookDto book) {
-        Optional<Book> findBook = bookRepository.getBookByTitle(book.getTitle());
-        if (findBook.isPresent()) {
-            return findBook.get();
-        } else {
-            Book addBook = bookRepository.addBook(bookConverter.dtoToEntity(book));
-            return addBook;
-        }
+        return bookRepository.getBookByTitle(book.getTitle())
+                .orElseGet(() -> bookRepository.addBook(new Book(
+                        book.getTitle(),
+                        book.getYear(),
+                        book.getCount(),
+                        authorService.getAuthorById(book.getAuthorId()).orElse(null)
+                )));
     }
 
     @Override
@@ -69,6 +71,7 @@ public class BookServiceImpl implements BookService {
             findBook.setTitle(book.getTitle());
             findBook.setCount(book.getCount());
             findBook.setYear(book.getYear());
+            findBook.setAuthor(authorService.getAuthorById(book.getAuthorId()).orElse(null));
 
             return bookRepository.updateBook(findBook);
         }
@@ -76,16 +79,16 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book deleteBook(BookDto book) throws BookNotFoundException, DeleteBookHaveByUserException {
-        Optional<Book> findBookOptional = bookRepository.getBookById(book.getId());
+    @Transactional
+    public Book deleteBook(int id) throws BookNotFoundException, DeleteBookHaveByUserException {
+        Optional<Book> findBookOptional = bookRepository.getBookById(id);
         if (findBookOptional.isPresent()) {
             Book findBook = findBookOptional.get();
             if (!CollectionUtils.isEmpty(findBook.getUsers())) {
-                throw new DeleteBookHaveByUserException("Book with id_" + book.getId() + "_ have some user");
+                throw new DeleteBookHaveByUserException("Book with id_" + id + "_ have some user");
             }
-            Book deleteBook = bookRepository.deleteBook(findBook);
-            return deleteBook;
+            return bookRepository.deleteBook(findBook);
         }
-        throw new BookNotFoundException("Book with id_" + book.getId() + "_ not found");
+        throw new BookNotFoundException("Book with id_" + id + "_ not found");
     }
 }
