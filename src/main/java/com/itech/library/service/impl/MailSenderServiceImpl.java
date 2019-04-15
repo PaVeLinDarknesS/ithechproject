@@ -5,56 +5,59 @@ import com.itech.library.entity.User;
 import com.itech.library.service.MailSenderService;
 import org.springframework.stereotype.Service;
 
-import javax.mail.*;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
 
+    private final static String protocol = "smtps";
+    private final static String host = "smtp.gmail.com";
+    private final static String user = "JavaSpringPavel@gmail.com";
+    private final static String password = "PaVeLtestAPP1";
+
+    // TODO: TLS vs SSL
 
     @Override
     public boolean notifyUserTakeBook(List<Book> addBook, User user) {
+        boolean result;
+        Properties props = new Properties();
+        props.put("mail.transport.protocol", "smtps");
+        props.put("mail.smtps.host", "smtp.gmail.com");
+        props.put("mail.smtps.auth", "true");
+        props.put("mail.smtp.sendpartial", "true");
 
-        final String username = "username@gmail.com";
-        final String password = "password";
-
-        Properties prop = new Properties();
-        // TODO: TLS vs SSL
-        prop.put("mail.smtp.host", "smtp.gmail.com");
-        prop.put("mail.smtp.port", "587");
-        prop.put("mail.smtp.auth", "true");
-        prop.put("mail.smtp.starttls.enable", "true"); //TLS
-
-        Session session = Session.getInstance(prop,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
+        Session session = Session.getDefaultInstance(props);
+        //создаем сообщение
+        MimeMessage message = new MimeMessage(session);
 
         try {
+            message.setSubject("Notify about add Book!");
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("from@gmail.com"));
-            message.setRecipients(
-                    Message.RecipientType.TO,
-                    InternetAddress.parse("to_username_a@gmail.com, to_username_b@yahoo.com")
-            );
-            message.setSubject("Testing Gmail TLS");
-            message.setText("Dear Mail Crawler,"
-                    + "\n\n Please do not spam my email!");
+            // TODO Message
+            message.setText("Asta la vista, baby!");
 
-            Transport.send(message);
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
+            message.setSentDate(new Date());
 
-            System.out.println("Done");
 
+            Transport transport = null;
+            transport = session.getTransport();
+            transport.connect("smtp.gmail.com", 465, this.user, password);
+
+            transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
+            result = true;
         } catch (MessagingException e) {
+            result = false;
             e.printStackTrace();
         }
-
-        return false;
+        return result;
     }
 }
