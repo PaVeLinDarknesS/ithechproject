@@ -47,18 +47,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public Optional<User> getUserByAllField(User user) {
-        Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("from User as u " +
-                "where u.login = :login " +
-                "and u.password = :pass", User.class);
-
-        query.setParameter("login", user.getLogin());
-        query.setParameter("pass", passwordEncoder.encode(user.getPassword()));
-        return query.uniqueResultOptional();
-    }
-
-    @Override
     public User updateUser(User updateUser) {
         Session session = sessionFactory.getCurrentSession();
         updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));

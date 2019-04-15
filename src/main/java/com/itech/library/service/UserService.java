@@ -12,8 +12,6 @@ public interface UserService {
 
     Optional<User> getUserByLogin(String login);
 
-    boolean checkExistUser(UserDto userDto);
-
     User addUser(UserDto user) throws UserExistException;
 
     User updateUser(UserDto userDto) throws UserNotFoundException;

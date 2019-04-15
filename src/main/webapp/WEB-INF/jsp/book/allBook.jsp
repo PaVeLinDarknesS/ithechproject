@@ -31,18 +31,19 @@
                     <br />
                 </c:forEach>
                 <sec:authorize access="isAuthenticated()">
-                        <input type="submit">
+                        <input type="submit" value="Add yourself">
                 </sec:authorize>
             </div>
         </form>
         
-        <div>
+        <ol>
             <c:forEach items="${errors}" var="error">
-            <b>
-                ${error}
-            </b> <br/>
+                <li> <b>
+                    ${error}
+                </b>
+                </li>
             </c:forEach>
-        </div>
+        </ol>
 
         <div>
             <b>
