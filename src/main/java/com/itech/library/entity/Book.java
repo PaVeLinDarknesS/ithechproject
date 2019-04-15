@@ -34,6 +34,14 @@ public class Book {
         this.count = count;
     }
 
+    public Book(String title, Integer year, Integer count, Author author) {
+        this.title = title;
+        this.year = year;
+        this.count = count;
+        this.author = author;
+    }
+
+    // Get Set
     public Integer getId() {
         return id;
     }
@@ -97,5 +105,10 @@ public class Book {
     @Override
     public int hashCode() {
         return Objects.hash(id, title, year, count, author);
+    }
+
+    @Override
+    public String toString() {
+        return title + ", " + year;
     }
 }

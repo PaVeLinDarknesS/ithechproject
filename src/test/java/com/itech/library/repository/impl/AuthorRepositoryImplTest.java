@@ -30,19 +30,38 @@ public class AuthorRepositoryImplTest {
     private BookRepository bookRepository;
 
     @Test
-    public void getAuthorById() {
+    public void getAuthorById_ifAuthorFind_returnAuthorOptional() {
         Optional<Author> user = authorRepository.getAuthorById(1);
         Assert.assertTrue(user.isPresent());
     }
 
     @Test
-    public void getAuthorById_positiveNegative() {
-        Optional<Author> user = authorRepository.getAuthorById(1);
-        Assert.assertTrue(user.isPresent());
+    public void getAuthorById_ifAuthorNotExist_returnEmptyOptional() {
+        Optional<Author> user = authorRepository.getAuthorById(0);
+        Assert.assertFalse(user.isPresent());
     }
 
     @Test
-    public void addAuthorPositive() {
+    public void getAuthorByFio_ifAuthorExist_returnAuthorOptional() {
+        Optional<Author> author = authorRepository.getAuthorByFio("First1", "Last1");
+        Assert.assertTrue(author.isPresent());
+    }
+
+    @Test
+    public void getAuthorByFio_ifAuthorNotExist_returnEmptyOptional() {
+        Optional<Author> author = authorRepository.getAuthorByFio("Admin", "Admin");
+        Assert.assertFalse(author.isPresent());
+    }
+
+    @Test
+    public void getAllAuthors_returnListAuthor() {
+        List<Author> authors = authorRepository.getAllAuthors();
+        Assert.assertNotEquals(0, authors.size());
+    }
+
+
+    @Test
+    public void addAuthor_returnNewAuthor() {
         Author addAuthor = new Author("AuthorForTest", "AuthorForTest");
         Author author = authorRepository.addAuthor(addAuthor);
         Optional<Author> getAuthor = authorRepository.getAuthorById(author.getId());
@@ -50,73 +69,29 @@ public class AuthorRepositoryImplTest {
         Assert.assertEquals(author, getAuthor.get());
     }
 
-    @Test(expected = org.hibernate.exception.ConstraintViolationException.class)
-    public void addAuthorNegative_AddExistAuthor() {
-        Author addAuthor = new Author("First1", "Last1");
-        Author author = authorRepository.addAuthor(addAuthor);
-    }
-
-    @Test(expected = IllegalArgumentException.class)
-    public void addAuthorNegative_AddNull() {
-        Author author = authorRepository.addAuthor(null);
+    @Test
+    public void updateAuthor_ifAuthorExist_returnUpdateAuthor() {
+        Author updateAuthor = authorRepository.getAuthorById(2).get();
+        updateAuthor.setFirstName("NewNameAuthor");
+        authorRepository.updateAuthor(updateAuthor);
+        Author author = authorRepository.getAuthorById(2).get();
+        Assert.assertEquals(updateAuthor.getFirstName(), author.getFirstName());
     }
 
     @Test
-    public void updateAuthorPositive() {
-        Author addAuthor = new Author("UpdateAuthor", "UpdateAuthor");
-        authorRepository.addAuthor(addAuthor);
-        addAuthor.setFirstName("NewNameAuthor");
-        Author author = authorRepository.updateAuthor(addAuthor);
-        Assert.assertEquals("NewNameAuthor", author.getFirstName());
-    }
-
-    @Test
-    public void updateAuthorNegative_UpdateNonexistentAuthor() {
-        Author addAuthor = new Author("UpdateNotExistAuthor", "UpdateAuthor");
+    public void updateAuthor_ifAuthorNotExist_returnNewAuthor() {
         List<Author> authors = authorRepository.getAllAuthors();
-        Author author = authorRepository.updateAuthor(addAuthor);
+        authorRepository.updateAuthor(new Author("UpdateNotExistAuthor", "UpdateAuthor"));
         List<Author> newAuthors = authorRepository.getAllAuthors();
         Assert.assertEquals(authors.size() + 1, newAuthors.size());
     }
 
     @Test
-    public void deleteAuthorPositive() {
-        Author deleteAuthor = new Author("DeleteAuthor", "DeleteAuthor");
-        authorRepository.addAuthor(deleteAuthor);
-        Assert.assertTrue(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
-        Author author = authorRepository.deleteAuthor(deleteAuthor);
-        Assert.assertEquals(deleteAuthor, author);
-        Assert.assertFalse(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
+    public void deleteAuthor_returnDeleteAuthor() {
+        Author deleteAuthor = authorRepository.getAuthorById(2).get();
+        authorRepository.deleteAuthor(deleteAuthor);
+        Assert.assertFalse(authorRepository.getAuthorById(2).isPresent());
     }
-
-    @Test
-    public void deleteAuthorNegative() {
-        Author deleteAuthor = new Author("DeleteAuthor", "DeleteAuthor");
-        Assert.assertFalse(authorRepository.getAuthorByFio(deleteAuthor.getFirstName(), deleteAuthor.getLastName()).isPresent());
-        Author author = authorRepository.deleteAuthor(deleteAuthor);
-        Assert.assertNull(author.getId());
-    }
-
-    @Test
-    public void getAllAuthorsPositive() {
-        List<Author> authors = authorRepository.getAllAuthors();
-        Assert.assertNotEquals(0, authors.size());
-    }
-
-    @Test
-    public void findOnePositive() {
-        Author findAuthor = new Author("First1", "Last1");
-        Optional<Author> author = authorRepository.getAuthorByFio(findAuthor.getFirstName(), findAuthor.getLastName());
-        Assert.assertTrue(author.isPresent());
-    }
-
-    @Test
-    public void findOneNegative() {
-        Author findAuthor = new Author("Admin", "Admin");
-        Optional<Author> author = authorRepository.getAuthorByFio(findAuthor.getFirstName(), findAuthor.getLastName());
-        Assert.assertFalse(author.isPresent());
-    }
-
 
     @Test
     public void addBookInAuthor() {

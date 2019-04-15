@@ -70,13 +70,17 @@ public class Author {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Author author = (Author) o;
-        return Objects.equals(id, author.id) &&
-                Objects.equals(firstName, author.firstName) &&
+        return Objects.equals(firstName, author.firstName) &&
                 Objects.equals(lastName, author.lastName);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName;
     }
 }

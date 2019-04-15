@@ -1,6 +1,5 @@
 package com.itech.library.service.impl;
 
-import com.itech.library.converter.impl.AuthorDtoConverter;
 import com.itech.library.dto.AuthorDto;
 import com.itech.library.dto.BookDto;
 import com.itech.library.entity.Author;
@@ -16,8 +15,10 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class AuthorServiceImpl implements AuthorService {
@@ -28,20 +29,13 @@ public class AuthorServiceImpl implements AuthorService {
     @Autowired
     private BookService bookService;
 
-    @Autowired
-    private AuthorDtoConverter authorDtoConverter;
-
 
     @Override
     public Author addAuthor(AuthorDto author) {
-        Author addAuthor;
-        Optional<Author> optionalAuthor = authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName());
-        if (optionalAuthor.isPresent()) {
-            addAuthor = optionalAuthor.get();
-        } else {
-            addAuthor = authorRepository.addAuthor(authorDtoConverter.dtoToEntity(author));
-        }
-        return addAuthor;
+        return authorRepository.getAuthorByFio(author.getFirstName(), author.getLastName())
+                .orElseGet(() -> authorRepository.addAuthor(
+                        new Author(author.getFirstName(), author.getLastName())
+                ));
     }
 
     @Override
@@ -53,26 +47,24 @@ public class AuthorServiceImpl implements AuthorService {
             findAuthor.setFirstName(author.getFirstName());
             findAuthor.setLastName(author.getLastName());
 
-            Author updateAuthor = authorRepository.updateAuthor(findAuthor);
-            return updateAuthor;
+            return authorRepository.updateAuthor(findAuthor);
         }
         throw new AuthorNotFoundException("Author with id_" + author.getId() + "_ don't found");
     }
 
     @Override
     @Transactional
-    public Author deleteAuthor(AuthorDto author) throws AuthorNotFoundException, DeleteAuthorContainBookException {
-        Optional<Author> findAuthorOptional = authorRepository.getAuthorById(author.getId());
+    public Author deleteAuthor(int id) throws AuthorNotFoundException, DeleteAuthorContainBookException {
+        Optional<Author> findAuthorOptional = authorRepository.getAuthorById(id);
         if (findAuthorOptional.isPresent()) {
             Author findAuthor = findAuthorOptional.get();
             if (!CollectionUtils.isEmpty(findAuthor.getBooks())) {
                 throw new DeleteAuthorContainBookException(
-                        "Author " + author.getFirstName() + " " + author.getLastName() + " contain Book");
+                        "Author " + findAuthor.getFirstName() + " " + findAuthor.getLastName() + " contain Book");
             }
-            Author deleteAuthor = authorRepository.deleteAuthor(findAuthor);
-            return deleteAuthor;
+            return authorRepository.deleteAuthor(findAuthor);
         }
-        throw new AuthorNotFoundException("Author with id_" + author.getId() + "_ don't found");
+        throw new AuthorNotFoundException("Author with id_" + id + "_ don't found");
     }
 
     @Override
@@ -85,6 +77,15 @@ public class AuthorServiceImpl implements AuthorService {
         Optional<Author> author = Optional.empty();
         if (!StringUtils.isEmpty(firstName) && !StringUtils.isEmpty(lastName)) {
             author = authorRepository.getAuthorByFio(firstName, lastName);
+        }
+        return author;
+    }
+
+    @Override
+    public Optional<Author> getAuthorById(int id) {
+        Optional<Author> author = Optional.empty();
+        if (id > 0) {
+            author = authorRepository.getAuthorById(id);
         }
         return author;
     }
@@ -115,5 +116,15 @@ public class AuthorServiceImpl implements AuthorService {
         return result;
     }
 
-
+    @Override
+    @Transactional
+    public Set<Book> getBooksByAuthorId(int authorId) {
+        Set<Book> books = new HashSet<>();
+        Optional<Author> authorByFio = authorRepository.getAuthorById(authorId);
+        if (authorByFio.isPresent()) {
+            authorByFio.get().getBooks().size();
+            books = authorByFio.get().getBooks();
+        }
+        return books;
+    }
 }

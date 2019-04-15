@@ -10,15 +10,15 @@ public interface AuthorRepository {
 
     Optional<Author> getAuthorById(int id);
 
+    Optional<Author> getAuthorByFio(String firstName, String lastName);
+
+    List<Author> getAllAuthors();
+
     Author addAuthor(Author author);
 
     Author updateAuthor(Author author);
 
     Author deleteAuthor(Author author);
-
-    List<Author> getAllAuthors();
-
-    Optional<Author> getAuthorByFio(String firstName, String lastName);
 
     /**
      * Working with Set<book>
