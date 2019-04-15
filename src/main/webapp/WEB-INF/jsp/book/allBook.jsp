@@ -31,7 +31,7 @@
                     <br />
                 </c:forEach>
                 <sec:authorize access="isAuthenticated()">
-                        <input type="submit">
+                        <input type="submit" value="Add yourself">
                 </sec:authorize>
             </div>
         </form>

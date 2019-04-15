@@ -32,7 +32,7 @@
                     <input type="checkbox" name="books" value="${book.getId()}"/>        
                     <br />
                 </c:forEach>
-               <input type="submit">
+               <input type="submit" value="Delete yourself">
             </div>
         </form>
         
