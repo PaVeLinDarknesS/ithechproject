@@ -36,13 +36,14 @@
             </div>
         </form>
         
-        <div>
+        <ol>
             <c:forEach items="${errors}" var="error">
-            <b>
-                ${error}
-            </b> <br/>
+                <li> <b>
+                    ${error}
+                </b>
+                </li>
             </c:forEach>
-        </div>
+        </ol>
 
         <div>
             <b>

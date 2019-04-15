@@ -14,15 +14,6 @@
     <body>
         <jsp:include page="../parts/header.jsp" flush="true"/>
         
-        <ol>
-            <c:forEach items="${errors}" var="error">
-                <li> <b>
-                    ${error.defaultMessage}
-                </b>
-                </li>
-            </c:forEach>
-        </ol>
-        
         <form action="/book/user/delete" method="POST">
             <div>
                 <c:forEach items="${books}" var="book">
@@ -36,6 +27,15 @@
             </div>
         </form>
         
+        <ol>
+            <c:forEach items="${errors}" var="error">
+                <li> <b>
+                    ${error}
+                </b>
+                </li>
+            </c:forEach>
+        </ol>
+
         <div>
             <b>
                 ${message}

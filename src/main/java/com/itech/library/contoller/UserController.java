@@ -40,12 +40,16 @@ public class UserController {
     public String addBooksInUser(Authentication authentication, Integer[] books, Model model) {
 
         List<String> addError = new LinkedList<>();
-        for (Integer book : books) {
-            try {
-                userService.addBookInUser(book, authentication.getName());
-            } catch (BookCountLessZeroExeption | TakeSameBookExeption e) {
-                addError.add(e.getMessage());
+        if (books != null) {
+            for (Integer book : books) {
+                try {
+                    userService.addBookInUser(book, authentication.getName());
+                } catch (BookCountLessZeroExeption | TakeSameBookExeption e) {
+                    addError.add(e.getMessage());
+                }
             }
+        } else {
+            addError.add("You have chosen nothing");
         }
         model.addAttribute("errors", addError);
         model.addAttribute("books", bookService.getAllBooks());
@@ -74,12 +78,16 @@ public class UserController {
         String view;
         List<String> deleteError = new LinkedList<>();
 
-        for (Integer book : books) {
-            try {
-                userService.removeBookInUser(book, authentication.getName());
-            } catch (BookNotFoundException e) {
-                deleteError.add(e.getMessage());
+        if (books != null) {
+            for (Integer book : books) {
+                try {
+                    userService.removeBookInUser(book, authentication.getName());
+                } catch (BookNotFoundException e) {
+                    deleteError.add(e.getMessage());
+                }
             }
+        } else {
+            deleteError.add("You have chosen nothing");
         }
 
         try {
