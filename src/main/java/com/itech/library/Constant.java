@@ -30,4 +30,14 @@ public class Constant {
             public static final String SUCCESS_AUTHOR = "/success/successAuthor";
         }
     }
+
+    public static class Message {
+        public static final String PROTOCOL = "smtps";
+        public static final String HOST = "smtp.gmail.com";
+        public static final boolean AUTH = true;
+        public static final boolean SENDPARTIAL = true;
+
+        public static final String LOGIN = "JavaSpringPavel@gmail.com";
+        public static final String PASSWORD = "PaVeLtestAPP1";
+    }
 }
