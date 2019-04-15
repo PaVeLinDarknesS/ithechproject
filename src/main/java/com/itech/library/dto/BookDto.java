@@ -27,7 +27,7 @@ public class BookDto {
         this.id = id;
     }
 
-    public BookDto(Builder builder) {
+    private BookDto(Builder builder) {
         this.id = builder.id;
         this.title = builder.title;
         this.year = builder.year;
@@ -83,13 +83,6 @@ public class BookDto {
         private Integer year;
         private Integer count;
         private Integer authorId;
-
-        private Builder() {
-        }
-
-        public static Builder aBookDto() {
-            return new Builder();
-        }
 
         public Builder setId(Integer id) {
             this.id = id;
