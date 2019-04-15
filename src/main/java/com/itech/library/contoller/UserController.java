@@ -46,15 +46,18 @@ public class UserController {
 
         List<String> addError = new LinkedList<>();
         List<Book> addBook = new LinkedList<>();
-
-        for (Integer book : books) {
-            try {
-                if (userService.addBookInUser(book, authentication.getName())) {
-                    addBook.add(bookService.getBookById(book).get());
+        if (books != null) {
+            for (Integer book : books) {
+                try {
+                    if (userService.addBookInUser(book, authentication.getName())) {
+                        addBook.add(bookService.getBookById(book).get());
+                    }
+                } catch (BookCountLessZeroExeption | TakeSameBookExeption e) {
+                    addError.add(e.getMessage());
                 }
-            } catch (BookCountLessZeroExeption | TakeSameBookExeption e) {
-                addError.add(e.getMessage());
             }
+        } else {
+            addError.add("You have chosen nothing");
         }
 
         if (!addBook.isEmpty()) {
@@ -87,12 +90,16 @@ public class UserController {
         String view;
         List<String> deleteError = new LinkedList<>();
 
-        for (Integer book : books) {
-            try {
-                userService.removeBookInUser(book, authentication.getName());
-            } catch (BookNotFoundException e) {
-                deleteError.add(e.getMessage());
+        if (books != null) {
+            for (Integer book : books) {
+                try {
+                    userService.removeBookInUser(book, authentication.getName());
+                } catch (BookNotFoundException e) {
+                    deleteError.add(e.getMessage());
+                }
             }
+        } else {
+            deleteError.add("You have chosen nothing");
         }
 
         try {

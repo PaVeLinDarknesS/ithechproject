@@ -73,7 +73,7 @@ public class BookServiceImplTest {
     @Test
     @Transactional
     public void deleteBook() throws BookNotFoundException, DeleteBookHaveByUserException {
-        Book getBook = bookService.getBookByTitle("Title3").get();
+        Book getBook = bookService.getBookByTitle("Title31").get();
         Book deleteBook = bookService.deleteBook(getBook.getId());
         Optional<Book> findDeleteBook = bookService.getBookByTitle("Title3");
         Assert.assertFalse(findDeleteBook.isPresent());
