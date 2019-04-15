@@ -1,5 +1,7 @@
 package com.itech.library.service.impl;
 
+import com.itech.library.Constant;
+import com.itech.library.entity.Author;
 import com.itech.library.entity.Book;
 import com.itech.library.entity.User;
 import com.itech.library.service.MailSenderService;
@@ -13,44 +15,39 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 
 @Service
 public class MailSenderServiceImpl implements MailSenderService {
 
-    private final static String protocol = "smtps";
-    private final static String host = "smtp.gmail.com";
-    private final static String user = "JavaSpringPavel@gmail.com";
-    private final static String password = "PaVeLtestAPP1";
-
-    // TODO: TLS vs SSL
-
     @Override
     public boolean notifyUserTakeBook(List<Book> addBook, User user) {
         boolean result;
+        //return composeMessage(addBook, user.getLogin());
         Properties props = new Properties();
-        props.put("mail.transport.protocol", "smtps");
-        props.put("mail.smtps.host", "smtp.gmail.com");
-        props.put("mail.smtps.auth", "true");
-        props.put("mail.smtp.sendpartial", "true");
+        props.put("mail.transport.protocol", Constant.Message.PROTOCOL);
+        props.put("mail.smtps.host", Constant.Message.HOST);
+        props.put("mail.smtps.auth", Constant.Message.AUTH);
+        props.put("mail.smtp.sendpartial", Constant.Message.SENDPARTIAL);
 
         Session session = Session.getDefaultInstance(props);
-        //создаем сообщение
+
         MimeMessage message = new MimeMessage(session);
 
         try {
             message.setSubject("Notify about add Book!");
-
-            // TODO Message
-            message.setText("Asta la vista, baby!");
-
+            message.setText(composeMessage(addBook, user.getLogin()));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
             message.setSentDate(new Date());
 
 
-            Transport transport = null;
-            transport = session.getTransport();
-            transport.connect("smtp.gmail.com", 465, this.user, password);
+            Transport transport = session.getTransport();
+            transport.connect(
+                    Constant.Message.HOST,
+                    465,
+                    Constant.Message.LOGIN,
+                    Constant.Message.PASSWORD);
 
             transport.sendMessage(message, message.getRecipients(Message.RecipientType.TO));
             result = true;
@@ -59,5 +56,19 @@ public class MailSenderServiceImpl implements MailSenderService {
             e.printStackTrace();
         }
         return result;
+    }
+
+    private String composeMessage(List<Book> books, String login) {
+        StringBuilder message = new StringBuilder("Dear '" + login + "'! \n\tYou have added the following books:\n");
+
+        for (int i = 0; i < books.size(); i++) {
+            message.append(i + 1)
+                    .append(". ")
+                    .append(books.get(i).toString())
+                    .append(", ")
+                    .append(Optional.ofNullable(books.get(i).getAuthor()).orElse(new Author("unknown", "")))
+                    .append('\n');
+        }
+        return message.toString();
     }
 }

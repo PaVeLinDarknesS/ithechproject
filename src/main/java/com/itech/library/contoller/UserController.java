@@ -1,11 +1,13 @@
 package com.itech.library.contoller;
 
 import com.itech.library.Constant;
+import com.itech.library.entity.Book;
 import com.itech.library.exeption.BookCountLessZeroExeption;
 import com.itech.library.exeption.BookNotFoundException;
 import com.itech.library.exeption.TakeSameBookExeption;
 import com.itech.library.exeption.UserNotFoundException;
 import com.itech.library.service.BookService;
+import com.itech.library.service.MailSenderService;
 import com.itech.library.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -28,6 +30,9 @@ public class UserController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private MailSenderService mailService;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String welcomePage() {
@@ -40,12 +45,20 @@ public class UserController {
     public String addBooksInUser(Authentication authentication, Integer[] books, Model model) {
 
         List<String> addError = new LinkedList<>();
+        List<Book> addBook = new LinkedList<>();
+
         for (Integer book : books) {
             try {
-                userService.addBookInUser(book, authentication.getName());
+                if (userService.addBookInUser(book, authentication.getName())) {
+                    addBook.add(bookService.getBookById(book).get());
+                }
             } catch (BookCountLessZeroExeption | TakeSameBookExeption e) {
                 addError.add(e.getMessage());
             }
+        }
+
+        if (!addBook.isEmpty()) {
+            mailService.notifyUserTakeBook(addBook, userService.getUserByLogin(authentication.getName()).get());
         }
         model.addAttribute("errors", addError);
         model.addAttribute("books", bookService.getAllBooks());
